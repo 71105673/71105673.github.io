@@ -9,7 +9,9 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 
 **Synopsys Custom Compile**
 
-"Tool의 기능 및 Inverter의 Schmatic 및 Simbol을 만들었으며, 파형을 확인해 Un과 Pn의 비율을 확인하였습니다."
+"Tool의 기능 및 Inverter의 Schmatic 및 Simbol을 만들었으며, 시뮬레이션을 돌리기 위한 조건을 만들었습니다."
+"다음 시간에 이를 활용해 Un과 Up의 비율을 시뮬레이션의 파형 비교를 통해 찾아 내는것이 목표입니다."
+
 
 ![alt text](<../../../assets/img/VLSI/스크린샷 2025-06-16 150820.png>)
 "Custom Compiler Open to MobaXterm"
