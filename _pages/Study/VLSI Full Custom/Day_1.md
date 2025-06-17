@@ -12,9 +12,6 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 "Tool의 기능 및 Inverter의 Schmatic 및 Simbol을 만들었으며, 시뮬레이션을 돌리기 위한 조건을 만들었습니다."
 "다음 시간에 이를 활용해 Un과 Up의 비율을 시뮬레이션의 파형 비교를 통해 찾아 내는것이 목표입니다."
 
-"시뮬레이션 방법:
-tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulation -> option -> primesim HSPICE -> variables -> copy to design -> vin = 0 -> setup -> analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> click to add -> Schmatic에서 vin vout 선택 -> save_state -> 이름설정 -> simulation -> netlist and run -> plot"
-
 ![alt text](<../../../assets/img/VLSI/스크린샷 2025-06-16 150820.png>)
 "Custom Compiler Open to MobaXterm"
 
@@ -51,7 +48,11 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
  ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 160344.png>) 
  ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 160734.png>)
  ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 160916.png>)
+ ![alt text](../../../assets/img/심볼.png)
  "Symbol 모양 수정" 
+
+ ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164350.png>) 
+"아날로그 모듈에서 Vdc 설정"
   
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 163816.png>)
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 163827.png>) 
@@ -61,23 +62,24 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164136.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164406.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164458.png>) 
-"경로 설정"
-
-![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164350.png>) 
-"아날로그 모듈에서 Vdc 설정"
+"경로 설정 tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택"
 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164538.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164554.png>) 
-"시뮬레이션 옵션 설정"
+"시뮬레이션 옵션 설정 simulation -> option -> primesim HSPICE"
 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164610.png>) 
-"디자인 카피"
-
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164620.png>) 
-"Vin 설정 0V"
+"디자인 카피 및 in 설정 variables -> copy to design -> vin = 0 -> setup"
 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164634.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164658.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164857.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164909.png>) 
-"Analyses 설정"
+"Analyses 설정 analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> click to add -> Schmatic에서 vin vout 선택 -> save_state -> 이름설정 -> simulation -> netlist and run -> plot"
+
+![alt text](../../../assets/img/VLSI/시뮬레이션결과.png)
+"시뮬레이션 결과"
+
+"시뮬레이션 총 방법:
+tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulation -> option -> primesim HSPICE -> variables -> copy to design -> vin = 0 -> setup -> analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> click to add -> Schmatic에서 vin vout 선택 -> save_state -> 이름설정 -> simulation -> netlist and run -> plot"
