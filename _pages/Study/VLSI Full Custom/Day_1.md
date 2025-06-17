@@ -12,6 +12,8 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 "Tool의 기능 및 Inverter의 Schmatic 및 Simbol을 만들었으며, 시뮬레이션을 돌리기 위한 조건을 만들었습니다."
 "다음 시간에 이를 활용해 Un과 Up의 비율을 시뮬레이션의 파형 비교를 통해 찾아 내는것이 목표입니다."
 
+"시뮬레이션 방법:
+tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulation -> option -> primesim HSPICE -> variables -> copy to design -> vin = 0 -> setup -> analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> Schmatic에서 vin vout 선택"
 
 ![alt text](<../../../assets/img/VLSI/스크린샷 2025-06-16 150820.png>)
 "Custom Compiler Open to MobaXterm"
