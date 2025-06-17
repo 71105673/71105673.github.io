@@ -1,7 +1,7 @@
 ---
 title: "10000_Counter"
 date: "2025-05-13"
-thumbnail: "/assets/img/thumbnail/bricks.webp"
+thumbnail: "../../../assets/img/Basys3_image.jpg"
 ---
 
 # Verilog_FPGA_on_BASYS3_with_Vivado
