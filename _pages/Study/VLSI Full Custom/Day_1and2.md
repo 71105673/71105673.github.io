@@ -1,6 +1,6 @@
 ---
 title: "VLSI Day-1,2 Inverter"
-date: "2025-06-16"
+date: "2025-06-16~17"
 thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 
