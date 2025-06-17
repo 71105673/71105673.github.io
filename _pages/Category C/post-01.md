@@ -16,7 +16,8 @@ thumbnail: "/assets/img/thumbnail/bricks.webp"
 ---
 ```
 
-안녕하세요 엄찬하입니다 이번에는 카테고리를  새로 만들어ㅗ밨어요
+히히 오줌발싸싸
 
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+jfhvjsd
