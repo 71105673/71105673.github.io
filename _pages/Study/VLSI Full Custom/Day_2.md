@@ -1,7 +1,7 @@
 ---
-title: "Example Post: thumbnail exists"
-date: "2023-12-02"
-thumbnail: "/assets/img/thumbnail/bricks.webp"
+title: "VLSI Day-2"
+date: "2025-06-17"
+thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 
 # Follow the guidance
