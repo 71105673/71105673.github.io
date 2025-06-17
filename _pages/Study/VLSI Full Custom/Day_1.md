@@ -70,9 +70,10 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 "디자인 카피"
 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164620.png>) 
-![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164634.png>) 
-"Analyses 설정"
+"Vin 설정 0V"
 
+![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164634.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164658.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164857.png>) 
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 164909.png>) 
+"Analyses 설정"
