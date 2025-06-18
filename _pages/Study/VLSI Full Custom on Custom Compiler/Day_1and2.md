@@ -4,7 +4,7 @@ date: "2025-06-16~18"
 thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 
-# 학습 내용 정리
+# Day 1~3 학습 내용 정리
 ---
 
 **Synopsys Custom Compile**
