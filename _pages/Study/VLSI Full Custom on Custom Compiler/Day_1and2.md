@@ -150,4 +150,12 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 "2NAND의 Symbol을 완성합니다.
 
 ![alt text](../../../assets/img/VLSI/day3/2nand_.png)
-"Test Cellview를 만들어 in out 값을 넣어줍니다."
+"Test Cellview를 만들어 in out 값을 넣어줍니다.
+
+![alt text](../../../assets/img/VLSI/day3/0.5-1.5설정.png)
+"![alt text](../../../assets/img/VLSI/day3/width0.9.png)
+"설정 후 sim 결과 0.85~0.9u 사이 확인"
+
+![alt text](../../../assets/img/VLSI/day3/0.85-0.95설정.png)
+![alt text](../../../assets/img/VLSI/day3/0.9확정.png)
+"0.85~0.95u 에서 0.01u단위로 측정하여 Width = 0.9u"
