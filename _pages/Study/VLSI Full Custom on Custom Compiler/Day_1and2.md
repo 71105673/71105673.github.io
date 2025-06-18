@@ -130,4 +130,4 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 ![text](../../../assets/img/VLSI/day3/1.15~.16설정.png)
 ![text](../../../assets/img/VLSI/day3/1.15~1.16사이.png) 
 ![text](../../../assets/img/VLSI/day3/1.15~1.16사이2.png)
-"추가로 1.15~1.16 사이 설정 후 시뮬레이션 진행, 자세한 값은 1.157u로 예상"
+"추가로 1.15~1.16 사이 설정 후 시뮬레이션 진행, 자세한 값은 1.157u로 예상할 수 있습니다."
