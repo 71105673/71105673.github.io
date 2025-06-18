@@ -22,7 +22,7 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 ![alt text](<../../../assets/img/VLSI/스크린샷 2025-06-16 150820.png>)
 
 "Libray 생성"
-[text](post-01.md) ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 151356.png>) 
+![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 151356.png>) 
 
 "Tech PDK 32nm 설정"
 ![text](<../../../assets/img/VLSI/스크린샷 2025-06-16 151405.png>) 
