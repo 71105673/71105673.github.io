@@ -118,10 +118,11 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 "IN OUT을 Schmatic에서 선택한다."
 
 ![alt text](<../../../assets/img/VLSI/day3/1~2결과 및 Plot.png>)
-"1~2사이 결과 값을 보았을 때 1.1~1.2u 사이인 것을 확인"
+![alt text](<../../../assets/img/VLSI/day3/값 1~2사이.png>)
+"1~2사이 결과 값을 커서를 설정 후 보았을 때 1.1~1.2u 사이인 것을 확인"
 
 ![alt text](../../../assets/img/VLSI/day3/1.1~1.2설정.png)
 "범위를 1.1~1.2u, 단위를 0.01u로 더 자세히 시뮬레이션"
 
 ![alt text](../../../assets/img/VLSI/day3/1.1~.1.2결과.png)
-"1.15~1.16u사이 1.16u에 더 가까운 것을 확인"
+"1.15~1.16u사이 1.16u에 더 가까운 것을 확인, 소수 2번째 자리까지 유효 숫자로 계산하여 마무리리"
