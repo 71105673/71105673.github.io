@@ -12,6 +12,8 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 "Tool의 기능 및 Inverter의 Schmatic 및 Simbol을 만들었으며, 시뮬레이션을 돌리기 위한 조건을 만들었습니다."
 "이를 활용해 Un과 Up의 비율을 시뮬레이션의 파형 비교를 통해 이상적인 Width 값을 찾아냅니다."
 
+"2NAND GATE를 만듭니다."
+
 ---
 
 "Simulation Flow:
@@ -131,3 +133,19 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 ![text](../../../assets/img/VLSI/day3/1.15~1.16사이.png) 
 ![text](../../../assets/img/VLSI/day3/1.15~1.16사이2.png)
 "추가로 1.15~1.16 사이 설정 후 시뮬레이션 진행, 자세한 값은 1.157u로 예상할 수 있습니다."
+
+---
+
+![alt text](<../../../assets/img/VLSI/day3/2NAND 핀까지.png>)
+"2NAND의 Pin을 추가한 Schmatic을 그립니다."
+
+![alt text](<../../../assets/img/VLSI/day3/한번에 여러 모듈 인스턴스 값 바꾸기.png>)
+"해당 방법을 통해 여러 모듈 인스턴스 값을 한번에 바꿉니다."
+
+![text](../../../assets/img/VLSI/day3/심볼만들기1.png)
+![text](../../../assets/img/VLSI/day3/심볼만들기2.png)
+"2NAND 심볼을 생성합니다.
+
+![alt text](../../../assets/img/VLSI/day3/2nand_symbol.png)
+"2NAND의 Symbol을 완성합니다.
+
