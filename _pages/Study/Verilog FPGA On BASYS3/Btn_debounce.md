@@ -7,7 +7,7 @@ thumbnail: "../../../assets/img/Basys3_image.jpg"
 # Verilog FPGA On BASYS3 with Vivado
 ---
 
-***Btn이 연속으로 눌리는 것을 방지하기 위한 Debounceing 기능능 ***
+***Btn이 연속으로 눌리는 것을 방지하기 위한 Debounceing 기능 ***
 
 **8bit의 Shift register를 이용해 연속으로 눌린 것이 인식되어야만 통과**
 
