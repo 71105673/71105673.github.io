@@ -159,3 +159,14 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 ![alt text](../../../assets/img/VLSI/day3/0.85-0.95설정.png)
 ![alt text](../../../assets/img/VLSI/day3/0.9확정.png)
 "0.85~0.95u 에서 0.01u단위로 측정하여 Width = 0.9u"
+
+---
+**추가 진행**
+
+![text](../../../assets/img/VLSI/day3/0.9~0.95설정.png)
+![text](<../../../assets/img/VLSI/day3/0.9~0.95 결과.png>) 
+"0.9u~0.95u 사이를 0.005u 단위로 측정하여 0.9~0.905 사이 결정"
+
+![text](../../../assets/img/VLSI/day3/0.9~0.91설정.png) 
+![text](../../../assets/img/VLSI/day3/0.901결과.png)
+"0.9~.0.91u 사이를 0.001u 단위로 측정하여 0.905u 값을 얻음"
