@@ -169,4 +169,4 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 
 ![text](../../../assets/img/VLSI/day3/0.9~0.91설정.png) 
 ![text](../../../assets/img/VLSI/day3/0.901결과.png)
-"0.9~.0.91u 사이를 0.001u 단위로 측정하여 0.905u 값을 얻음"
+"0.9~.0.91u 사이를 0.001u 단위로 측정하여 0.901u 값을 얻음"
