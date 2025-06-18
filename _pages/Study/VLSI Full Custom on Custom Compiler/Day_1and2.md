@@ -1,6 +1,6 @@
 ---
-title: "VLSI Day-1,2 Inverter"
-date: "2025-06-16~17"
+title: "VLSI Day-1~3 Inverter"
+date: "2025-06-16~18"
 thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 
@@ -10,7 +10,12 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 **Synopsys Custom Compile**
 
 "Tool의 기능 및 Inverter의 Schmatic 및 Simbol을 만들었으며, 시뮬레이션을 돌리기 위한 조건을 만들었습니다."
-"다음 시간에 이를 활용해 Un과 Up의 비율을 시뮬레이션의 파형 비교를 통해 찾아 내는것이 목표입니다."
+"이를 활용해 Un과 Up의 비율을 시뮬레이션의 파형 비교를 통해 이상적인 Width 값을 찾아냅니다."
+
+---
+
+"Simulation Flow:
+tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulation -> option -> primesim HSPICE -> variables -> copy to design -> vin = 0 -> setup -> analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> click to add -> Schmatic에서 vin vout 선택 -> save_state -> 이름설정 -> simulation -> netlist and run -> plot"
 
 ---
 "Custom Compiler Open to MobaXterm"
@@ -82,5 +87,41 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 "시뮬레이션 결과"
 ![alt text](../../../assets/img/VLSI/시뮬레이션결과.png)
 
-"Simulation Flow:
-tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulation -> option -> primesim HSPICE -> variables -> copy to design -> vin = 0 -> setup -> analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> click to add -> Schmatic에서 vin vout 선택 -> save_state -> 이름설정 -> simulation -> netlist and run -> plot"
+---
+"여기서부터는 스윙을 통해 시뮬레이션을 진행합니다.
+
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113540.png>)
+"Variables 의 Design Parameterization 선택"
+
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113609.png>)
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113618.png>)
+"ADD devices 선택 후 PMNOS를 선택"
+
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113633.png>)
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113705.png>)
+"W를 WIDTH로 변수 설정한다."
+
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113709.png>)
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113714.png>)
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113721.png>)
+"Tool의 Parametic Analyses를 선택 후 Add new sweep 설정"
+
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113727.png>)
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113732.png>)
+"WIDTH를 선택"
+
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113821.png>)
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113835.png>)
+"WIDTH의 값을 설정한다"
+
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113851.png>)
+"IN OUT을 Schmatic에서 선택한다."
+
+![alt text](<../../../assets/img/VLSI/day3/1~2결과 및 Plot.png>)
+"1~2사이 결과 값을 보았을 때 1.1~1.2u 사이인 것을 확인"
+
+![alt text](../../../assets/img/VLSI/day3/1.1~1.2설정.png)
+"범위를 1.1~1.2u, 단위를 0.01u로 더 자세히 시뮬레이션"
+
+![alt text](../../../assets/img/VLSI/day3/1.1~.1.2결과.png)
+"1.15~1.16u사이 1.16u에 더 가까운 것을 확인"
