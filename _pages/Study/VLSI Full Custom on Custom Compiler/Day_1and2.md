@@ -149,3 +149,5 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 ![alt text](../../../assets/img/VLSI/day3/2nand_symbol.png)
 "2NAND의 Symbol을 완성합니다.
 
+![alt text](../../../assets/img/VLSI/day3/2nand_.png)
+"Test Cellview를 만들어 in out 값을 넣어줍니다."
