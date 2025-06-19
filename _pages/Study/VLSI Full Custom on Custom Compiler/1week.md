@@ -23,7 +23,6 @@ tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulati
 ---
 
 Day 1
-
 ---
 
 "Custom Compiler Open to MobaXterm"
@@ -98,7 +97,6 @@ Day 1
 ---
 
 Day2
-
 ---
 "여기서부터는 스윙을 통해 시뮬레이션을 진행합니다.
 
@@ -147,7 +145,6 @@ Day2
 ---
 
 Day3
-
 ---
 ![alt text](<../../../assets/img/VLSI/day3/2NAND 핀까지.png>)
 "2NAND의 Pin을 추가한 Schmatic을 그립니다."
