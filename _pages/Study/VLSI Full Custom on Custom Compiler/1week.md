@@ -7,6 +7,7 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 # Day 1~3 학습 내용 정리
 ***Synopsys Custom Compile***
+
 ---
 
 **Day1: Tool의 기능 숙지를 위해 Inverter의 Schmatic 및 Simbol을 생성하고 HSPICE 시뮬레이션 동작**
@@ -18,10 +19,13 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 "Simulation Flow:
 tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulation -> option -> primesim HSPICE -> variables -> copy to design -> vin = 0 -> setup -> analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> click to add -> Schmatic에서 vin vout 선택 -> save_state -> 이름설정 -> simulation -> netlist and run -> plot"
+
 ---
 
 Day 1
+
 ---
+
 "Custom Compiler Open to MobaXterm"
 ![alt text](<../../../assets/img/VLSI/스크린샷 2025-06-16 150820.png>)
 
@@ -91,8 +95,10 @@ Day 1
 "시뮬레이션 결과"
 ![alt text](../../../assets/img/VLSI/시뮬레이션결과.png)
 
+---
 
 Day2
+
 ---
 "여기서부터는 스윙을 통해 시뮬레이션을 진행합니다.
 
@@ -138,7 +144,10 @@ Day2
 ![text](../../../assets/img/VLSI/day3/1.15~1.16사이2.png)
 "추가로 1.15~1.16 사이 설정 후 시뮬레이션 진행, 자세한 값은 1.157u로 예상할 수 있습니다."
 
+---
+
 Day3
+
 ---
 ![alt text](<../../../assets/img/VLSI/day3/2NAND 핀까지.png>)
 "2NAND의 Pin을 추가한 Schmatic을 그립니다."
@@ -173,4 +182,5 @@ Day3
 ![text](../../../assets/img/VLSI/day3/0.9~0.91설정.png) 
 ![text](../../../assets/img/VLSI/day3/0.901결과.png)
 "0.9~.0.91u 사이를 0.001u 단위로 측정하여 0.901u 값을 얻음"
+
 ---
