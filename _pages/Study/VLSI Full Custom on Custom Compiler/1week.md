@@ -99,84 +99,85 @@ Day2
 ---
 "여기서부터는 스윙을 통해 시뮬레이션을 진행합니다.
 
-![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113540.png>)
 "Variables 의 Design Parameterization 선택"
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113540.png>)
 
+"ADD devices 선택 후 PMNOS를 선택"
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113609.png>)
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113618.png>)
-"ADD devices 선택 후 PMNOS를 선택"
 
+"W를 WIDTH로 변수 설정한다."
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113633.png>)
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113705.png>)
-"W를 WIDTH로 변수 설정한다."
 
+"Tool의 Parametic Analyses를 선택 후 Add new sweep 설정"
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113709.png>)
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113714.png>)
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113721.png>)
-"Tool의 Parametic Analyses를 선택 후 Add new sweep 설정"
 
+"WIDTH를 선택"
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113727.png>)
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113732.png>)
-"WIDTH를 선택"
 
+"WIDTH의 값을 설정한다"
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113821.png>)
 ![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113835.png>)
-"WIDTH의 값을 설정한다"
 
-![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113851.png>)
 "IN OUT을 Schmatic에서 선택한다."
+![alt text](<../../../assets/img/VLSI/day3/스크린샷 2025-06-18 113851.png>)
 
+"1~2사이 결과 값을 커서를 설정 후 보았을 때 1.1~1.2u 사이인 것을 확인"
 ![alt text](<../../../assets/img/VLSI/day3/1~2결과 및 Plot.png>)
 ![alt text](<../../../assets/img/VLSI/day3/값 1~2사이.png>)
-"1~2사이 결과 값을 커서를 설정 후 보았을 때 1.1~1.2u 사이인 것을 확인"
 
-![alt text](../../../assets/img/VLSI/day3/1.1~1.2설정.png)
 "범위를 1.1~1.2u, 단위를 0.01u로 더 자세히 시뮬레이션"
+![alt text](../../../assets/img/VLSI/day3/1.1~1.2설정.png)
 
-![alt text](../../../assets/img/VLSI/day3/1.1~.1.2결과.png)
 "1.15~1.16u사이 1.16u에 더 가까운 것을 확인, 소수 2번째 자리까지 유효 숫자로 계산하여 마무리"
+![alt text](../../../assets/img/VLSI/day3/1.1~.1.2결과.png)
 
+"추가로 1.15~1.16 사이 설정 후 시뮬레이션 진행, 자세한 값은 1.157u로 예상할 수 있습니다."
 ![text](../../../assets/img/VLSI/day3/1.15~.16설정.png)
 ![text](../../../assets/img/VLSI/day3/1.15~1.16사이.png) 
 ![text](../../../assets/img/VLSI/day3/1.15~1.16사이2.png)
-"추가로 1.15~1.16 사이 설정 후 시뮬레이션 진행, 자세한 값은 1.157u로 예상할 수 있습니다."
 
 ---
 
 Day3
 ---
-![alt text](<../../../assets/img/VLSI/day3/2NAND 핀까지.png>)
 "2NAND의 Pin을 추가한 Schmatic을 그립니다."
+![alt text](<../../../assets/img/VLSI/day3/2NAND 핀까지.png>)
 
-![alt text](<../../../assets/img/VLSI/day3/한번에 여러 모듈 인스턴스 값 바꾸기.png>)
 "해당 방법을 통해 여러 모듈 인스턴스 값을 한번에 바꿉니다."
+![alt text](<../../../assets/img/VLSI/day3/한번에 여러 모듈 인스턴스 값 바꾸기.png>)
 
+"2NAND 심볼을 생성합니다.
 ![text](../../../assets/img/VLSI/day3/심볼만들기1.png)
 ![text](../../../assets/img/VLSI/day3/심볼만들기2.png)
-"2NAND 심볼을 생성합니다.
 
-![alt text](../../../assets/img/VLSI/day3/2nand_symbol.png)
 "2NAND의 Symbol을 완성합니다.
+![alt text](../../../assets/img/VLSI/day3/2nand_symbol.png)
 
-![alt text](../../../assets/img/VLSI/day3/2nand_.png)
 "Test Cellview를 만들어 in out 값을 넣어줍니다.
+![alt text](../../../assets/img/VLSI/day3/2nand_.png)
 
+"설정 후 sim 결과 0.85~0.9u 사이 확인"
 ![alt text](../../../assets/img/VLSI/day3/0.5-1.5설정.png)
 "![alt text](../../../assets/img/VLSI/day3/width0.9.png)
-"설정 후 sim 결과 0.85~0.9u 사이 확인"
 
+"0.85~0.95u 에서 0.01u단위로 측정하여 Width = 0.9u"
 ![alt text](../../../assets/img/VLSI/day3/0.85-0.95설정.png)
 ![alt text](../../../assets/img/VLSI/day3/0.9확정.png)
-"0.85~0.95u 에서 0.01u단위로 측정하여 Width = 0.9u"
+
 
 **추가 진행**
 
+"0.9u~0.95u 사이를 0.005u 단위로 측정하여 0.9~0.905 사이 결정"
 ![text](../../../assets/img/VLSI/day3/0.9~0.95설정.png)
 ![text](<../../../assets/img/VLSI/day3/0.9~0.95 결과.png>) 
-"0.9u~0.95u 사이를 0.005u 단위로 측정하여 0.9~0.905 사이 결정"
 
+"0.9~.0.91u 사이를 0.001u 단위로 측정하여 0.901u 값을 얻음"
 ![text](../../../assets/img/VLSI/day3/0.9~0.91설정.png) 
 ![text](../../../assets/img/VLSI/day3/0.901결과.png)
-"0.9~.0.91u 사이를 0.001u 단위로 측정하여 0.901u 값을 얻음"
 
 ---
