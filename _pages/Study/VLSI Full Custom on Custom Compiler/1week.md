@@ -1,6 +1,6 @@
 ---
 title: "VLSI 1Week"
-date: "2025-06-16~18"
+date: "2025-06-16~20"
 thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 
