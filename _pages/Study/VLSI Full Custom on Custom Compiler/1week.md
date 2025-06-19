@@ -4,9 +4,9 @@ date: "2025-06-16~18"
 thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 
+---
 # Day 1~3 학습 내용 정리
 ***Synopsys Custom Compile***
-
 ---
 
 **Day1: Tool의 기능 숙지를 위해 Inverter의 Schmatic 및 Simbol을 생성하고 HSPICE 시뮬레이션 동작**
@@ -18,7 +18,7 @@ thumbnail: "/assets/img/VLSI/스크린샷 2025-06-16 150820 - 복사본.png"
 ---
 "Simulation Flow:
 tool prime wave -> setup ->  model file -> 경로찾기 -> FF 선택 -> simulation -> option -> primesim HSPICE -> variables -> copy to design -> vin = 0 -> setup -> analysis -> dc -> Design Variable -> start stop size 등 시간 설정 -> click to add -> Schmatic에서 vin vout 선택 -> save_state -> 이름설정 -> simulation -> netlist and run -> plot"
-
+---
 
 Day 1
 ---
