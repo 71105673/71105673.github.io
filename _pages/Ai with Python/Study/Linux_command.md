@@ -5,4 +5,4 @@ thumbnail: "../../../assets/img/Linux.png"
 ---
 
 # 기초 명령어 습득
----득
+---
