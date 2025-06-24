@@ -209,3 +209,51 @@ src
 dst(reverse)
 
 ![alt text](../../../assets/img/ARM/AI/dst_output.png)
+
+---
+
+**Binary(이진화)**
+
+```python
+import numpy as np
+import cv2
+
+src = cv2.imread("MR.jpeg", cv2.IMREAD_COLOR)
+
+gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+ret, dst = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+
+cv2.imshow("dst",dst)
+cv2.imwrite("MR_dst_out.png",dst)
+cv2.waitKey()
+cv.destroyAllWindows()
+```
+
+원본 파일
+
+![alt text](../../../assets/img/ARM/AI/MR.jpeg)
+
+이진화
+
+![alt text](../../../assets/img/ARM/AI/MR_dst_out.png)
+
+---
+
+**Blur**
+```python
+import cv2
+
+src = cv2.imread("my_input.jpg", cv2.IMREAD_COLOR)
+dst = cv2.blur(src, (9, 9), anchor=(1, 1), borderType=cv2.BORDER_DEFAULT)
+
+cv2.imshow("dst", dst)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+원본
+
+![alt text](../../../assets/img/ARM/AI/MR.jpeg)
+
+블러
+
+![alt text](../../../assets/img/ARM/AI/blur_out.png)
