@@ -72,3 +72,67 @@ cv2.imwrite("output.png", img)
 # Destroy all windows
 cv2.distroyAllWindows()
 ```
+
+**여기서 RGB -> HSV 색상 영역으로 변경**
+
+*HSV color sapce의 장점:*
+
+1. 색상 기반 필터링/추적에 탁월
+
+2. 조명 변화에 강함 (RGB는 밝기 변화에 취약)
+
+---
+
+```python
+import numpy as np
+import cv2
+
+# 이미지 파일을 Read 하고 Color space 정보 출력
+color = cv2.imread("my_input.jpg", cv2.IMREAD_COLOR)
+#color = cv2.imread("strawberry_dark.jpg", cv2.IMREAD_COLOR)
+print(color.shape)
+
+height,width,channels = color.shape
+cv2.imshow("Original Image", color)
+cv2.imwrite("Original Image Output.png", color)
+
+# Color channel 을 B,G,R 로 분할하여 출력
+b,g,r = cv2.split(color)
+rgb_split = np.concatenate((b,g,r), axis=1)
+cv2.imshow("BGR Channels", rgb_split)
+cv2.imwrite("BGR Channels Output.png",rgb_split)
+
+# 색공간을 BGR 에서 HSV 로 변환
+hsv = cv2.cvtColor(color, cv2.COLOR_BGR2HSV)
+
+# Channel 을 H,S,V 로 분할하여 출력
+h,s,v = cv2.split(hsv)
+hsv_split = np.concatenate((h,s,v), axis=1)
+cv2.imshow("Split HSV", hsv_split)
+cv2.imwrite("Split HSV Output.png",rgb_split)
+
+# [퀴즈 3번] HSV → RGB로 변환해서 출력 (주의: HSV2BGR 아님)
+rgb_from_hsv = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+cv2.imshow("HSV to RGB", rgb_from_hsv)
+cv2.imwrite("HSV to RGB Output.png",rgb_split)
+
+# [퀴즈 4번] RGB → Grayscale 변환해서 출력
+gray = cv2.cvtColor(rgb_from_hsv, cv2.COLOR_RGB2GRAY)
+cv2.imshow("Grayscale from RGB", gray)
+cv2.imwrite("Grayscale from RGB Output.png",rgb_split)
+
+# 종료 대기
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+**출력 이미지 결과**
+![alt text](<../../../assets/img/ARM/AI/Original Image Output.png>)
+
+![alt text](<../../../assets/img/ARM/AI/BGR Channels Output.png>)
+
+![alt text](<../../../assets/img/ARM/AI/Split HSV Output.png>)
+
+![alt text](<../../../assets/img/ARM/AI/HSV to RGB Output.png>)
+
+![alt text](<../../../assets/img/ARM/AI/Grayscale from RGB Output.png>)
