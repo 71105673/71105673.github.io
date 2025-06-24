@@ -72,6 +72,7 @@ cv2.imwrite("output.png", img)
 # Destroy all windows
 cv2.distroyAllWindows()
 ```
+---
 
 **여기서 RGB -> HSV 색상 영역으로 변경**
 
@@ -81,7 +82,6 @@ cv2.distroyAllWindows()
 
 2. 조명 변화에 강함 (RGB는 밝기 변화에 취약)
 
----
 
 ```python
 import numpy as np
@@ -127,12 +127,57 @@ cv2.destroyAllWindows()
 
 ```
 **출력 이미지 결과**
+
+Original image
 ![alt text](<../../../assets/img/ARM/AI/Original Image Output.png>)
 
+BGR Channels
 ![alt text](<../../../assets/img/ARM/AI/BGR Channels Output.png>)
 
+Split HSV
 ![alt text](<../../../assets/img/ARM/AI/Split HSV Output.png>)
 
+HSV to RGB
 ![alt text](<../../../assets/img/ARM/AI/HSV to RGB Output.png>)
 
+Grayscale
 ![alt text](<../../../assets/img/ARM/AI/Grayscale from RGB Output.png>)
+
+---
+
+**이미지 Crop / Resize**
+
+```python
+import numpy as np
+import cv2
+
+# 이미지 파일을 Read
+img = cv2.imread("my_input.jpg")
+
+# Crop 200x100 from original image from (50, 25)=(x,y)
+cropped = img[25:125, 50:250]
+
+# Resize cropped image from 300x400 to 400x200
+resized = cv2.resize(cropped, (400, 200))
+
+# Display all
+cv2.imshow("Original", img)
+cv2.imshow("Cropped image", cropped)
+cv2.imwrite("Cropped image output.png", cropped)
+cv2.imshow("Resized image", resized)
+cv2.imwrite("Resized image output.png", resized)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+**출력 이미지 결과**
+
+Original
+![alt text](<../../../assets/img/ARM/AI/Original Image Output.png>)
+
+Cropped (x: 25 ->250까지 200, y: 25 -> 125까지 100)
+
+![alt text](<../../../assets/img/ARM/AI/Cropped image output.png>)
+
+Resized
+![alt text](<../../../assets/img/ARM/AI/Resized image output.png>)
