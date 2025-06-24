@@ -326,7 +326,7 @@ cv2.imshow("laplacian", laplacian)
 cv2.imwrite("laplacian_output.png", laplacian)
 
 # 3. Canny Edge Detection 적용
-canny = cv2.Canny(gray, 1, 0, 3)
+canny = cv2.Canny(gray, 100, 200, 3)
 cv2.imshow("canny", canny)
 cv2.imwrite("canny_output.png", canny)
 
@@ -351,4 +351,45 @@ Canny
 
 ---
 
-****
+**채널 분리 및 병합**
+
+```python
+import numpy as np
+import cv2
+
+src = cv2.imread("tomato.jpg", cv2.IMREAD_COLOR)
+b, g, r = cv2.split(src)
+inverse = cv2.merge((r, g, b))
+
+cv2.imshow("b", b)
+cv2.imshow("g", g)
+cv2.imshow("r", r)
+cv2.imshow("inverse", inverse)
+
+cv2.imwrite("b_out.png",b)
+cv2.imwrite("g_out.png",g)
+cv2.imwrite("r_out.png",r)
+cv2.imwrite("inverse_out.png",inverse)
+
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+
+원본
+![alt text](../../../assets/img/ARM/AI/tomato.jpg)
+
+B
+
+![alt text](../../../assets/img/ARM/AI/b_out.png)
+
+G
+
+![alt text](../../../assets/img/ARM/AI/g_out.png)
+
+R
+
+![alt text](../../../assets/img/ARM/AI/r_out.png)
+
+inverse
+
+![alt text](../../../assets/img/ARM/AI/inverse_out.png)
