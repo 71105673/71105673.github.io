@@ -393,3 +393,40 @@ R
 inverse
 
 ![alt text](../../../assets/img/ARM/AI/inverse_out.png)
+
+***추가 작업 -> numpy 형태의 채널 분리***
+```python
+import numpy as np
+import cv2
+
+src = cv2.imread("tomato.jpg", cv2.IMREAD_COLOR)
+b = src[:, :, 0]
+g = src[:, :, 1]
+r = src[:, :, 2]
+
+# 빈 채널 생성 및 bgz 조합
+height, width, channel = src.shape
+zero = np.zeros((height, width, 1), dtype=np.uint8)
+bgz = cv2.merge((b, g, zero))  # R 채널 제거된 이미지
+
+cv2.imshow("b", b)
+cv2.imshow("g", g)
+cv2.imshow("r", r)
+cv2.imshow("bgz",bgz)
+
+cv2.imwrite("b_numpy_out.png",b)
+cv2.imwrite("g_numpy_out.png",g)
+cv2.imwrite("r_numpy_out.png",r)
+cv2.imwrite("r_remove_output.png",bgz)
+
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+B
+![alt text](../../../assets/img/ARM/AI/b_numpy_out.png)
+G
+![alt text](../../../assets/img/ARM/AI/g_numpy_out.png)
+R
+![alt text](../../../assets/img/ARM/AI/r_numpy_out.png)
+Remove R
+![alt text](../../../assets/img/ARM/AI/r_remove_output.png)
