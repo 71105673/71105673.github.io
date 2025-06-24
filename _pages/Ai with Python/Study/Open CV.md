@@ -181,3 +181,31 @@ Cropped (x: 25 ->250까지 200, y: 25 -> 125까지 100)
 
 Resized
 ![alt text](<../../../assets/img/ARM/AI/Resized image output.png>)
+
+---
+
+**Reverse Image**
+```python
+import numpy as np
+import cv2
+
+src = cv2.imread("my_input.jpg", cv2.IMREAD_COLOR)
+dst = cv2.bitwise_not(src)
+
+cv2.imshow("src",src)
+cv2.imwrite("src_output.png",src)
+
+cv2.imshow("dst",dst)
+cv2.imwrite("dst_output.png",dst)
+
+cv2.waitKey()
+cv2.destroyAllWindows()               
+```
+
+src
+
+![alt text](../../../assets/img/ARM/AI/src_output.png)
+
+dst(reverse)
+
+![alt text](../../../assets/img/ARM/AI/dst_output.png)
