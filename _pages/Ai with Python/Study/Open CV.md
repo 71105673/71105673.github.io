@@ -305,4 +305,28 @@ cv2.destroyAllWindows()
 
 ---
 
+**가장자리 검출 (Edge)**
+
+```python
+import cv2
+
+src = cv2.imread("Image/wheat.jpg", cv2.IMREAD_COLOR)
+gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+
+sobel = cv2.Sobel(gray, cv2.CV_8U, 1, 0, 3)
+
+cv2.imshow("sobel", sobel)
+cv2.waitKey()
+cv2.destroyAllWindows()
+```
+원본
+
+![alt text](../../../assets/img/ARM/AI/MR.jpeg)
+
+엣지 검출
+
+![alt text](../../../assets/img/ARM/AI/sobel_output.png)
+
+---
+
 ****
