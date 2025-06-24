@@ -240,6 +240,11 @@ cv.destroyAllWindows()
 ---
 
 **Blur**
+
+(9,9) -> 9X9 픽셀을 잡아서 평균 값을 냄, 값이 작을수록 블러가 강함
+
+(1,1) -> 9X9 dptj 1,1을 중심점으로 (좌측 상단) 커널을 측정
+
 ```python
 import cv2
 
@@ -257,3 +262,7 @@ cv2.destroyAllWindows()
 블러
 
 ![alt text](../../../assets/img/ARM/AI/blur_out.png)
+
+---
+
+****
