@@ -430,3 +430,55 @@ R
 ![alt text](../../../assets/img/ARM/AI/r_numpy_out.png)
 Remove R
 ![alt text](../../../assets/img/ARM/AI/r_remove_output.png)
+
+---
+
+**동영상**
+```python
+import numpy as np
+import cv2
+
+# Read from the recorded video file
+cap = cv2.VideoCapture("son.mp4")
+
+# 동영상 파일이 성공적으로 열렸으면 while 문 반복
+while(cap.isOpened()):
+    # 한 프레임을 읽어옴
+    ret, frame = cap.read()
+
+    if ret is False:
+       # print("Can't receive frame (stream end?). Exiting ...")
+       # break
+       print("Can't receive frame (stream end?). Restarting ...")
+       cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # 반복 재생
+       continue
+
+    # Display
+    cv2.imshow("Frame", frame)
+
+    # 1 ms 동안 대기하며 키 입력을 받고 'q' 입력 시 종료
+    key = cv2.waitKey(80)
+    if key & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+```
+
+```
+반복재생 : 
+
+cap.set(cv2.CAP_PROP_POS_FRAMES, 0) 
+
+continue
+
+를 통해 영상을 계속 재생할 수 있다.
+```
+```
+영상 속도 조절:
+
+key = cv2.waitKey(80)
+
+또한 영상이 빠르게 재생되기에 영상 프레임에 맞는 딜레이를 추가하면 된다.
+```
+![alt text](../../../assets/img/ARM/AI/son.gif)
