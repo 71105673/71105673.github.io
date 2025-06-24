@@ -481,11 +481,12 @@ cv2.destroyAllWindows()
 ```
 반복재생 : 
 
-cap.set(cv2.CAP_PROP_POS_FRAMES, 0) 
+영상 파일에서 프레임을 읽지 못하면 (ret == False)
+이는 영상이 끝에 도달했음을 의미한다.
 
-continue
+cap.set(cv2.CAP_PROP_POS_FRAMES, 0) 을 통해 영상의 현재 위치를 첫 프레임(0번)으로 되돌리고,
 
-를 통해 영상을 계속 재생할 수 있다.
+continue로 루프 처음으로 돌아가 다시 처음부터 재생을 시작한다.
 ```
 ```
 영상 속도 조절:
@@ -499,6 +500,7 @@ key = cv2.waitKey(80)
 프레임 사이즈 조절:
 
 frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+
 해당 구문을 통해 x, y 비율만큼 프레임 확대 축소가 가능하다
 ```
 
@@ -516,3 +518,51 @@ if key & 0xFF == ord('c'):
 ![alt text](../../../assets/img/ARM/AI/son.gif)
 
 ---
+**Camera Video**
+```python
+import numpy as np
+import cv2
+
+# Read from the first camera device
+cap = cv2.VideoCapture(0)
+
+w = 640 #1280#1920
+h = 480 #720#1080
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, w)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, h)
+
+# 저장할 VideoWriter 객체 생성
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # 코덱 (mp4v = .mp4용)
+out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (w, h))  # (파일명, 코덱, FPS, (너비, 높이))
+
+# 성공적으로 video device 가 열렸으면 while 문 반복
+while(cap.isOpened()):
+    # 한 프레임을 읽어옴
+    ret, frame = cap.read()
+    if ret is False:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+
+    # 프레임 저장
+    out.write(frame)
+
+    # Display
+    cv2.imshow("Camera", frame)
+
+    # 1 ms 동안 대기하며 키 입력을 받고 'q' 입력 시 종료
+    key = cv2.waitKey(1)
+    if key & 0xFF == ord('q'):
+        break
+
+cap.release()
+out.release()
+cv2.distroyAllWindows()
+```
+```
+내장된 Camera를 통해 Video를 반복해서 1프레임씩 
+읽어와 영상으로 재생해준다.
+
+또한, mp4v형식으로 저장할 객체를 만든 후, 파일의 정보를 설정해준다.
+ 
+마지막으로 write를 통해 while 문에서 읽어온 한 프레임을 저장하고 display에 출력해준다.
+```
