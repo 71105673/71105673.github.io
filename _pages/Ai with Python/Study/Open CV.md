@@ -441,6 +441,9 @@ import cv2
 # Read from the recorded video file
 cap = cv2.VideoCapture("son.mp4")
 
+# 저장용 인덱스 초기화
+save_index = 1
+
 # 동영상 파일이 성공적으로 열렸으면 while 문 반복
 while(cap.isOpened()):
     # 한 프레임을 읽어옴
@@ -453,13 +456,23 @@ while(cap.isOpened()):
        cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # 반복 재생
        continue
 
-    # Display
+    # 3. 영상 크기를 반으로 resize
+    frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+
+   # Display
     cv2.imshow("Frame", frame)
 
-    # 1 ms 동안 대기하며 키 입력을 받고 'q' 입력 시 종료
+    # 80 ms 동안 대기하며 키 입력을 받고 'q' 입력 시 종료
     key = cv2.waitKey(80)
     if key & 0xFF == ord('q'):
         break
+
+    # 4. 'c' 입력 시 프레임 저장 (001.jpg, 002.jpg, ...)
+    if key & 0xFF == ord('c'):
+        filename = f"{save_index:03}.jpg"
+        cv2.imwrite(filename, frame)
+        print(f"Saved: {filename}")
+        save_index += 1  # 인덱스 증가
 
 cap.release()
 cv2.destroyAllWindows()
@@ -479,6 +492,27 @@ continue
 
 key = cv2.waitKey(80)
 
-또한 영상이 빠르게 재생되기에 영상 프레임에 맞는 딜레이를 추가하면 된다.
+또한 영상이 빠르게 재생되기에 영상 프레임에 맞는 딜레이로 수정하면 된다.
+
 ```
+```
+프레임 사이즈 조절:
+
+frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+해당 구문을 통해 x, y 비율만큼 프레임 확대 축소가 가능하다
+```
+
+```
+C 입력 시 프레임을 (001.jpg, 002.jpg, ...)로 저장할 수 잇다.
+
+if key & 0xFF == ord('c'):
+    filename = f"{save_index:03}.jpg"
+    cv2.imwrite(filename, frame)
+    print(f"Saved: {filename}")
+    save_index += 1  # 인덱스 증가
+
+```
+
 ![alt text](../../../assets/img/ARM/AI/son.gif)
+
+---
