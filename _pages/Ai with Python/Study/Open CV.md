@@ -244,12 +244,13 @@ cv.destroyAllWindows()
 (9,9) -> 9X9 픽셀을 잡아서 평균 값을 냄, 값이 작을수록 블러가 강함
 
 (1,1) -> 9X9 dptj 1,1을 중심점으로 (좌측 상단) 커널을 측정
+(-1,-1) -> 자동 중심을 설정, 9X9는 9/2 ~ 4 로 설정
 
 ```python
 import cv2
 
 src = cv2.imread("my_input.jpg", cv2.IMREAD_COLOR)
-dst = cv2.blur(src, (9, 9), anchor=(1, 1), borderType=cv2.BORDER_DEFAULT)
+dst = cv2.blur(src, (9, 9), anchor=(-1, -1), borderType=cv2.BORDER_DEFAULT)
 
 cv2.imshow("dst", dst)
 cv2.waitKey()
