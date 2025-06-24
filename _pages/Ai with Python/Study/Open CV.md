@@ -34,9 +34,41 @@ print("cv ver:", cv2.__version__, "np ver:", np.__version__)
 HSL -> 색, 명도, 채도 확인 가능
 http://www.w3schools.com/colors/ 
 
-
-
-
-
 ---
 
+## 3. 실습
+
+해당 코드를 통해 이미지 정보를 확인할 수 있다.
+
+img.shape는 이미지의 크기 정보를 담고 있는 속성
+
+```python
+import numpy as np
+import cv2
+
+# 이미지 파일을 Read
+img = cv2.imread("my_input.jpg")
+
+# Image 란 이름의 Display 창 생성
+cv2.namedWindow("image", cv2.WINDOW_NORMAL)
+
+# Numpy ndarray K?W?C order
+print(img.shape)
+
+# Read 한 이미지 파일을 Display
+cv2.imshow("image", img)
+
+# 별도 키 입력이 있을 때 까지 대기
+key = cv2.waitKey(0)
+
+if key == ord('s'):  # s 키를 누르면 저장
+    cv2.imwrite("output.png", img)
+else:
+    print("저장하지 않았습니다.")
+
+# output.png 로 읽은 이미지 파일을 저장
+cv2.imwrite("output.png", img)
+
+# Destroy all windows
+cv2.distroyAllWindows()
+```
