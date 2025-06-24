@@ -308,14 +308,28 @@ cv2.destroyAllWindows()
 **가장자리 검출 (Edge)**
 
 ```python
+import numpy as np
 import cv2
 
-src = cv2.imread("Image/wheat.jpg", cv2.IMREAD_COLOR)
+src = cv2.imread("MR.jpeg", cv2.IMREAD_COLOR)
 gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
 
 sobel = cv2.Sobel(gray, cv2.CV_8U, 1, 0, 3)
 
 cv2.imshow("sobel", sobel)
+cv2.imwrite("sobel_output.png", sobel)
+
+
+# 2. Laplacian 적용
+laplacian = cv2.Laplacian(gray, cv2.CV_8U, ksize=3)
+cv2.imshow("laplacian", laplacian)
+cv2.imwrite("laplacian_output.png", laplacian)
+
+# 3. Canny Edge Detection 적용
+canny = cv2.Canny(gray, 1, 0, 3)
+cv2.imshow("canny", canny)
+cv2.imwrite("canny_output.png", canny)
+
 cv2.waitKey()
 cv2.destroyAllWindows()
 ```
@@ -326,6 +340,14 @@ cv2.destroyAllWindows()
 엣지 검출
 
 ![alt text](../../../assets/img/ARM/AI/sobel_output.png)
+
+Laplacian
+
+![alt text](../../../assets/img/ARM/AI/laplacian_output.png)
+
+Canny
+
+![alt text](../../../assets/img/ARM/AI/canny_output.png)
 
 ---
 
