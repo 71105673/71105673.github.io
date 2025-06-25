@@ -76,7 +76,7 @@ print("\nAND Gate Test:")
 for x in X_and:
     print(f"Input: {x}, Predicted Output: {ppn_and.predict(x)}")
 ```
-### 결과
+### 학습 로그
 ```
 Epoch 1/10, Errors: 1
 Epoch 2/10, Errors: 3
@@ -88,9 +88,11 @@ Epoch 7/10, Errors: 0
 Epoch 8/10, Errors: 0
 Epoch 9/10, Errors: 0
 Epoch 10/10, Errors: 0
-
+```
+### 예측 결과
+```
 AND Gate Test:
-Input: [0 0], Predicted Output: 0
+Input: [0 0], Predicted Output:과 0
 Input: [0 1], Predicted Output: 0
 Input: [1 0], Predicted Output: 0
 Input: [1 1], Predicted Output: 1
