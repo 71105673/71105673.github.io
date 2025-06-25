@@ -760,3 +760,94 @@ cv2.createTrackbar("bold", "Camera", bold, 10, on_bold_trackbar)
 cv2.putText(frame, "TEXT",
     topLeft, cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 1 + bold)
 ```
+아래 언더바에서 글자 두께 조절 가능
+![alt text](<../../../assets/img/ARM/AI/image copy 6.png>)
+
++ R/G/B TrackBar를 추가해서 Font Color 변경
+```python
+import cv2
+
+topLeft = (50, 50)
+bold = 0
+r, g, b = 255, 255, 0  # 초기 텍스트 색상: 노란색 (BGR = (0, 255, 255))
+
+# bold 트랙바 콜백
+def on_bold_trackbar(value):
+    global bold
+    bold = value
+
+# R/G/B 트랙바 콜백
+def on_r_trackbar(value):
+    global r
+    r = value
+
+def on_g_trackbar(value):
+    global g
+    g = value
+
+def on_b_trackbar(value):
+    global b
+    b = value
+
+# 카메라 연결
+cap = cv2.VideoCapture(0)
+
+# 윈도우 및 트랙바 생성
+cv2.namedWindow("Camera")
+cv2.createTrackbar("bold", "Camera", bold, 30, on_bold_trackbar)
+cv2.createTrackbar("R", "Camera", r, 255, on_r_trackbar)
+cv2.createTrackbar("G", "Camera", g, 255, on_g_trackbar)
+cv2.createTrackbar("B", "Camera", b, 255, on_b_trackbar)
+
+# 루프 시작
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+
+    # 텍스트 출력 (트랙바에서 받아온 bold, color 값 사용)
+    cv2.putText(frame, "Ronaldo",
+                topLeft,
+                cv2.FONT_HERSHEY_SIMPLEX,
+                2,
+                (b, g, r),  # BGR
+                1 + bold)
+
+    # 프레임 출력
+    cv2.imshow("Camera", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# 종료 처리
+cap.release()
+cv2.destroyAllWindows()
+```
+```
+# R/G/B 트랙바 콜백
+def on_r_trackbar(value):
+    global r
+    r = value
+
+def on_g_trackbar(value):
+    global g
+    g = value
+
+def on_b_trackbar(value):
+    global b
+    b = value
+
+# 윈도우 및 트랙바 생성
+cv2.namedWindow("Camera")
+cv2.createTrackbar("bold", "Camera", bold, 30, on_bold_trackbar)
+cv2.createTrackbar("R", "Camera", r, 255, on_r_trackbar)
+cv2.createTrackbar("G", "Camera", g, 255, on_g_trackbar)
+cv2.createTrackbar("B", "Camera", b, 255, on_b_trackbar)
+```
+![alt text](<../../../assets/img/ARM/AI/image copy 7.png>)
+---
+**제목**
+```python
+
+```
