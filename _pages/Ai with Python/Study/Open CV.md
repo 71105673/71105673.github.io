@@ -844,10 +844,114 @@ cv2.createTrackbar("bold", "Camera", bold, 30, on_bold_trackbar)
 cv2.createTrackbar("R", "Camera", r, 255, on_r_trackbar)
 cv2.createTrackbar("G", "Camera", g, 255, on_g_trackbar)
 cv2.createTrackbar("B", "Camera", b, 255, on_b_trackbar)
+
+해당 과정을 통해 TrackBar로 R,G,B 값을 받아 
+텍스트 출력 (트랙바에서 받아온 bold, color 값 사용)
+
+cv2.putText(frame, "Ronaldo",
+            topLeft,
+            cv2.FONT_HERSHEY_SIMPLEX, 2, (b, g, r), 1 + bold)
+
+BGR 순서로 받아 컬러를 조절한다.
 ```
 ![alt text](<../../../assets/img/ARM/AI/image copy 7.png>)
+
++ 카메라 필터 색상 변경
+```python
+import cv2
+import numpy as np
+
+topLeft = (50, 50)
+bold = 0
+r, g, b = 255, 255, 255  # 영상에 곱해질 색상 강도 초기값
+
+# Trackbar 콜백 함수들
+def on_bold_trackbar(value):
+    global bold
+    bold = value
+
+def on_r_trackbar(value):
+    global r
+    r = value
+
+def on_g_trackbar(value):
+    global g
+    g = value
+
+def on_b_trackbar(value):
+    global b
+    b = value
+
+# 카메라 초기화
+cap = cv2.VideoCapture(0)
+
+# 윈도우 & 트랙바 설정
+cv2.namedWindow("Camera")
+cv2.createTrackbar("bold", "Camera", bold, 30, on_bold_trackbar)
+cv2.createTrackbar("R", "Camera", r, 255, on_r_trackbar)
+cv2.createTrackbar("G", "Camera", g, 255, on_g_trackbar)
+cv2.createTrackbar("B", "Camera", b, 255, on_b_trackbar)
+
+# 루프 시작
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+
+    # BGR 색상 필터를 적용: 각 채널에 가중치 곱하기
+    color_filter = np.array([b / 255.0, g / 255.0, r / 255.0])
+    filtered_frame = (frame * color_filter).astype(np.uint8)
+
+    # 텍스트 출력 (원래대로 유지)
+    cv2.putText(filtered_frame, "Ronaldo", topLeft,
+                cv2.FONT_HERSHEY_SIMPLEX, 2,
+                (0, 255, 255), 1 + bold)
+
+    # 영상 출력
+    cv2.imshow("Camera", filtered_frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+```
+```
+color_filter = np.array([b / 255.0, g / 255.0, r / 255.0])
+
+OpenCV는 색상 순서를 BGR (Blue, Green, Red) 로 사용합니다.
+
+frame은 3차원 배열로 frame.shape = (height, width, 3)이며, 각 픽셀은 [B, G, R]의 값을 가짐
+
+color_filter는 각 채널에 곱해줄 비율 값
+
+    예: [1.0, 0.5, 0.2]이면 Blue 100%, Green 50%, Red 20%
+```
+
+```
+filtered_frame = (frame * color_filter).astype(np.uint8)
+
+NumPy 배열 브로드캐스팅 (broadcasting)
+    frame은 (H, W, 3)의 이미지 배열
+    color_filter는 (3,) 길이의 1차원 배열
+
+frame[H][W][0] *= color_filter[0]   # B
+frame[H][W][1] *= color_filter[1]   # G
+frame[H][W][2] *= color_filter[2]   # R
+> 이게 바로 NumPy의 브로드캐스팅(자동 확장) 기능
+
+astype(np.uint8) ->
+
+frame * color_filter의 결과는 float64 타입으로 바뀜
+OpenCV에서 imshow()는 uint8 타입만 제대로 처리 가능 (0~255 사이 정수)
+그래서 astype(np.uint8)로 다시 정수 픽셀로 변경
+```
+색상 필터 적용 결과
+![alt text](<../../../assets/img/ARM/AI/image copy 8.png>)
+
 ---
 **제목**
-```python
+```python경
 
 ```
