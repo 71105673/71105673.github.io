@@ -1,5 +1,5 @@
 ---
-title: "Open CV" 
+title: "Day-2 Open CV" 
 date: "2025-06-24"
 thumbnail: "../../../assets/img/ARM/AI/image copy.png"
 ---
