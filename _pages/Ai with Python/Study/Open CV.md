@@ -8,8 +8,11 @@ thumbnail: "../../../assets/img/ARM/AI/image copy.png"
 
 ## 1. Ubuntu 설정
 
-python3 -m venv .env
-source .env/bin/activate
+cd OpenCV 폴더로 이동 후
+
+(python3 -m venv .env)
+
+-> source .env/bin/activate 해당 코드로 가상환경 접근
 
 **Python 가상 환경에서 설치**
 
@@ -565,4 +568,142 @@ cv2.distroyAllWindows()
 또한, mp4v형식으로 저장할 객체를 만든 후, 파일의 정보를 설정해준다.
  
 마지막으로 write를 통해 while 문에서 읽어온 한 프레임을 저장하고 display에 출력해준다.
+```
+
+---
+**Camera**
+```python
+import cv2
+
+# Read from the first camera device
+cap = cv2.VideoCapture(0)
+
+topLeft = (195, 65)
+bottomRight = (445, 315)
+
+# 성공적으로 video device 가 열렸으면 while 문 반복
+while(cap.isOpened()):
+
+    # 한 프레임을 읽어옴
+    ret, frame = cap.read()
+
+    # Line
+    cv2.line(frame, topLeft, bottomRight, (0,255,0), 5)
+
+    # Rectangle
+    cv2.rectangle(frame, [pt+30 for pt in topLeft], [pt-30 for pt in bottomRight], (0,0,255), 5)
+
+    # Text
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(frame, 'me', [pt+80 for pt in topLeft], font, 2, (0,255,255), 10)
+
+    # Display
+    cv2.imshow("Camera",frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+       break
+
+# 리소스 해제
+cap.release()
+cv2.destroyAllWindows()
+```
+```
+도형 좌표 설정
+topLeft = (195, 65)
+bottomRight = (445, 315)
+
+선 그리기
+cv2.line(frame, topLeft, bottomRight, (0,255,0), 5)
+
+사각형 그리기
+cv2.rectangle(frame, [pt+30 for pt in topLeft], [pt-30 for pt in bottomRight], (0,0,255), 5)
+
+텍스트 출력
+font = cv2.FONT_HERSHEY_SIMPLEX
+cv2.putText(frame, 'me', [pt+80 for pt in topLeft], font, 2, (0,255,255), 10)
+```
+![alt text](<../../../assets/img/ARM/AI/image copy 2.png>)
+
++ 추가 작업
+
+마우스를 클릭했을 때 원이 생기도록 
+```python
+import cv2
+
+# Read from the first camera device
+cap = cv2.VideoCapture(0)
+
+topLeft = (195, 65)
+bottomRight = (445, 315)
+
+# 클릭한 위치 저장용 리스트
+circles = []
+
+# 마우스 콜백 함수
+def draw_circle(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        circles.append((x, y))  # 클릭한 좌표 저장
+
+# 윈도우 이름
+window_name = "Camera"
+
+# 마우스 이벤트 등록
+cv2.namedWindow(window_name)
+cv2.setMouseCallback(window_name, draw_circle)
+
+# 성공적으로 video device 가 열렸으면 while 문 반복
+while(cap.isOpened()):
+    # 한 프레임을 읽어옴
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Line
+    cv2.line(frame, topLeft, bottomRight, (0,255,0), 5)
+
+    # Rectangle
+    cv2.rectangle(frame, [pt+30 for pt in topLeft], [pt-30 for pt in bottomRight], (0,0,255), 5)
+
+    # Text
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(frame, 'me', [pt+80 for pt in topLeft], font, 2, (0,255,255), 10)
+
+    # 클릭한 좌표마다 동그라미 그림
+    for center in circles:
+        cv2.circle(frame, center, 30, (0, 255, 255), 3)
+
+    # Display
+    cv2.imshow(window_name, frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+       break
+
+# 리소스 해제
+cap.release()
+cv2.destroyAllWindows()
+```
+```
+<클릭한 위치 저장용 리스트>
+circles = []
+
+<마우스 콜백 함수>
+def draw_circle(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        circles.append((x, y))  # 클릭한 좌표 저장
+
+<마우스 이벤트 등록>
+cv2.namedWindow(window_name)
+cv2.setMouseCallback(window_name, draw_circle)
+
+<클릭한 좌표마다 동그라미 그림>
+ for center in circles:
+     cv2.circle(frame, center, 30, (0, 255, 255), 3)
+```
+
+![alt text](<../../../assets/img/ARM/AI/image copy 3.png>)
+
+---
+**TrackBar**
+```python
+
 ```
