@@ -950,8 +950,116 @@ OpenCV에서 imshow()는 uint8 타입만 제대로 처리 가능 (0~255 사이 �
 색상 필터 적용 결과
 ![alt text](<../../../assets/img/ARM/AI/image copy 8.png>)
 
++ 한글 폰트 추가
+
+```python
+import cv2
+import numpy as np
+from PIL import ImageFont, ImageDraw, Image
+
+# =============================
+# 초기 설정
+# =============================
+topLeft = (50, 50)
+bold = 0
+r, g, b = 255, 255, 255  # 초기 색상 (흰색)
+
+# =============================
+# 트랙바 콜백 함수들
+# =============================
+def on_bold_trackbar(value):
+    global bold
+    bold = value
+
+def on_r_trackbar(value):
+    global r
+    r = value
+
+def on_g_trackbar(value):
+    global g
+    g = value
+
+def on_b_trackbar(value):
+    global b
+    b = value
+
+# =============================
+# 카메라 초기화 및 트랙바 설정
+# =============================
+cap = cv2.VideoCapture(0)
+cv2.namedWindow("Camera")
+
+cv2.createTrackbar("bold", "Camera", bold, 30, on_bold_trackbar)
+cv2.createTrackbar("R", "Camera", r, 255, on_r_trackbar)
+cv2.createTrackbar("G", "Camera", g, 255, on_g_trackbar)
+cv2.createTrackbar("B", "Camera", b, 255, on_b_trackbar)
+
+# =============================
+# 한글 폰트 경로 설정 (환경에 맞게 수정)
+# =============================
+font_path = "/usr/share/fonts/truetype/nanum/NanumMyeongjoBold.ttf"
+
+font_size = 40  # 기본 폰트 크기
+
+# =============================
+# 루프 시작
+# =============================
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        print("Can't receive frame. Exiting ...")
+        break
+
+    # ----------------------------------
+    # 영상 필터: 색상 조절 (RGB 필터링)
+    # ----------------------------------
+    color_filter = np.array([b / 255.0, g / 255.0, r / 255.0])
+    filtered_frame = (frame * color_filter).astype(np.uint8)
+
+    # ----------------------------------
+    # PIL로 한글 텍스트 출력
+    # ----------------------------------
+    # OpenCV 이미지를 PIL 이미지로 변환
+    img_pil = Image.fromarray(filtered_frame)
+    draw = ImageDraw.Draw(img_pil)
+
+    try:
+        font = ImageFont.truetype(font_path, font_size + bold)
+        draw.text(topLeft, "안녕하세요, 호날두입니다!", font=font, fill=(r, g, b))
+    except OSError:
+        print("❌ 폰트를 찾을 수 없습니다. font_path를 확인하세요.")
+        break
+
+    # PIL 이미지를 다시 OpenCV 이미지로 변환
+    filtered_frame = np.array(img_pil)
+
+    # ----------------------------------
+    # 출력
+    # ----------------------------------
+    cv2.imshow("Camera", filtered_frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# 종료
+cap.release()
+cv2.destroyAllWindows()
+```
+```
+penCV만으로는 한글을 출력할 수 없기 때문에 **Pillow(PIL)**을 활용
+
+from PIL import ImageFont, ImageDraw, Image -> 라이브러리 임포트
+
+img_pil = Image.fromarray(filtered_frame)
+draw = ImageDraw.Draw(img_pil) -> PIL 이미지로 변환
+
+filtered_frame = np.array(img_pil) -> 출력 후 다시 OpenCV용 이미지 변환
+
+```
+  ![alt text](<../../../assets/img/ARM/AI/image copy 9.png>)
+
 ---
 **제목**
-```python경
+```python
 
 ```
