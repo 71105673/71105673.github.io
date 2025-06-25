@@ -504,9 +504,82 @@ plt.title('Perceptron Learning Error Over Epochs (XOR Gate)')
 plt.grid(True)
 plt.show()
 ```
-
 ### 오류 시각화 결과
 ![alt text](<../../../assets/img/ARM/AI/image copy 20.png>)
+
+### 전체 오류시각화 
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ========================
+# 퍼셉트론 클래스 정의
+# ========================
+class Perceptron:
+    def __init__(self, input_size, lr=0.1, epochs=10):
+        self.weights = np.zeros(input_size)
+        self.bias = 0
+        self.lr = lr
+        self.epochs = epochs
+        self.errors = []
+
+    def activation(self, x):
+        return np.where(x > 0, 1, 0)
+
+    def predict(self, x):
+        linear_output = np.dot(x, self.weights) + self.bias
+        return self.activation(linear_output)
+
+    def train(self, X, y):
+        self.errors = []  # 각 게이트마다 초기화
+        for epoch in range(self.epochs):
+            total_error = 0
+            for xi, target in zip(X, y):
+                prediction = self.predict(xi)
+                update = self.lr * (target - prediction)
+                self.weights += update * xi
+                self.bias += update
+                total_error += int(update != 0.0)
+            self.errors.append(total_error)
+            print(f"Epoch {epoch+1}/{self.epochs}, Errors: {total_error}")
+
+# ========================
+# 데이터 정의
+# ========================
+logic_gates = {
+    "AND": (np.array([[0,0],[0,1],[1,0],[1,1]]), np.array([0,0,0,1])),
+    "OR":  (np.array([[0,0],[0,1],[1,0],[1,1]]), np.array([0,1,1,1])),
+    "NAND":(np.array([[0,0],[0,1],[1,0],[1,1]]), np.array([1,1,1,0])),
+    "XOR": (np.array([[0,0],[0,1],[1,0],[1,1]]), np.array([0,1,1,0]))
+}
+
+# ========================
+# 학습 및 오류 저장
+# ========================
+results = {}
+
+for gate_name, (X, y) in logic_gates.items():
+    print(f"\nTraining {gate_name} Gate")
+    model = Perceptron(input_size=2, lr=0.1, epochs=10)
+    model.train(X, y)
+    results[gate_name] = model.errors
+
+# ========================
+# 오류 시각화
+# ========================
+plt.figure(figsize=(10, 6))
+for gate, error_list in results.items():
+    plt.plot(range(1, len(error_list) + 1), error_list, marker='o', label=gate)
+
+plt.xlabel('Epochs')
+plt.ylabel('Number of Errors')
+plt.title('Perceptron Learning Error Over Epochs (All Gates)')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+![alt text](<../../../assets/img/ARM/AI/image copy 21.png>)
 
 ## 고찰 -> XOR의 Error
 
@@ -527,3 +600,4 @@ plt.show()
 >결국 선형 결정 경계로 만드는 퍼셉트론은 하나의 직선으로 분류할 수 없기에 오류가 난 것이다.
 
 >이를 해결하기 위해서는 비선형 결정 경계가 필요하다.
+
