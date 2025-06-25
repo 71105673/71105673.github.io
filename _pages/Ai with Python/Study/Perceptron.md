@@ -266,13 +266,13 @@ plt.figure(figsize=(8, 5))
 plt.plot(range(1, len(ppn_or.errors) + 1), ppn_or.errors, marker='o')
 plt.xlabel('Epochs')
 plt.ylabel('Number of Errors')
-plt.title('Perceptron Learning Error Over Epochs (And Gate)')
+plt.title('Perceptron Learning Error Over Epochs (OR Gate)')
 plt.grid(True)
 plt.show()
 ```
 
 ### 오류 시각화 결과
-![alt text](<../../../assets/img/ARM/AI/image copy 14.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 18.png>)
 
 ---
 **3. NAND**
@@ -384,12 +384,12 @@ plt.figure(figsize=(8, 5))
 plt.plot(range(1, len(ppn_nand.errors) + 1), ppn_nand.errors, marker='o')
 plt.xlabel('Epochs')
 plt.ylabel('Number of Errors')
-plt.title('Perceptron Learning Error Over Epochs (And Gate)')
+plt.title('Perceptron Learning Error Over Epochs (NAND Gate)')
 plt.grid(True)
 plt.show()
 ```
 ### 오류 시각화 결과
-![alt text](<../../../assets/img/ARM/AI/image copy 16.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 17.png>)
 ---
 
 **4. XOR**
