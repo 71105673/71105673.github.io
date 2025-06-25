@@ -307,7 +307,7 @@ class Perceptron:
             self.errors.append(total_error)
             print(f"Epoch {epoch+1}/{self.epochs}, Errors: {total_error}")
       
-# OR 게이트 데이터
+# NAND 게이트 데이터
 X_nand = np.array([[0,0],[0,1],[1,0],[1,1]])
 y_nand = np.array([1,1,1,0])
 
@@ -394,22 +394,136 @@ plt.show()
 
 **4. XOR**
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Perceptron:
+    def __init__(self, input_size, lr=0.1, epochs=10):
+        self.weights = np.zeros(input_size)
+        self.bias = 0
+        self.lr = lr
+        self.epochs = epochs
+        self.errors = []
+
+    def activation(self, x):
+        return np.where(x > 0, 1, 0)
+
+    def predict(self, x):
+        linear_output = np.dot(x, self.weights) + self.bias
+        return self.activation(linear_output)
+
+    def train(self, X, y):
+        for epoch in range(self.epochs):
+            total_error = 0
+            for xi, target in zip(X, y):
+                prediction = self.predict(xi)
+                update = self.lr * (target - prediction)
+                self.weights += update * xi
+                self.bias += update
+                total_error += int(update != 0.0)
+            self.errors.append(total_error)
+            print(f"Epoch {epoch+1}/{self.epochs}, Errors: {total_error}")
+
+# XOR 게이트 데이터
+X_xor = np.array([[0,0],[0,1],[1,0],[1,1]])
+y_xor = np.array([0,1,1,0])
+
+# 퍼셉트론 모델 훈련
+ppn_xor = Perceptron(input_size=2)
+ppn_xor.train(X_xor, y_xor)
+
+# 예측 결과 확인
+print("\nXOR Gate Test:")
+for x in X_xor:
+    print(f"Input: {x}, Predicted Output: {ppn_xor.predict(x)}")
 ```
 ### 학습 로그
 ```
+Epoch 1/10, Errors: 2
+Epoch 2/10, Errors: 3
+Epoch 3/10, Errors: 4
+Epoch 4/10, Errors: 4
+Epoch 5/10, Errors: 4
+Epoch 6/10, Errors: 4
+Epoch 7/10, Errors: 4
+Epoch 8/10, Errors: 4
+Epoch 9/10, Errors: 4
+Epoch 10/10, Errors: 4
 ```
 ### 예측 결과
 ```
+XOR Gate Test:
+Input: [0 0], Predicted Output: 1
+Input: [0 1], Predicted Output: 1
+Input: [1 0], Predicted Output: 0
+Input: [1 1], Predicted Output: 0
 ```
 ### 경계 결정 시각화
 ```python
+from matplotlib.colors import ListedColormap
+
+def plot_decision_boundary(X, y, model):
+    cmap_light = ListedColormap(['#FFAAAA', '#AAAAFF'])
+    cmap_bold = ListedColormap(['#FF0000', '#0000FF'])
+
+    h = .02  # mesh grid 간격
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+
+    plt.figure(figsize=(8, 6))
+    plt.contourf(xx, yy, Z, cmap=cmap_light)
+
+    # 실제 데이터 포인트 표시
+    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold,
+                edgecolor='k', s=100, marker='o')
+    plt.xlabel('Input 1')
+    plt.ylabel('Input 2')
+    plt.title('Perceptron Decision Boundary')
+    plt.show()
+
+# NAND 게이트 결정 경계 시각화
+plot_decision_boundary(X_xor, y_xor, ppn_xor)
 ```
 
 ### 경계 결정 시각화 결과
+![alt text](<../../../assets/img/ARM/AI/image copy 19.png>)
 
 ### 오류 시각화
 ```python
+#오류 시각화
+plt.figure(figsize=(8, 5))
+plt.plot(range(1, len(ppn_xor.errors) + 1), ppn_xor.errors, marker='o')
+plt.xlabel('Epochs')
+plt.ylabel('Number of Errors')
+plt.title('Perceptron Learning Error Over Epochs (XOR Gate)')
+plt.grid(True)
+plt.show()
 ```
 
 ### 오류 시각화 결과
----
+![alt text](<../../../assets/img/ARM/AI/image copy 20.png>)
+
+## 고찰 -> XOR의 Error
+
+**선형 분리 불가능(linearly inseparable)**
+
+>XOR의 입력 값은 [0,0],[0,1],[1,0],[1,1]
+>
+>XOR의 출력 값은 [0, 1, 1, 0] 에 해당됩니다
+
+>y=1 class는 [0,1], [1,0]
+>
+>y=0 class는 [0,0], [1,1]
+
+>따라서 클래스 0과 클래스 1은 X자로 교차된다.
+>
+>따라서 한 개의 직선으로는 이 둘을 나눌 수 없다.
+
+>결국 선형 결정 경계로 만드는 퍼셉트론은 하나의 직선으로 분류할 수 없기에 오류가 난 것이다.
+
+>이를 해결하기 위해서는 비선형 결정 경계가 필요하다.
