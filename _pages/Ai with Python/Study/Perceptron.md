@@ -24,10 +24,13 @@ thumbnail: "../../../assets/img/ARM/AI/image copy 10.png"
 - 가중치(Weight) : 입력 신호에 부여되는 중요도로, 가중치가 크다는 것은 그 입력이 출력을 결정하는 데 큰 역할을 한다는 의미
 
 - 가중합(Weighted Sum) : 입력값과 가중치의 곱을 모두 합한 값
-![alt text](<../../../assets/img/ARM/AI/image copy 25.png>)
-- 활성화 함수(Activation Function) : 어떠한 신호를 입력받아 이를 적절하게 처리하여 출력해 주는 함수로, 가중합이 임계치(Threshold)를 넘으면 1, 그렇지 않으면 0을 출력함
 
+![alt text](<../../../assets/img/ARM/AI/image copy 25.png>)
+
+- 활성화 함수(Activation Function) : 어떠한 신호를 입력받아 이를 적절하게 처리하여 출력해 주는 함수로, 가중합이 임계치(Threshold)를 넘으면 1, 그렇지 않으면 0을 출력함
+  
 - 출력(Output) : 최종 결과(분류)
+  
 ---
 
 **동작 방식**
