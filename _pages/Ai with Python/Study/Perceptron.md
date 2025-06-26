@@ -31,6 +31,15 @@ thumbnail: "../../../assets/img/ARM/AI/image copy 10.png"
   
 - 출력(Output) : 최종 결과(분류)
   
+>epochs -> 학습 횟수
+
+>lr -> learning rate (학습률) 
+>
+>lr = 0.1 → 보통 시작값으로 적절
+>
+>lr = 0.01 → 더 느리지만 안정적
+>
+>lr = 1.0 → 너무 크면 발산할 수 있음
 ---
 
 ## 2.2 동작 방식
@@ -101,15 +110,6 @@ print("\nAND Gate Test:")
 for x in X_and:
     print(f"Input: {x}, Predicted Output: {ppn_and.predict(x)}")
 ```
->epochs -> 학습 횟수
-
->lr -> learning rate (학습률) 
->
->lr = 0.1 → 보통 시작값으로 적절
->
->lr = 0.01 → 더 느리지만 안정적
->
->lr = 1.0 → 너무 크면 발산할 수 있음
 
 ### 학습 로그
 ```
