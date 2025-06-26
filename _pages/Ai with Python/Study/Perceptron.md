@@ -35,7 +35,7 @@ thumbnail: "../../../assets/img/ARM/AI/image copy 10.png"
 
 ## 2.2 동작 방식
 
-Perceptron의 작동 방식
+**Perceptron의 작동 방식**
 
 퍼셉트론은 지도 학습(supervised learning) 방식으로 학습한다. 즉, 입력 데이터와 그에 해당하는 정답(레이블)을 함께 사용하여 모델을 훈련시키며 학습 과정은 다음과 같다.
 
