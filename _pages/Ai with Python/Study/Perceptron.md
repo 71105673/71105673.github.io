@@ -564,6 +564,10 @@ plt.show()
 
 ---
 
+### 오류 시각화 결과 합
+
+![alt text](<../../../assets/img/ARM/AI/image copy 33.png>)
+
 ### 고찰 -> XOR의 Error 이유
 
 > AND, OR, NAND gate 들은 선형 분리 가능. (Z=wx+b)​
