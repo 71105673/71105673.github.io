@@ -14,7 +14,7 @@ thumbnail: "../../../assets/img/ARM/AI/image copy 10.png"
 
 - 입력 신호의 중요성을 나타내는 가중치는 머신러닝의 '학습' 과정에서 조정된다.
 
-## 2.1 구조
+## 2-1. 구조
 ```
 입력(x) → 가중치(w) → 가중합(Σ) → 활성화 함수(f) → 출력(y)
 ```
@@ -32,7 +32,7 @@ thumbnail: "../../../assets/img/ARM/AI/image copy 10.png"
 - 출력(Output) : 최종 결과(분류)
 ---
 
-## 2.2 동작 방식
+## 2.-. 동작 방식
 
 **Perceptron의 작동 방식**
 
