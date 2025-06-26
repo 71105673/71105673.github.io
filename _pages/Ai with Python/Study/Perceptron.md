@@ -612,6 +612,7 @@ plt.show()
 >역전파 : 출력에서 발생한 오차를 바탕으로 가중치와 편향을 갱신. (오차 최소화)​
 
 >![alt text](<../../../assets/img/ARM/AI/image copy 35.png>)
+>![alt text](<../../../assets/img/ARM/AI/image copy 36.png>)
 >
 >비선형 이진 분류를 위한 활성화 함수 출력 값을 확률로 판단하여 정함.
 
