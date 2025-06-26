@@ -596,7 +596,7 @@ X = np.array([[0,0], [0,1], [1,0], [1,1]])
 y = np.array([0, 1, 1, 0])
 
 # 2. MLP 모델 정의 (비선형 해결 가능)
-mlp = MLPClassifier(hidden_layer_sizes=(4,),   # 은닉층 1개, 노드 4개
+mlp = MLPClassifier(hidden_layer_sizes=(2,),   # 은닉층 1개, 노드 2개
                     activation='tanh',         # 비선형 활성화 함수
                     solver='adam',
                     learning_rate_init=0.1,
@@ -619,126 +619,211 @@ for x in X:
     print(f"Input: {x}, Predicted Output: {pred}")
 ```
 
-### 학습 로그
+### 학습 로그 (노드 2개)
 ```
 학습 로그
-Epoch 1/117, Loss: 0.8091
-Epoch 2/117, Loss: 0.7159
-Epoch 3/117, Loss: 0.6959
-Epoch 4/117, Loss: 0.7019
-Epoch 5/117, Loss: 0.6989
-Epoch 6/117, Loss: 0.6821
-Epoch 7/117, Loss: 0.6606
-Epoch 8/117, Loss: 0.6430
-Epoch 9/117, Loss: 0.6324
-Epoch 10/117, Loss: 0.6254
-Epoch 11/117, Loss: 0.6160
-Epoch 12/117, Loss: 0.6006
-Epoch 13/117, Loss: 0.5795
-Epoch 14/117, Loss: 0.5553
-Epoch 15/117, Loss: 0.5312
-Epoch 16/117, Loss: 0.5086
-Epoch 17/117, Loss: 0.4866
-Epoch 18/117, Loss: 0.4630
-Epoch 19/117, Loss: 0.4368
-Epoch 20/117, Loss: 0.4083
-Epoch 21/117, Loss: 0.3786
-Epoch 22/117, Loss: 0.3493
-Epoch 23/117, Loss: 0.3213
-Epoch 24/117, Loss: 0.2950
-Epoch 25/117, Loss: 0.2702
-Epoch 26/117, Loss: 0.2464
-Epoch 27/117, Loss: 0.2235
-Epoch 28/117, Loss: 0.2019
-Epoch 29/117, Loss: 0.1818
-Epoch 30/117, Loss: 0.1635
-Epoch 31/117, Loss: 0.1472
-Epoch 32/117, Loss: 0.1328
-Epoch 33/117, Loss: 0.1200
-Epoch 34/117, Loss: 0.1086
-Epoch 35/117, Loss: 0.0983
-Epoch 36/117, Loss: 0.0891
-Epoch 37/117, Loss: 0.0808
-Epoch 38/117, Loss: 0.0734
-Epoch 39/117, Loss: 0.0667
-Epoch 40/117, Loss: 0.0609
-Epoch 41/117, Loss: 0.0558
-Epoch 42/117, Loss: 0.0513
-Epoch 43/117, Loss: 0.0474
-Epoch 44/117, Loss: 0.0440
-Epoch 45/117, Loss: 0.0411
-Epoch 46/117, Loss: 0.0384
-Epoch 47/117, Loss: 0.0361
-Epoch 48/117, Loss: 0.0340
-Epoch 49/117, Loss: 0.0322
-Epoch 50/117, Loss: 0.0305
-Epoch 51/117, Loss: 0.0290
-Epoch 52/117, Loss: 0.0276
-Epoch 53/117, Loss: 0.0263
-Epoch 54/117, Loss: 0.0252
-Epoch 55/117, Loss: 0.0241
-Epoch 56/117, Loss: 0.0231
-Epoch 57/117, Loss: 0.0222
-Epoch 58/117, Loss: 0.0214
-Epoch 59/117, Loss: 0.0206
-Epoch 60/117, Loss: 0.0198
-Epoch 61/117, Loss: 0.0191
-Epoch 62/117, Loss: 0.0185
-Epoch 63/117, Loss: 0.0178
-Epoch 64/117, Loss: 0.0172
-Epoch 65/117, Loss: 0.0167
-Epoch 66/117, Loss: 0.0162
-Epoch 67/117, Loss: 0.0157
-Epoch 68/117, Loss: 0.0152
-Epoch 69/117, Loss: 0.0147
-Epoch 70/117, Loss: 0.0143
-Epoch 71/117, Loss: 0.0139
-Epoch 72/117, Loss: 0.0136
-Epoch 73/117, Loss: 0.0132
-Epoch 74/117, Loss: 0.0129
-Epoch 75/117, Loss: 0.0126
-Epoch 76/117, Loss: 0.0122
-Epoch 77/117, Loss: 0.0120
-Epoch 78/117, Loss: 0.0117
-Epoch 79/117, Loss: 0.0114
-Epoch 80/117, Loss: 0.0111
-Epoch 81/117, Loss: 0.0109
-Epoch 82/117, Loss: 0.0106
-Epoch 83/117, Loss: 0.0104
-Epoch 84/117, Loss: 0.0102
-Epoch 85/117, Loss: 0.0100
-Epoch 86/117, Loss: 0.0098
-Epoch 87/117, Loss: 0.0096
-Epoch 88/117, Loss: 0.0094
-Epoch 89/117, Loss: 0.0092
-Epoch 90/117, Loss: 0.0090
-Epoch 91/117, Loss: 0.0089
-Epoch 92/117, Loss: 0.0087
-Epoch 93/117, Loss: 0.0086
-Epoch 94/117, Loss: 0.0084
-Epoch 95/117, Loss: 0.0083
-Epoch 96/117, Loss: 0.0081
-Epoch 97/117, Loss: 0.0080
-Epoch 98/117, Loss: 0.0078
-Epoch 99/117, Loss: 0.0077
-Epoch 100/117, Loss: 0.0076
-Epoch 101/117, Loss: 0.0075
-Epoch 102/117, Loss: 0.0074
-Epoch 103/117, Loss: 0.0072
-Epoch 104/117, Loss: 0.0071
-Epoch 105/117, Loss: 0.0070
-Epoch 106/117, Loss: 0.0069
-Epoch 107/117, Loss: 0.0068
-Epoch 108/117, Loss: 0.0067
-Epoch 109/117, Loss: 0.0066
-Epoch 110/117, Loss: 0.0066
-Epoch 111/117, Loss: 0.0065
-Epoch 112/117, Loss: 0.0064
-Epoch 113/117, Loss: 0.0063
-Epoch 114/117, Loss: 0.0062
-Epoch 115/117, Loss: 0.0062
-Epoch 116/117, Loss: 0.0061
-Epoch 117/117, Loss: 0.0060
+Epoch 1/202, Loss: 0.8554
+Epoch 2/202, Loss: 0.7697
+Epoch 3/202, Loss: 0.7273
+Epoch 4/202, Loss: 0.7169
+Epoch 5/202, Loss: 0.7138
+Epoch 6/202, Loss: 0.7074
+Epoch 7/202, Loss: 0.6985
+Epoch 8/202, Loss: 0.6910
+Epoch 9/202, Loss: 0.6874
+Epoch 10/202, Loss: 0.6880
+Epoch 11/202, Loss: 0.6903
+Epoch 12/202, Loss: 0.6921
+Epoch 13/202, Loss: 0.6921
+Epoch 14/202, Loss: 0.6908
+Epoch 15/202, Loss: 0.6889
+Epoch 16/202, Loss: 0.6874
+Epoch 17/202, Loss: 0.6867
+Epoch 18/202, Loss: 0.6867
+Epoch 19/202, Loss: 0.6868
+Epoch 20/202, Loss: 0.6865
+Epoch 21/202, Loss: 0.6853
+Epoch 22/202, Loss: 0.6829
+Epoch 23/202, Loss: 0.6795
+Epoch 24/202, Loss: 0.6755
+Epoch 25/202, Loss: 0.6708
+Epoch 26/202, Loss: 0.6656
+Epoch 27/202, Loss: 0.6596
+Epoch 28/202, Loss: 0.6525
+Epoch 29/202, Loss: 0.6446
+Epoch 30/202, Loss: 0.6360
+Epoch 31/202, Loss: 0.6272
+Epoch 32/202, Loss: 0.6185
+Epoch 33/202, Loss: 0.6096
+Epoch 34/202, Loss: 0.6004
+Epoch 35/202, Loss: 0.5907
+Epoch 36/202, Loss: 0.5808
+Epoch 37/202, Loss: 0.5706
+Epoch 38/202, Loss: 0.5601
+Epoch 39/202, Loss: 0.5490
+Epoch 40/202, Loss: 0.5374
+Epoch 41/202, Loss: 0.5255
+Epoch 42/202, Loss: 0.5139
+Epoch 43/202, Loss: 0.5030
+Epoch 44/202, Loss: 0.4932
+Epoch 45/202, Loss: 0.4841
+Epoch 46/202, Loss: 0.4753
+Epoch 47/202, Loss: 0.4664
+Epoch 48/202, Loss: 0.4573
+Epoch 49/202, Loss: 0.4485
+Epoch 50/202, Loss: 0.4405
+Epoch 51/202, Loss: 0.4337
+Epoch 52/202, Loss: 0.4277
+Epoch 53/202, Loss: 0.4222
+Epoch 54/202, Loss: 0.4168
+Epoch 55/202, Loss: 0.4115
+Epoch 56/202, Loss: 0.4066
+Epoch 57/202, Loss: 0.4023
+Epoch 58/202, Loss: 0.3985
+Epoch 59/202, Loss: 0.3952
+Epoch 60/202, Loss: 0.3922
+Epoch 61/202, Loss: 0.3894
+Epoch 62/202, Loss: 0.3868
+Epoch 63/202, Loss: 0.3844
+Epoch 64/202, Loss: 0.3823
+Epoch 65/202, Loss: 0.3804
+Epoch 66/202, Loss: 0.3787
+Epoch 67/202, Loss: 0.3771
+Epoch 68/202, Loss: 0.3757
+Epoch 69/202, Loss: 0.3743
+Epoch 70/202, Loss: 0.3730
+Epoch 71/202, Loss: 0.3718
+Epoch 72/202, Loss: 0.3707
+Epoch 73/202, Loss: 0.3697
+Epoch 74/202, Loss: 0.3689
+Epoch 75/202, Loss: 0.3681
+Epoch 76/202, Loss: 0.3673
+Epoch 77/202, Loss: 0.3665
+Epoch 78/202, Loss: 0.3658
+Epoch 79/202, Loss: 0.3652
+Epoch 80/202, Loss: 0.3645
+Epoch 81/202, Loss: 0.3640
+Epoch 82/202, Loss: 0.3635
+Epoch 83/202, Loss: 0.3630
+Epoch 84/202, Loss: 0.3626
+Epoch 85/202, Loss: 0.3621
+Epoch 86/202, Loss: 0.3617
+Epoch 87/202, Loss: 0.3613
+Epoch 88/202, Loss: 0.3609
+Epoch 89/202, Loss: 0.3606
+Epoch 90/202, Loss: 0.3602
+Epoch 91/202, Loss: 0.3599
+Epoch 92/202, Loss: 0.3596
+Epoch 93/202, Loss: 0.3593
+Epoch 94/202, Loss: 0.3590
+Epoch 95/202, Loss: 0.3588
+Epoch 96/202, Loss: 0.3585
+Epoch 97/202, Loss: 0.3582
+Epoch 98/202, Loss: 0.3580
+Epoch 99/202, Loss: 0.3578
+Epoch 100/202, Loss: 0.3575
+Epoch 101/202, Loss: 0.3573
+Epoch 102/202, Loss: 0.3571
+Epoch 103/202, Loss: 0.3569
+Epoch 104/202, Loss: 0.3567
+Epoch 105/202, Loss: 0.3564
+Epoch 106/202, Loss: 0.3562
+Epoch 107/202, Loss: 0.3560
+Epoch 108/202, Loss: 0.3558
+Epoch 109/202, Loss: 0.3556
+Epoch 110/202, Loss: 0.3554
+Epoch 111/202, Loss: 0.3552
+Epoch 112/202, Loss: 0.3550
+Epoch 113/202, Loss: 0.3547
+Epoch 114/202, Loss: 0.3545
+Epoch 115/202, Loss: 0.3543
+Epoch 116/202, Loss: 0.3540
+Epoch 117/202, Loss: 0.3538
+Epoch 118/202, Loss: 0.3535
+Epoch 119/202, Loss: 0.3532
+Epoch 120/202, Loss: 0.3529
+Epoch 121/202, Loss: 0.3526
+Epoch 122/202, Loss: 0.3522
+Epoch 123/202, Loss: 0.3518
+Epoch 124/202, Loss: 0.3514
+Epoch 125/202, Loss: 0.3509
+Epoch 126/202, Loss: 0.3503
+Epoch 127/202, Loss: 0.3497
+Epoch 128/202, Loss: 0.3490
+Epoch 129/202, Loss: 0.3481
+Epoch 130/202, Loss: 0.3471
+Epoch 131/202, Loss: 0.3459
+Epoch 132/202, Loss: 0.3445
+Epoch 133/202, Loss: 0.3427
+Epoch 134/202, Loss: 0.3404
+Epoch 135/202, Loss: 0.3374
+Epoch 136/202, Loss: 0.3336
+Epoch 137/202, Loss: 0.3284
+Epoch 138/202, Loss: 0.3212
+Epoch 139/202, Loss: 0.3113
+Epoch 140/202, Loss: 0.2973
+Epoch 141/202, Loss: 0.2778
+Epoch 142/202, Loss: 0.2516
+Epoch 143/202, Loss: 0.2190
+Epoch 144/202, Loss: 0.1827
+Epoch 145/202, Loss: 0.1477
+Epoch 146/202, Loss: 0.1179
+Epoch 147/202, Loss: 0.0938
+Epoch 148/202, Loss: 0.0750
+Epoch 149/202, Loss: 0.0608
+Epoch 150/202, Loss: 0.0507
+Epoch 151/202, Loss: 0.0439
+Epoch 152/202, Loss: 0.0394
+Epoch 153/202, Loss: 0.0365
+Epoch 154/202, Loss: 0.0344
+Epoch 155/202, Loss: 0.0327
+Epoch 156/202, Loss: 0.0312
+Epoch 157/202, Loss: 0.0296
+Epoch 158/202, Loss: 0.0278
+Epoch 159/202, Loss: 0.0258
+Epoch 160/202, Loss: 0.0239
+Epoch 161/202, Loss: 0.0220
+Epoch 162/202, Loss: 0.0203
+Epoch 163/202, Loss: 0.0188
+Epoch 164/202, Loss: 0.0174
+Epoch 165/202, Loss: 0.0163
+Epoch 166/202, Loss: 0.0153
+Epoch 167/202, Loss: 0.0145
+Epoch 168/202, Loss: 0.0138
+Epoch 169/202, Loss: 0.0131
+Epoch 170/202, Loss: 0.0126
+Epoch 171/202, Loss: 0.0122
+Epoch 172/202, Loss: 0.0118
+Epoch 173/202, Loss: 0.0114
+Epoch 174/202, Loss: 0.0111
+Epoch 175/202, Loss: 0.0108
+Epoch 176/202, Loss: 0.0106
+Epoch 177/202, Loss: 0.0104
+Epoch 178/202, Loss: 0.0101
+Epoch 179/202, Loss: 0.0100
+Epoch 180/202, Loss: 0.0098
+Epoch 181/202, Loss: 0.0096
+Epoch 182/202, Loss: 0.0094
+Epoch 183/202, Loss: 0.0093
+Epoch 184/202, Loss: 0.0091
+Epoch 185/202, Loss: 0.0090
+Epoch 186/202, Loss: 0.0088
+Epoch 187/202, Loss: 0.0087
+Epoch 188/202, Loss: 0.0086
+Epoch 189/202, Loss: 0.0085
+Epoch 190/202, Loss: 0.0084
+Epoch 191/202, Loss: 0.0083
+Epoch 192/202, Loss: 0.0082
+Epoch 193/202, Loss: 0.0081
+Epoch 194/202, Loss: 0.0080
+Epoch 195/202, Loss: 0.0079
+Epoch 196/202, Loss: 0.0078
+Epoch 197/202, Loss: 0.0077
+Epoch 198/202, Loss: 0.0077
+Epoch 199/202, Loss: 0.0076
+Epoch 200/202, Loss: 0.0075
+Epoch 201/202, Loss: 0.0074
+Epoch 202/202, Loss: 0.0074
 ```
 ### 예측 결과
 ```
@@ -785,7 +870,11 @@ def plot_decision_boundary_proba(X, y, model):
 plot_decision_boundary_proba(X, y, mlp)
 ```
 ### 경계 결정 시각화 결과
-![alt text](<../../../assets/img/ARM/AI/image copy 22.png>)
+> 노드 2개
+>![alt text](<../../../assets/img/ARM/AI/image copy 29.png>)
+
+> 노드 4개
+>![alt text](<../../../assets/img/ARM/AI/image copy 22.png>)
 
 ### 오류 시각화
 ```python
@@ -796,9 +885,12 @@ plt.xlabel("Epochs")
 plt.ylabel("Loss")
 plt.title("MLP Loss Curve (XOR Gate)")
 plt.grid(True)
-plt.show()
+plt.show()개
 ```
 ### 오류 시각화 결과
-![alt text](<../../../assets/img/ARM/AI/image copy 23.png>)
+> 노드 2개
+>![alt text](<../../../assets/img/ARM/AI/image copy 28.png>)
 
+> 노드 4개
+>![alt text](<../../../assets/img/ARM/AI/image copy 23.png>)
 ---
