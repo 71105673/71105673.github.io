@@ -885,7 +885,7 @@ plt.xlabel("Epochs")
 plt.ylabel("Loss")
 plt.title("MLP Loss Curve (XOR Gate)")
 plt.grid(True)
-plt.show()개
+plt.show()
 ```
 ### 오류 시각화 결과
 > 노드 2개
