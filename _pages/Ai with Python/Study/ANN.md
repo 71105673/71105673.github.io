@@ -172,70 +172,8 @@ md.compile(loss='sparse_categorical_crossentropy', optimizer='sgd', metrics=['ac
 ## 모델 학습: 학습 횟수. batch_size, 검증용 데이터 설정
 hist = md.fit(train_x2, train_y, epochs=30, batch_size=64, validation_split=0.2)
 ```
-```
-결과:
-Epoch 1/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 3ms/step - acc: 0.5941 - loss: 1.4901 - val_acc: 0.8569 - val_loss: 0.6543
-Epoch 2/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 3ms/step - acc: 0.8506 - loss: 0.6448 - val_acc: 0.8757 - val_loss: 0.5063
-Epoch 3/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.8672 - loss: 0.5302 - val_acc: 0.8859 - val_loss: 0.4481
-Epoch 4/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 2ms/step - acc: 0.8812 - loss: 0.4678 - val_acc: 0.8905 - val_loss: 0.4164
-Epoch 5/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 2ms/step - acc: 0.8831 - loss: 0.4416 - val_acc: 0.8957 - val_loss: 0.3948
-Epoch 6/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 3ms/step - acc: 0.8844 - loss: 0.4267 - val_acc: 0.8987 - val_loss: 0.3801
-Epoch 7/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 3ms/step - acc: 0.8912 - loss: 0.4030 - val_acc: 0.9002 - val_loss: 0.3687
-Epoch 8/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.8933 - loss: 0.3907 - val_acc: 0.9028 - val_loss: 0.3596
-Epoch 9/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 2ms/step - acc: 0.8933 - loss: 0.3876 - val_acc: 0.9030 - val_loss: 0.3526
-Epoch 10/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 2ms/step - acc: 0.8954 - loss: 0.3798 - val_acc: 0.9061 - val_loss: 0.3466
-Epoch 11/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 3ms/step - acc: 0.8990 - loss: 0.3698 - val_acc: 0.9076 - val_loss: 0.3411
-Epoch 12/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9017 - loss: 0.3588 - val_acc: 0.9087 - val_loss: 0.3369
-Epoch 13/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.8977 - loss: 0.3606 - val_acc: 0.9088 - val_loss: 0.3329
-Epoch 14/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 2ms/step - acc: 0.9024 - loss: 0.3509 - val_acc: 0.9093 - val_loss: 0.3294
-Epoch 15/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9030 - loss: 0.3540 - val_acc: 0.9097 - val_loss: 0.3261
-Epoch 16/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 3ms/step - acc: 0.9023 - loss: 0.3441 - val_acc: 0.9097 - val_loss: 0.3237
-Epoch 17/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 3ms/step - acc: 0.9039 - loss: 0.3392 - val_acc: 0.9120 - val_loss: 0.3209
-Epoch 18/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9045 - loss: 0.3394 - val_acc: 0.9114 - val_loss: 0.3185
-Epoch 19/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 2ms/step - acc: 0.9081 - loss: 0.3316 - val_acc: 0.9131 - val_loss: 0.3165
-Epoch 20/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9072 - loss: 0.3361 - val_acc: 0.9129 - val_loss: 0.3144
-Epoch 21/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9093 - loss: 0.3287 - val_acc: 0.9137 - val_loss: 0.3124
-Epoch 22/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 4s 3ms/step - acc: 0.9061 - loss: 0.3333 - val_acc: 0.9141 - val_loss: 0.3110
-Epoch 23/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9098 - loss: 0.3243 - val_acc: 0.9144 - val_loss: 0.3093
-Epoch 24/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9109 - loss: 0.3231 - val_acc: 0.9152 - val_loss: 0.3078
-Epoch 25/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9099 - loss: 0.3222 - val_acc: 0.9159 - val_loss: 0.3065
-Epoch 26/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 2ms/step - acc: 0.9094 - loss: 0.3223 - val_acc: 0.9156 - val_loss: 0.3052
-Epoch 27/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9093 - loss: 0.3212 - val_acc: 0.9161 - val_loss: 0.3039
-Epoch 28/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 3s 3ms/step - acc: 0.9124 - loss: 0.3136 - val_acc: 0.9164 - val_loss: 0.3027
-Epoch 29/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9122 - loss: 0.3174 - val_acc: 0.9168 - val_loss: 0.3016
-Epoch 30/30
-750/750 ━━━━━━━━━━━━━━━━━━━━ 2s 2ms/step - acc: 0.9140 - loss: 0.3116 - val_acc: 0.9178 - val_loss: 0.3005
-```
-
+> 결과 :![alt text](<../../../assets/img/ARM/AI/image copy 53.png>)
+ 
 ```python
 acc = hist.history['acc']
 val_acc = hist.history['val_acc']
@@ -252,6 +190,7 @@ plt.legend()
 plt.show()
 ```
 > 결과: ![alt text](<../../../assets/img/ARM/AI/image copy 50.png>)
+
 ```python
 # 테스트용 데이터 평가
 md.evaluate(test_x2, test_y)
@@ -261,6 +200,8 @@ weight = md.get_weights()
 weight
 ```
 > 결과: ![alt text](<../../../assets/img/ARM/AI/image copy 51.png>)
+
+
 ```python
 # Model Loss 시각화
 plt.plot(hist.history['loss'], label='loss')
