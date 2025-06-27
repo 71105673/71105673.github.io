@@ -4,44 +4,142 @@ date: "2025-06-27"
 thumbnail: "../../../assets/img/ARM/AI/image copy 32.png"
 ---
 
-## 1. 🧠 AI 활용사례 (AI Use Case)
-- **DL 유형 (DL Type)**  
-  - 분류 (Classification)  
-  - 탐지 (Detection)  
-  - 분할 (Segmentation)  
+# 접근 
+>mkdir F_MNIST
+>
+>cd F_MNIST
+>
+>python3 -m venv .fmnist
+>
+>source .fmnist/bin/activate
+>
+>pip install tensorflow matplotlib PyQt5 scikit-learn
+>
+>export QT_QPA_PLATFORM=wayland -> 터미널 오픈시 실행
+>
+>python fs_mnist.py
 
-> 📌 **단계 이름:** `Use Case`
+## fs_mnist.py
 
----
+```python
+import tensorflow as tf
+from tensorflow import keras
 
-## 2. 📂 데이터 준비 (Data Preparation)
-- **데이터셋 (Datasets)**  
-  - 데이터 수집 (예: 이미지, 동영상, 오디오 등)  
-  - 주석(Annotation)
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 
-> 📌 **단계 이름:** `Data-prep`
+# dataset load
+fashion_mnist = keras.datasets.fashion_mnist
 
----
+# spilt data (train / test)
+(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
 
-## 3. 🏋️ 모델 학습 (Training)
-- **모델 종류**  
-  - 자체 개발 모델 (In-house model)  
-  - 오픈 모델 (Open model)  
-  - 모델 학습 (Model training)
+print(train_images.shape)
+print(train_labels.shape)
+print(test_images.shape)
+print(test_labels.shape)
 
-> 📌 **단계 이름:** `Training`
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+               
+matplotlib.use('Qt5Agg')
+NUM=20
+plt.figure(figsize=(15,15))
+plt.subplots_adjust(hspace=1)
+for idx in range(NUM):
+    sp = plt.subplot(5,5,idx+1)
+    plt.imshow(train_images[idx])
+    plt.title(f'{class_names[train_labels[idx]]}')
+plt.show()
 
----
+plt.figure()
+plt.imshow(train_images[0])
+plt.colorbar()
+plt.grid(False)
+plt.show()
 
-## 4. 📈 최적화 (Optimization - Training 단계)
-- 학습 최적화  
-- 정확도 개선 (Accuracy)
+# 간단한 이미지 전처리 (for ANN)
+train_images = train_images / 255.0
+test_images = test_images / 255.0
 
-> 📌 **단계 이름:** `Optimization`
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
----
+plt.figure(figsize=(10,8))
+for i in range(20):
+    plt.subplot(4,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
 
-## 5. 🚀 배포 (Deployment - Inference 단계)
-- 추론 (Inference) 최적화  
-- 엣지 디바이스에 모델 배포
+model = keras.Sequential ([
+    keras.layers.Flatten(input_shape=(28,28)),
+    keras.layers.Dense(128, activation='relu'),
+    keras.layers.Dense(10, activation='softmax'),
+])
 
+model.summary()
+
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+model.fit(train_images, train_labels, epochs=20)
+
+predictions = model.predict(test_images)
+
+predictions[0]
+
+np.argmax(predictions[0])
+
+test_labels[0]
+
+def plot_image(i, predictions_array, true_label, img):
+  predictions_array, true_label, img = predictions_array[i], true_label[i], img[i]
+  plt.grid(False)
+  plt.xticks([])
+  plt.yticks([])
+
+  plt.imshow(img, cmap=plt.cm.binary)
+
+  predicted_label = np.argmax(predictions_array)
+  if predicted_label == true_label:
+    color = 'blue'
+  else:
+    color = 'red'
+
+  plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
+                                100*np.max(predictions_array),
+                                class_names[true_label]),
+                                color=color)
+
+def plot_value_array(i, predictions_array, true_label):
+  predictions_array, true_label = predictions_array[i], true_label[i]
+  plt.grid(False)
+  plt.xticks([])
+  plt.yticks([])
+  thisplot = plt.bar(range(10), predictions_array, color="#777777")
+  plt.ylim([0, 1])
+  predicted_label = np.argmax(predictions_array)
+
+  thisplot[predicted_label].set_color('red')
+  thisplot[true_label].set_color('blue')
+
+num_rows = 5
+num_cols = 3
+num_images = num_rows*num_cols
+plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+for i in range(num_images):
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image(i, predictions, test_labels, test_images)
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_value_array(i, predictions, test_labels)
+plt.show()
+
+from sklearn.metrics import accuracy_score
+print('accuracy score : ', accuracy_score(tf.math.argmax(predictions, -1), test_labels))
+```
