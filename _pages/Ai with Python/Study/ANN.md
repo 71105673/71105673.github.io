@@ -321,24 +321,42 @@ plt.xlabel('Epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.show()
 ```
+### sgd (epoch = 30, Batch_size = 64, validation_split = 0.2)
+**Test Accuracy: 0.4045, Test Loss: 1.7288**
+
+![alt text](<../../../assets/img/ARM/AI/image copy 60.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 61.png>)
 
 
+### Sgd(epoch = 30, Batch_size = 128, validation_split = 0.2)
+**Test Accuracy: 0.3945, Test Loss: 1.7484**
 
+![alt text](<../../../assets/img/ARM/AI/image copy 62.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 63.png>)
 
+### Sgd(epoch = 30, Batch_size = 64, validation_split = 0.1)
+**Test Accuracy: 0.3430, Test Loss: 1.8638**
 
+![alt text](<../../../assets/img/ARM/AI/image copy 64.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 65.png>)
 
+### Sgd(epoch = 30, Batch_size = 128, validation_split = 0.1)
+**Test Accuracy: 0.4017, Test Loss: 1.7334**
 
+![alt text](<../../../assets/img/ARM/AI/image copy 66.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 67.png>)
 
+### Sgd(epoch = 30, Batch_size = 64, validation_split = 0.3)
+**Test Accuracy: 0.3939, Test Loss: 1.7393**
 
+![alt text](<../../../assets/img/ARM/AI/image copy 68.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 69.png>)
 
+### Sgd(epoch = 30, Batch_size = 128, validation_split = 0.3)
+**Test Accuracy: 0.3965, Test Loss: 1.7414**
 
-
-
-
-
-
-
-
+![alt text](<../../../assets/img/ARM/AI/image copy 70.png>)
+![alt text](<../../../assets/img/ARM/AI/image copy 71.png>)
 
 ## Adam
 
@@ -427,19 +445,23 @@ plt.legend(['train', 'test'], loc='upper left')
 plt.show()
 ```
 
+### Adam(epoch = 30, Batch_size = 64, validation_split = 0.15)
+**Test Accuracy: 0.3892, Test Loss: 1.7702**
 
+### Adam(epoch = 30, Batch_size= 128, validation_split=0.15)
+**Test Accuracy: 0.3517, Test Loss: 1.8472**
 
+### Adam(epoch = 30, Batch_size = 64, validation_split = 0.05)
+**Test Accuracy: 0.3892, Test Loss: 1.7702**
 
+### Adam(epoch = 30, Batch_size = 128, validation_split = 0.05)
+**Test Accuracy: 0.3737, Test Loss: 1.8149**
 
+### Adam(epoch = 30, Batch_size = 64, validation_split = 0.25)
+**Test Accuracy: 0.3822, Test Loss: 1.7803**
 
-
-
-
-
-
-
-
-
+### Adam(epoch = 30, Batch_size = 128, validation_split = 0.25)
+**Test Accuracy: 0.3738, Test Loss: 1.7920**
 
 # ANN 모델 실습
 
