@@ -214,7 +214,7 @@ plt.show()
 ```
 > 결과:![alt text](<../../../assets/img/ARM/AI/image copy 52.png>)
 
-
+# CIFAR10 데이터셋 이용
 
 
 
