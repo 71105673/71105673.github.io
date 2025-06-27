@@ -153,6 +153,7 @@ train_x.shape, train_y.shape, # Train 데이터 크기 확인
 test_x.shape, test_y.shape # Test 데이터 크기 확인
 ```
 > 결과 : ((10000, 28, 28), (10000,))
+
 ```python
 # 이미지 확인하기
 from PIL import Image
