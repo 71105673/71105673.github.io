@@ -1,5 +1,5 @@
 ---
-title: "Day-3 Deep Learning Workflow" 
+title: "Day-1 Deep Learning Workflow" 
 date: "2025-06-24"
 thumbnail: "../../../assets/img/ARM/AI/image.png"
 ---
