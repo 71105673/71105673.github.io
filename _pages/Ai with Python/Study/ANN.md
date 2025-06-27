@@ -715,16 +715,34 @@ md.summary()  # 모델 구조 출력
 ![alt text](<../../../assets/img/ARM/AI/신경망/image copy 11.png>)
 
 
-##
+## LeakyReLU 추가
+```python
+################################## 4. 모델 설정 LeakyReLU #################################
 
+# 4-1. 필요한 라이브러리
+from tensorflow.keras.models import Sequential  
+from tensorflow.keras.layers import Dense, Dropout, LeakyReLU  # LeakyReLU 추가
 
+# 4-2. 모델 구성
+md = Sequential()  
+md.add(Dense(128, activation='relu', input_shape=(28*28,)))  # 첫 번째 은닉층 (ReLU)
+md.add(Dense(64, activation='relu'))                          # 두 번째 은닉층 (ReLU)
+md.add(Dense(32))                                             # 세 번째 은닉층 (LeakyReLU 적용 전)
+md.add(LeakyReLU(alpha=0.01))                                 # LeakyReLU 활성화 함수 적용
+md.add(Dropout(0.5))                                          # 과적합 방지를 위한 Dropout
+md.add(Dense(10, activation='softmax'))                       # 다중 분류를 위한 소프트맥스 출력층
 
+md.summary()  # 모델 구조 출력
+```
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 12.png>)
 
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 13.png>)
 
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 14.png>)
 
+>acc: 0.9635 - loss: 0.1223
 
-
-
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 15.png>)
 
 
 
