@@ -141,7 +141,7 @@ y_true 위치의 softmax 확률에 -log를 취한 값
 
 ![alt text](<../../../assets/img/ARM/AI/image copy 59.png>)
 
-# Mnist 실습
+# Mnist 실습 -> 선형 모델
 ```python
 import numpy as np
 import pandas as pd
@@ -528,7 +528,172 @@ Adam은 빠른 초기 수렴이 가능하다는 장점이 있으나, **단일 �
 
 
 
-# ANN 모델 실습
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Mnist 실습 -> 신경망 모델
+
+```python
+import numpy as np  
+import pandas as pd
+
+# 2. 데이터셋 불러오기
+from tensorflow.keras.datasets.mnist import load_data  
+(train_x, train_y), (test_x, test_y) = load_data()
+
+# 2-1. 데이터 확인
+train_x.shape, train_y.shape  # 학습 데이터 크기 확인  
+test_x.shape, test_y.shape    # 테스트 데이터 크기 확인
+
+# 2-2. 이미지 확인
+from PIL import Image  
+img = train_x[0]
+
+import matplotlib.pyplot as plt  
+img1 = Image.fromarray(img, mode='L')  
+plt.imshow(img1)  
+plt.show()
+
+train_y[0]  # 첫 번째 데이터의 라벨 확인
+```
+> 결과:
+> ![alt text](<../../../assets/img/ARM/AI/image copy 48.png>)
+
+```python
+#3. 데이터 전처리
+
+#3-1. 입력 형식 변환 (3차원 → 2차원)
+train_x1 = train_x.reshape(60000, -1)  
+test_x1 = test_x.reshape(10000, -1)
+
+#3-2. 정규화 (0~1 범위로 변환)
+train_x2 = train_x1 / 255  
+test_x2 = test_x1 / 255
+```
+
+```python
+#4. 모델 설정
+
+#4-1. 필요한 라이브러리
+from tensorflow.keras.models import Sequential  
+from tensorflow.keras.layers import Dense
+
+#4-2. 모델 구성
+md = Sequential()  
+md.add(Dense(128, activation='relu', input_shape=(28*28,)))  
+md.add(Dense(64, activation='relu'))  
+md.add(Dense(10, activation='softmax'))  # 다중 분류를 위한 소프트맥스 출력층
+md.summary()  # 모델 구조 출력
+```
+> 결과:
+> ![alt text](../../../assets/img/ARM/AI/신경망/image.png)
+
+```python
+# 5. 모델 학습
+
+# 5-1. 모델 컴파일
+md.compile(loss='sparse_categorical_crossentropy',  
+           optimizer='sgd',  
+           metrics=['acc'])
+
+#5-2. 모델 학습 실행
+hist = md.fit(train_x2, train_y,  
+              epochs=30,  
+              batch_size=64,  
+              validation_split=0.2)
+```
+> 결과:![alt text](<../../../assets/img/ARM/AI/신경망/image copy.png>)
+>
+
+```python
+# 6-1 학습 곡선 시각화
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 8))
+plt.plot(epoch, acc, 'b', label='Training accuracy')
+plt.plot(epoch, val_acc, 'r', label='Validation accuracy')
+plt.title('Training and Validation Accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.show()
+```
+>결과:
+>![alt text](<../../../assets/img/ARM/AI/신경망/image copy 2.png>)
+
+
+```python
+#6-2. 테스트 데이터 평가
+md.evaluate(test_x2, test_y)
+
+#7. 가중치 저장
+weight = md.get_weights()  
+weight
+```
+
+```python
+#8. 시각화
+# 학습 결과 정보 추출
+acc = hist.history['acc']
+val_acc = hist.history['val_acc']
+epoch = range(1, len(acc) + 1)
+
+#8-1. 손실 시각화
+plt.plot(hist.history['loss'], label='loss')  
+plt.plot(hist.history['val_loss'], label='val_loss')  
+plt.title('model loss')  
+plt.ylabel('loss')  
+plt.xlabel('epoch')  
+plt.legend(['train', 'test'], loc='upper left')  
+plt.show()
+```
+>결과:
+>![alt text](<../../../assets/img/ARM/AI/신경망/image copy 3.png>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ANN 모델 실습 -> 이미지 처리가 어떻게 처리되나 확인하는 용
 
 ## 접근 
 >mkdir F_MNIST
