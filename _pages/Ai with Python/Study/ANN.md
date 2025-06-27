@@ -683,9 +683,9 @@ md.summary()  # 모델 구조 출력
 
 ![alt text](<../../../assets/img/ARM/AI/신경망/image copy 5.png>)
 
-![alt text](<../../../assets/img/ARM/AI/신경망/image copy 6.png>)
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 16.png>)
 
-> acc: 0.9640 - loss: 0.1172
+> acc: 0.9683 - loss: 0.1081
 
 ![alt text](<../../../assets/img/ARM/AI/신경망/image copy 7.png>)
 
@@ -779,6 +779,8 @@ md.summary()  # 모델 구조 출력
 - **ReLU 층 추가**는 모델의 복잡도를 높였지만 validation 정확도는 떨어지는 경향이 보임 → **과적합 가능성**.
 - **Dropout 도입**은 오버피팅을 줄이고, 학습 안정성과 일반화 성능을 개선함.
 - **LeakyReLU 도입**은 ReLU의 단점(죽은 뉴런 문제)을 보완하여 **최고의 성능**과 **낮은 손실**을 보였음.
+
+---
 
 
 
