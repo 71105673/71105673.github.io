@@ -644,6 +644,8 @@ md.evaluate(test_x2, test_y)
 weight = md.get_weights()  
 weight
 ```
+>결과:
+>acc: 0.9640 - loss: 0.1239
 
 ```python
 #8. 시각화
@@ -663,6 +665,60 @@ plt.show()
 ```
 >결과:
 >![alt text](<../../../assets/img/ARM/AI/신경망/image copy 3.png>)
+
+## ReLU Layer 추가
+```python
+from tensorflow.keras.models import Sequential  
+from tensorflow.keras.layers import Dense
+
+#모델 구성
+md = Sequential()  
+md.add(Dense(128, activation='relu', input_shape=(28*28,)))  
+md.add(Dense(64, activation='relu')) 
+md.add(Dense(32, activation='relu')) 
+md.add(Dense(10, activation='softmax'))  # 다중 분류를 위한 소프트맥스 출력층
+md.summary()  # 모델 구조 출력
+```
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 4.png>)
+
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 5.png>)
+
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 6.png>)
+
+> acc: 0.9640 - loss: 0.1172
+
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 7.png>)
+
+## DropOut 추가
+```python
+# 필요한 라이브러리
+from tensorflow.keras.models import Sequential  
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dropout
+# 모델 구성
+md = Sequential()  
+md.add(Dense(128, activation='relu', input_shape=(28*28,)))  
+md.add(Dense(64, activation='relu')) 
+md.add(Dense(32, activation='relu')) 
+md.add(Dropout(0.5))
+md.add(Dense(10, activation='softmax'))  # 다중 분류를 위한 소프트맥스 출력층
+md.summary()  # 모델 구조 출력
+```
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 8.png>)
+
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 9.png>)
+
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 10.png>)
+
+>acc: 0.9669 - loss: 0.1117
+
+![alt text](<../../../assets/img/ARM/AI/신경망/image copy 11.png>)
+
+
+##
+
+
+
 
 
 
