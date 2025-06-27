@@ -744,8 +744,41 @@ md.summary()  # 모델 구조 출력
 
 ![alt text](<../../../assets/img/ARM/AI/신경망/image copy 15.png>)
 
+## 📊 모델별 성능 비교 및 고찰
 
+### ✅ 실험 모델 구성
 
+1. **기본 모델 (2-layer, ReLU)**  
+   - 구조: `Dense(128, ReLU) → Dense(64, ReLU) → Dense(10, Softmax)`
+
+2. **+ 32-ReLU 추가 (3-layer)**  
+   - 구조: `Dense(128, ReLU) → Dense(64, ReLU) → Dense(32, ReLU) → Dense(10, Softmax)`
+
+3. **+ Dropout 추가**  
+   - 구조: `Dense(128, ReLU) → Dense(64, ReLU) → Dense(32, ReLU) → Dropout(0.5) → Dense(10, Softmax)`
+
+4. **+ LeakyReLU 변경**  
+   - 구조: `Dense(128, ReLU) → Dense(64, ReLU) → Dense(32, LeakyReLU) → Dropout(0.5) → Dense(10, Softmax)`
+
+---
+
+### 📈 결과 비교표
+
+| 모델 번호 | 구조 요약 | Validation Accuracy | Validation Loss | 특이점 |
+|-----------|------------|---------------------|------------------|--------|
+| 1. 기본   | 128 → 64 → 10 | 약 **97.5%** | 보통 | 기본 성능 우수 |
+| 2. + 32ReLU | 128 → 64 → 32 → 10 | 약 **97.3%** | 증가 | 과적합 경향 |
+| 3. + Dropout | 128 → 64 → 32 → Dropout → 10 | 약 **97.6%** | 안정화 | 과적합 억제 |
+| 4. + LeakyReLU | 128 → 64 → 32(Leaky) → Dropout → 10 | 약 **97.8%** | 가장 낮음 | 일반화 및 안정성 향상 |
+
+---
+
+### 📝 결과 및 고찰
+
+- **기본 모델**은 단순하지만 높은 정확도를 보이며 baseline으로 좋은 성능을 냄.
+- **ReLU 층 추가**는 모델의 복잡도를 높였지만 validation 정확도는 떨어지는 경향이 보임 → **과적합 가능성**.
+- **Dropout 도입**은 오버피팅을 줄이고, 학습 안정성과 일반화 성능을 개선함.
+- **LeakyReLU 도입**은 ReLU의 단점(죽은 뉴런 문제)을 보완하여 **최고의 성능**과 **낮은 손실**을 보였음.
 
 
 
