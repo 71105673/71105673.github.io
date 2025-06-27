@@ -165,7 +165,9 @@ plt.imshow(img1)
 
 train_y[0]
 ```
-> 결과:![alt text](<../../../assets/img/ARM/AI/image copy 48.png>)
+> 결과:
+> ![alt text](<../../../assets/img/ARM/AI/image copy 48.png>)
+
 ```python
 # 데이터 전처리
 
