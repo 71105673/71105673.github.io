@@ -3,8 +3,138 @@ title: "Day-5 ANN"
 date: "2025-06-27"
 thumbnail: "../../../assets/img/ARM/AI/image copy 32.png"
 ---
+# 선형 모델 학습
 
-# 접근 
+## 선형 모델 학습 과정
+![alt text](<../../../assets/img/ARM/AI/image copy 37.png>)
+
+## 벡터화 
+- 선형 모델에서는 입력 데이터는 벡터 형태로 정리
+- 2차원 또는 3차원 이미지 데이터를 1차원 벡터로 변환
+- 선형 모델에서는 입력이 반드시 1차원 벡터, 따라서 벡터화 필수이다.
+- 다음은 4X4 픽셀 이미지 예시이다
+![alt text](<../../../assets/img/ARM/AI/image copy 38.png>)
+
+## 벡터화 코드
+
+```python
+import numpy as np
+
+# 0~255 사이의 임의의 정수로 구성된 4x4 행렬 생성
+a = np.random.randint(0, 255, (4, 4))
+print("원본 4x4 행렬:")
+print(a)
+
+# flatten을 사용해 1차원 배열(벡터)로 변환
+b = a.flatten()
+print("\nFlatten된 1차원 배열:")
+print(b)
+
+# reshape을 사용해 행렬 크기를 변경
+# -1은 자동 계산되며, 이 경우 총 원소 수가 16이므로 reshape(-1)은 (16,)과 동일
+# 예: (2, 8)로 바꾸고 싶다면 reshape(2, -1) 또는 reshape(2, 8) 모두 가능
+c = a.reshape(-1)
+print("\nReshape(-1) 결과:")
+print(c)
+```
+## 선형 분류기 - Score 함수
+
+**score = W·x + b**
+
+- x: 입력 벡터 (flatten된 이미지)
+
+- W: 가중치 행렬 (클래스 수 × 입력 특성 수)
+
+- b: 바이어스 벡터
+
+- score: 각 클래스에 대한 점수 (score vector)
+
+![alt text](<../../../assets/img/ARM/AI/image copy 39.png>)
+
+**병렬처리**
+
++ X: m개의 입력 샘플 (m, n), W: 가중치 (k, n)
+
++ 결과 S: score (m, k)
+
++ S = np.dot(X, W.T) + b
+
+![alt text](<../../../assets/img/ARM/AI/image copy 40.png>)
+
+## Sofemax 분류기
+Softmax는 각 클래스의 점수를 확률로 변환합니다:
+![alt text](<../../../assets/img/ARM/AI/image copy 45.png>)
+
+s_j: 클래스 j의 점수 (score)
+
+전체 클래스의 score를 softmax에 통과시켜 확률 분포로 만듭니다.
+
+![alt text](<../../../assets/img/ARM/AI/image copy 41.png>)
+
+**진행 과정**
+  
+![alt text](<../../../assets/img/ARM/AI/image copy 42.png>)
+
+**ross Entropy Loss 과정**
+
+Softmax의 출력 결과와 실제 정답 간의 차이를 측정하는 손실 함수:
+
+![alt text](<../../../assets/img/ARM/AI/image copy 47.png>)
+
+y_true 위치의 softmax 확률에 -log를 취한 값
+
+정답 클래스의 확률이 높을수록 loss가 낮아짐
+
+![alt text](<../../../assets/img/ARM/AI/image copy 43.png>)
+
+**최적화: SGD**
+
+학습은 경사 하강법을 기반으로 최적화됩니다:
+
+    Full Gradient Descent는 전체 데이터를 사용하지만 연산량이 많음
+
+    대신 **Stochastic Gradient Descent (SGD)**는 일부 배치만 사용:
+
+작은 배치(mini-batch) 단위로 파라미터를 조금씩 업데이트하면서 전체적으로 손실을 줄여나가는 방식
+
+![alt text](<../../../assets/img/ARM/AI/image copy 43.png>)
+
+
+## 🔍 전체 학습 흐름 요약
+
+    이미지 → 벡터화
+
+    벡터 → Score 계산 (Wx + b)
+
+    Score → Softmax → 확률 분포
+
+    예측 확률과 실제 라벨로 Cross Entropy Loss 계산
+
+    Loss에 따라 SGD로 파라미터 업데이트
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ANN 모델 실습
+
+## 접근 
 >mkdir F_MNIST
 >
 >cd F_MNIST
