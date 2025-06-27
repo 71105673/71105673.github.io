@@ -113,6 +113,33 @@ y_true 위치의 softmax 확률에 -log를 취한 값
     Loss에 따라 SGD로 파라미터 업데이트
 
 
+# 활성화 함수 
+## Sigmoid
+**자연어 처리등의 특별한 경우를 제외하고 잘 사용되지 않음 (컴퓨터 자원을 많이 소모함)**
+
+![alt text](<../../../assets/img/ARM/AI/image copy 54.png>)
+
+## tanh
+**원점 대칭 특징으로 인하여 sigmoid보다 나아졌지만, 여전히 학습이 되지 않는 구간이 많다.**
+
+![alt text](<../../../assets/img/ARM/AI/image copy 55.png>)
+
+## ReLU
+**성능이 우수하며 음수인 경우는 제외된다**
+
+![alt text](<../../../assets/img/ARM/AI/image copy 56.png>)
+
+# 학습 분석
+
+## 과적합
+
+![alt text](<../../../assets/img/ARM/AI/image copy 57.png>)
+
+## 학습곡선
+
+![alt text](<../../../assets/img/ARM/AI/image copy 58.png>)
+
+![alt text](<../../../assets/img/ARM/AI/image copy 59.png>)
 
 # Mnist 실습
 ```python
@@ -215,6 +242,190 @@ plt.show()
 > 결과:![alt text](<../../../assets/img/ARM/AI/image copy 52.png>)
 
 # CIFAR10 데이터셋 이용
+
+## sqd
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from PIL import Image
+
+# 1. CIFAR-10 데이터 불러오기
+from tensorflow.keras.datasets import cifar10
+(train_x, train_y), (test_x, test_y) = cifar10.load_data()
+
+print(train_x.shape, train_y.shape)  # (50000, 32, 32, 3)
+print(test_x.shape, test_y.shape)    # (10000, 32, 32, 3)
+
+# 2. 이미지 확인
+img = train_x[0]
+img1 = Image.fromarray(img)
+plt.imshow(img1)
+plt.title(f'Class: {train_y[0][0]}')
+plt.show()
+
+# 3. 데이터 전처리
+
+## 3-1: 4차원 → 2차원 (벡터화: 32x32x3 = 3072)
+train_x1 = train_x.reshape(50000, -1)
+test_x1 = test_x.reshape(10000, -1)
+
+## 3-2: 픽셀 정규화 (0~1)
+train_x2 = train_x1 / 255.0
+test_x2 = test_x1 / 255.0
+
+# 4. 모델 설정
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+md = Sequential()
+md.add(Dense(10, activation='softmax', input_shape=(32 * 32 * 3,)))  # CIFAR-10에 맞는 입력 크기
+md.summary()
+
+# 5. 모델 컴파일
+md.compile(loss='sparse_categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+
+# 6. 모델 학습
+hist = md.fit(train_x2, train_y, epochs=30, batch_size=128, validation_split=0.1)
+
+# 7. 학습 결과 시각화
+
+## 정확도 시각화
+acc = hist.history['accuracy']
+val_acc = hist.history['val_accuracy']
+epoch = np.arange(1, len(acc) + 1)
+
+plt.figure(figsize=(10, 8))
+plt.plot(epoch, acc, 'b', label='Training accuracy')
+plt.plot(epoch, val_acc, 'r', label='Validation accuracy')
+plt.title('Training and validation accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.show()
+
+# 8. 테스트 데이터 평가
+test_loss, test_acc = md.evaluate(test_x2, test_y)
+print(f'Test Accuracy: {test_acc:.4f}, Test Loss: {test_loss:.4f}')
+
+# 9. 가중치 저장
+weights = md.get_weights()
+print("Model weights:", weights)
+
+# 10. 손실 시각화
+plt.plot(hist.history['loss'], label='loss')
+plt.plot(hist.history['val_loss'], label='val_loss')
+plt.title('Model Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Adam
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from PIL import Image
+
+# 1. CIFAR-10 데이터 불러오기
+from tensorflow.keras.datasets import cifar10
+(train_x, train_y), (test_x, test_y) = cifar10.load_data()
+
+print(train_x.shape, train_y.shape)  # (50000, 32, 32, 3)
+print(test_x.shape, test_y.shape)    # (10000, 32, 32, 3)
+
+# 2. 이미지 확인
+img = train_x[0]
+img1 = Image.fromarray(img)
+plt.imshow(img1)
+plt.title(f'Class: {train_y[0][0]}')
+plt.show()
+
+# 3. 데이터 전처리
+
+## 3-1: 4차원 → 2차원 (벡터화: 32x32x3 = 3072)
+train_x1 = train_x.reshape(50000, -1)
+test_x1 = test_x.reshape(10000, -1)
+
+## 3-2: 픽셀 정규화 (0~1)
+train_x2 = train_x1 / 255.0
+test_x2 = test_x1 / 255.0
+
+# 4. 모델 설정
+
+## 4-1 라이브러리 불러오기
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.optimizers import Adam
+
+
+## 4-2. 모델 설정
+md = Sequential()
+md.add(Input(shape=(32*32*3,)))         # CIFAR10은 32x32x3 = 3072
+md.add(Dense(10, activation='softmax')) # 단일 출력층
+md.summary()  # 모델 요약
+
+# 5. 모델 학습 진행
+## 모델 complile: 손실 함수, 최적화 함수, 측정 함수 설정
+md.compile(loss='sparse_categorical_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
+
+# 6. 모델 학습: 학습 횟수. batch_size, 검증용 데이터 설정
+hist = md.fit(train_x2, train_y, epochs=30, batch_size=128, validation_split=0.05)
+
+# 7. 학습 결과 시각화
+
+## 정확도 시각화
+acc = hist.history['accuracy']
+val_acc = hist.history['val_accuracy']
+epoch = np.arange(1, len(acc) + 1)
+
+plt.figure(figsize=(10, 8))
+plt.plot(epoch, acc, 'b', label='Training accuracy')
+plt.plot(epoch, val_acc, 'r', label='Validation accuracy')
+plt.title('Training and validation accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.show()
+
+# 8. 테스트 데이터 평가
+test_loss, test_acc = md.evaluate(test_x2, test_y)
+print(f'Test Accuracy: {test_acc:.4f}, Test Loss: {test_loss:.4f}')
+
+# 9. 가중치 저장
+weights = md.get_weights()
+print("Model weights:", weights)
+
+# 10. 손실 시각화
+plt.plot(hist.history['loss'], label='loss')
+plt.plot(hist.history['val_loss'], label='val_loss')
+plt.title('Model Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+```
 
 
 
