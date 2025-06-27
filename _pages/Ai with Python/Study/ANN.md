@@ -1,7 +1,7 @@
 ---
-title: "Day-3 Deep Learning Workflow" 
-date: "2025-06-24"
-thumbnail: "../../../assets/img/ARM/AI/image.png"
+title: "Day-5 ANN" 
+date: "2025-06-27"
+thumbnail: "../../../assets/img/ARM/AI/image copy 32.png"
 ---
 
 ## 1. 🧠 AI 활용사례 (AI Use Case)
