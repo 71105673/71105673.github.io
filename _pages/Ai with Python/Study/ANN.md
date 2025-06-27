@@ -355,9 +355,6 @@ plt.show()
 ### Sgd(epoch = 30, Batch_size = 128, validation_split = 0.3)
 **Test Accuracy: 0.3965, Test Loss: 1.7414**
 
-![alt text](<../../../assets/img/ARM/AI/image copy 70.png>)
-![alt text](<../../../assets/img/ARM/AI/image copy 71.png>)
-
 ## Adam
 
 ```python
@@ -447,21 +444,37 @@ plt.show()
 
 ### Adam(epoch = 30, Batch_size = 64, validation_split = 0.15)
 **Test Accuracy: 0.3892, Test Loss: 1.7702**
+![alt text](../../../assets/img/ARM/AI/Adam/image.png)
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy.png>)
 
 ### Adam(epoch = 30, Batch_size= 128, validation_split=0.15)
 **Test Accuracy: 0.3517, Test Loss: 1.8472**
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 2.png>)
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 3.png>)
 
 ### Adam(epoch = 30, Batch_size = 64, validation_split = 0.05)
 **Test Accuracy: 0.3892, Test Loss: 1.7702**
 
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 2.png>)
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 3.png>)
+
 ### Adam(epoch = 30, Batch_size = 128, validation_split = 0.05)
 **Test Accuracy: 0.3737, Test Loss: 1.8149**
+
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 6.png>)
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 7.png>)
 
 ### Adam(epoch = 30, Batch_size = 64, validation_split = 0.25)
 **Test Accuracy: 0.3822, Test Loss: 1.7803**
 
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 8.png>)
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 9.png>)
+
 ### Adam(epoch = 30, Batch_size = 128, validation_split = 0.25)
 **Test Accuracy: 0.3738, Test Loss: 1.7920**
+
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 10.png>)
+![alt text](<../../../assets/img/ARM/AI/Adam/image copy 11.png>)
 
 # ANN 모델 실습
 
