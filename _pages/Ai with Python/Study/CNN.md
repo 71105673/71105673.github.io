@@ -271,7 +271,77 @@ m0 = ConvDraw(nimg31, filters, (12, 10), 0)
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 10.png>)
 
 
-# 실습 CIFAR10_CNN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# CIFAR-10 CNN 실험 보고서
+
+## 1. 실험 개요
+
+본 실험은 대표적인 이미지 분류 데이터셋인 CIFAR-10을 활용하여, 합성곱 신경망(CNN) 모델의 구조와 다양한 정규화 및 최적화 기법이 분류 성능과 일반화에 미치는 영향을 분석하는 것을 목표로 한다. 
+
+실험에서는 데이터 전처리, 모델 설계, 정규화(L2) 및 드롭아웃 적용, 그리고 두 가지 대표적인 optimazer(Adam, SGD with momentum)를 조합한 하이브리드 학습 전략을 적용하였다. 이를 통해 과적합 방지, 학습 속도, 최종 분류 성능 등 다양한 관점에서 CNN의 동작 원리와 하이퍼파라미터의 효과를 체계적으로 관찰하고자 한다.
+
+## 2. 데이터셋 및 전처리
+- CIFAR-10: 32x32 크기의 컬러 이미지 60,000장(학습 50,000장, 테스트 10,000장), 10개 클래스(비행기, 자동차, 새, 고양이, 사슴, 개, 개구리, 말, 배, 트럭)
+- 전처리:
+   - 모든 이미지 픽셀 값을 0~1 범위로 정규화하여 신경망 학습의 안정성 향상
+   - 라벨은 원-핫 인코딩(one-hot encoding)으로 변환하여 다중 클래스 분류에 적합하게 처리
+
+## 3. 모델 구조 및 설계 의의
+- 입력: (32, 32, 3) 크기의 컬러 이미지
+- 합성곱/풀링 계층:
+  - Conv2D(32, 3x3, relu) → MaxPool2D(2x2): 저수준 특징 추출 및 공간 축소
+  - Conv2D(64, 3x3, relu) → MaxPool2D(2x2): 더 복잡한 패턴 학습 및 추가 축소
+  - Conv2D(64, 3x3, relu) →고수준 특징 추출
+- Flatten: 3D feature map을 1D 벡터로 변환하여 완전연결층 입력으로 사용
+- Full connected:
+  - Dense(64, relu, L2 정규화): 고차원 특징 조합 및 L2로 가중치 크기 억제
+  - Dropout(0.2): 일부 뉴런 무작위 제거로 과적합 방지
+  - Dense(10, softmax): 10개 class에 대한 확률 출력
+
+## 4. 정규화 및 드롭아웃 적용
+- L2 정규화: Dense(64) 레이어에만 적용, 계수 0.0005로 가중치의 크기를 제한하여 과적합을 억제
+- Dropout: Dense(64) 뒤에 0.3 적용, 학습 중 일부 뉴런을 무작위로 비활성화하여 네트워크가 특정 뉴런에 과도하게 의존하는 것을 방지
+- 적용 목적: 두 기법 모두 모델의 일반화 성능을 높이고, 트레이닝/테스트 정확도의 간격을 줄이기 위함
+
+## 5. 학습 방법 및 옵티마이저 전략
+- 초기 학습(1~13 epoch): Adam(learning_rate=0.001) 사용
+  - Adam은 적응형 학습률과 모멘텀을 결합하여 빠른 수렴과 안정적인 초기 학습을 유도 
+  - 초기 epoch에서 빠르게 손실 감소 및 정확도 향상
+
+- Case 1: pool_size=(2, 2) -> (1, 1)
+- Case2: Filters (32, 64, 64) -> (64, 64, 64)
+- Case3: optimizer 'rmsprop' -> 'Adam'
+- Case 4: Drop Out (rate 0.5) + Adam
+- Case 5: Drop Out (rate 0.5 -> 0.2) 
+- Case6: L2 정규화
+
+## 6. 실험 목적 및 기대 효과
+- 과적합 방지: L2 정규화와 Dropout을 통해 트레이닝/테스트 정확도의 간격을 최소화
+- 최적화 전략 비교: Adam과 SGD의 특성을 실험적으로 비교하여, 실제 학습 곡선과 성능 차이를 관찰
+- CNN 구조의 효과 분석: 합성곱, 풀링, 완전연결, 정규화, 드롭아웃 등 각 요소가 전체 성능에 미치는 영향 해석
+- 실험 설계의 의의: 단일 모델 구조에서 다양한 하이퍼파라미터와 학습 전략을 조합함으로써, 딥러닝 실험의 원리와 실전 적용법을 체계적으로 습득
+
+**코드**
 ```python
 import matplotlib.pyplot as plt
 from tensorflow.keras.datasets import cifar10
@@ -342,11 +412,7 @@ plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and Validation Loss')
 plt.legend()
 plt.show()
-```
-### 결과
-![alt text](<../../../assets/img/ARM/AI/CNN/image copy 11.png>)
 
-```python
 plt.figure(figsize=(10, 10))
 for i in range(25):
     plt.subplot(5, 5, i + 1)
@@ -358,21 +424,11 @@ for i in range(25):
     # which is why you need the extra index
     plt.xlabel(class_names[train_y[i].argmax()])
 plt.show()
-```
-### 결과
-![alt text](<../../../assets/img/ARM/AI/CNN/image copy 12.png>)
 
-![alt text](<../../../assets/img/ARM/AI/CNN/image copy 13.png>)
-
-```python
 print(f'훈련 데이터 수: {len(train_x)}장')
 print(f'테스트 데이터 수: {len(test_x)}장')
 print(f'총 데이터 수: {len(train_x) + len(test_x)}장')
-```
-### 결과
-![alt text](<../../../assets/img/ARM/AI/CNN/image copy 14.png>)
 
-```python
 plt.figure(figsize=(15, 15))
 for i in range(100):
     plt.subplot(10, 10, i + 1)
@@ -383,13 +439,18 @@ for i in range(100):
     plt.xlabel(class_names[train_y[i].argmax()])
 plt.show()
 ```
-### 결과
-![alt text](<../../../assets/img/ARM/AI/CNN/image copy 15.png>)
 
 
-# 하이퍼 파라미터 변경으로 설정 찾아보기
+## 하이퍼 파라미터 변경으로 설정 찾아보기
 
-## Case 1: pool_size=(2, 2) -> (1, 1)
+### Case 0: 기본
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 41.png>)
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 42.png>)
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 44.png>)
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 44.png>)
+
+
+### Case 1: pool_size=(2, 2) -> (1, 1)
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 16.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 17.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 18.png>)
@@ -418,7 +479,7 @@ plt.show()
 
 이는 모델이 훈련 데이터의 노이즈나 특정 패턴까지도 암기하여, 실제 일반화 능력은 떨어진다는 것을 의미합니다.
 
-## Case2: Filters (32, 64, 64) -> (64, 64, 64)
+### Case2: Filters (32, 64, 64) -> (64, 64, 64)
 
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 20.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 21.png>)
@@ -437,7 +498,7 @@ filters=32 vs filters=64 학습 결과 비교 분석
 
 이미 32개 필터로 충분한 표현을 하고 있으며, 기존 필터들이 중복되어 비 효율적으로 학습될 수 있습니다.
 
-## Case3: optimizer 'rmsprop' -> 'Adam'
+### Case3: optimizer 'rmsprop' -> 'Adam'
 ```python
 ############### Adam #########################
 
@@ -518,7 +579,7 @@ plt.show()
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 26.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 27.png>)
 
-## 분석
+### 분석
 두 옵티마이저(rmsprop과 Adam) 간의 큰 성능 차이는 보이지 않습니다.
 
 - 최종 정확도: 훈련 및 검증 정확도 모두 rmsprop일 때와 Adam일 때 거의 동일한 수준 (훈련 약 0.79, 검증 약 0.69)에 도달했습니다.
@@ -527,7 +588,7 @@ plt.show()
 
 - 검증 손실: Adam이 rmsprop보다 약간 더 낮은 최종 검증 손실(약 0.9 vs 0.95-1.0)을 보입니다. 또한 Adam의 검증 손실 곡선은 rmsprop보다 전반적으로 조금 더 안정적인 모습을 보입니다. 특히 후반부에 rmsprop의 검증 손실이 미미하게 상승하거나 정체된 반면, Adam은 약간 더 꾸준히 감소하는 경향을 보여 과적합 징후가 미세하게 완화되었을 수 있습니다.
 
-## Case 4: Drop Out (rate 0.5) + Adam
+### Case 4: Drop Out (rate 0.5) + Adam
 
 ```python
 # Classification : Fully Connected Layer 추가
@@ -560,17 +621,70 @@ model.add(layers.Dense(units=10, activation='softmax'))
     정규화가 너무 강함: 드롭아웃 비율을 너무 높게 설정했거나, 다른 강력한 정규화 기법을 적용했을 경우, 모델이 훈련 데이터에 적합하는 것을 너무 강하게 막아 과소적합이 발생할 수 있습니다.
 
 
-## Case5: DropOut rate = 0.5 -> 0.2
+### Case5: DropOut rate = 0.5 -> 0.2
 
 ![text](<../../../assets/img/ARM/AI/CNN/image copy 32.png>)
 ![text](<../../../assets/img/ARM/AI/CNN/image copy 33.png>) 
 ![text](<../../../assets/img/ARM/AI/CNN/image copy 34.png>) 
 ![text](<../../../assets/img/ARM/AI/CNN/image copy 35.png>)
 
-**재분석**
-
-![alt text](<../../../assets/img/ARM/AI/CNN/image copy 37.png>)
-![alt text](<../../../assets/img/ARM/AI/CNN/image copy 36.png>)
-
 ### 분석
 - 모델의 과도한 정규화를 완하하여 훈련 능력을 개선하여 전반적인 성능(정확도)를 향상시키며 더 이상적인 학습 곡선 형태를 만들었다.
+
+### Case6: L2 정규화, (DropOut rate 0.2)
+```python
+# Classification : Fully Connected Layer 추가
+model.add(layers.Dense(units=64, activation='relu',
+                        kernel_regularizer=regularizers.l2(0.001))) # <-- 여기에 L2 정규화 추가
+model.add(layers.Dropout(0.2))
+model.add(layers.Dense(units=10, activation='softmax'))
+```
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 38.png>)
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 39.png>)
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 40.png>)
+
+## 최종 결과 분석
+
+### 1. Optimizer간 성능 분석
+- RMSprop: 
+  - Case0: 검증 정확도 (0.6561), 손실(1.0410)에서
+    과적합 경향이 뚜렷하게 나타났습니다. 
+
+    즉, 학습 데이터에 과도하게 적합되어 실제 테스트(검증) 성능이 떨어지는 현상이 관찰되었습니다.
+
+- Adam: 
+  -Case3: 검증 정확도 (0.6860), 손실(0.9301)에서 비교적 균형 있게 나타났으며, 검증 손실(0.9723)도 RMSprop보다 낮아 일반화 성능이 더 우수했습니다. 
+  
+    빠른 수렴과 적절한 일반화가 장점입니다.
+
+### DropOut
+- 미 적용시: 
+  - Case3: 검증 정확도 (0.6860), 손실(0.9301)로 과적합은 적으나 성능이 낮고 손실이 높았다.
+  - 적용 시:
+    - Case4: 검증 정확도 (0.6695), 손실(0.9487) (rate 0.5)
+    - Case5: 검증 정확도 (0.6881), 손실(0.8805) (rate 0.2)
+
+    적절한 rate 적용 시 정확도는 비슷하나 손실이 줄어드는 것을 확인할 수 있습니다.
+
+### 정규화 L2
+- 정규화 적용:
+  - Case6: 검증 정확도 (0.7021), 손실(0.9154) (rate 0.2)
+    
+    정확도는 향상되었지만 손실이 증가하는 경향이 있다.
+    결국 L2가 훈련 성능을 올리며 일반화 성능을 해쳐 과적합 가능성이 있다.
+
+
+## ✅ 최종 결론
+
+- **Adam 옵티마이저**가 전체적으로 가장 균형 잡힌 성능(**빠른 수렴, 적절한 일반화**)을 보였으며,  
+  **과적합 억제와 손실 최소화** 측면에서 가장 우수한 결과를 나타냈습니다.
+
+- **정규화(L2)**와 **Dropout**을 적용하면 학습 정확도는 다소 감소하지만,  
+  **검증 성능이 유지되어 과적합 방지에 효과적**임을 확인할 수 있었습니다.
+
+- **RMSprop**과 **SGD with momentum**은 하이퍼파라미터 조정에 따라 성능 차이가 있었으나,  
+  본 실험에서는 **Adam이 가장 우수한 결과**를 보였습니다.
+
+- 실험 결과,  
+  **적절한 정규화와 드롭아웃**, 그리고 **Adam과 같은 적용형 옵티마이저**의 조합이  
+  **CIFAR-10과 같은 복잡한 이미지 분류 문제에서 좋은 성능과 일반화 효과**를 가져옴을 알 수 있습니다.
