@@ -567,8 +567,10 @@ model.add(layers.Dense(units=10, activation='softmax'))
 ![text](<../../../assets/img/ARM/AI/CNN/image copy 34.png>) 
 ![text](<../../../assets/img/ARM/AI/CNN/image copy 35.png>)
 
+**재분석**
+
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 37.png>)
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 36.png>)
+
 ### 분석
 - 모델의 과도한 정규화를 완하하여 훈련 능력을 개선하여 전반적인 성능(정확도)를 향상시키며 더 이상적인 학습 곡선 형태를 만들었다.
-
-
-## Case6: 
