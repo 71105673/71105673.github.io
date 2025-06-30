@@ -343,7 +343,7 @@ plt.title('Training and Validation Loss')
 plt.legend()
 plt.show()
 ```
-## 결과
+### 결과
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 11.png>)
 
 ```python
@@ -359,7 +359,7 @@ for i in range(25):
     plt.xlabel(class_names[train_y[i].argmax()])
 plt.show()
 ```
-## 결과
+### 결과
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 12.png>)
 
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 13.png>)
@@ -369,7 +369,7 @@ print(f'훈련 데이터 수: {len(train_x)}장')
 print(f'테스트 데이터 수: {len(test_x)}장')
 print(f'총 데이터 수: {len(train_x) + len(test_x)}장')
 ```
-## 결과
+### 결과
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 14.png>)
 
 ```python
@@ -383,5 +383,11 @@ for i in range(100):
     plt.xlabel(class_names[train_y[i].argmax()])
 plt.show()
 ```
-## 결과
+### 결과
 ![alt text](<../../../assets/img/ARM/AI/CNN/image copy 15.png>)
+
+
+# 분석
+## CNN 모델로 분류 문제 성능을 검토
+
+## 하이퍼 파라미터 변경으로 설정 찾아보기
