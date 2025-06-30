@@ -813,19 +813,21 @@ md.summary()  # 모델 구조 출력
 # ANN 모델 실습 -> 이미지 처리가 어떻게 처리되나 확인하는 용
 
 ## 접근 
->mkdir F_MNIST
->
->cd F_MNIST
->
->python3 -m venv .fmnist
->
->source .fmnist/bin/activate
->
->pip install tensorflow matplotlib PyQt5 scikit-learn
->
->export QT_QPA_PLATFORM=wayland -> 터미널 오픈시 실행
->
->python fs_mnist.py
+```bash
+mkdir F_MNIST
+
+cd F_MNIST
+
+python3 -m venv .fmnist
+
+source .fmnist/bin/activate
+
+pip install tensorflow matplotlib PyQt5 scikit-learn
+
+export QT_QPA_PLATFORM=wayland -> 터미널 오픈시 실행
+
+python fs_mnist.py
+```
 
 ## fs_mnist.py
 
