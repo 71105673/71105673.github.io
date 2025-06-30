@@ -138,3 +138,123 @@ Global Average
 >이전의 Pooling 계산보다 크기를 많이 줄이게 된다.
 
 >GoogLeNet에서 FC Layer 직전에 Flatten 대신 사용함.
+
+
+
+# 실습
+
+## 수동구현
+```python
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
+def conv(a, b): 
+    c = np.array(a) * np.array(b)
+    return np.sum(c)
+
+def MaxPooling(nimg): 
+    ning = np.array(nimg)
+    i0, j0 = ning.shape
+    i1 = int((i0 + 1) / 2)
+    j1 = int((j0 + 1) / 2)
+
+    output = np.zeros((i1, j1))
+
+    if i0 % 2 == 1:
+        i0 += 1
+        tmp = np.zeros((1, j0))
+        ning = np.concatenate((ning, tmp), axis=0)
+
+    if j0 % 2 == 1:
+        j0 += 1
+        tmp = np.zeros((i0, 1))
+        ning = np.concatenate((ning, tmp), axis=1)
+
+    for i in range(output.shape[0]):
+        for j in range(output.shape[1]):
+            a = ning[2 * i:2 * i + 2, 2 * j:2 * j + 2]
+            output[i, j] = a.max()
+    return output
+
+def featuring(nimg, filters):
+    feature = np.zeros((nimg.shape[0] - 2, nimg.shape[1] - 2))
+    for i in range(feature.shape[0]):
+        for j in range(feature.shape[1]):
+            a = nimg[i: i + 3, j: j + 3]
+            feature[i, j] = conv(a, filters)
+    return feature
+
+def Pooling(nimg):
+    nimg = np.array(nimg)
+    pool0 = []
+    for i in range(len(nimg)):
+        pool0.append(MaxPooling(nimg[i]))
+    return pool0
+
+def to_img(nimg):
+    nimg = np.array(nimg)
+    nimg = np.uint8(np.round(nimg))
+    fimg = []
+    for i in range(len(nimg)):
+        fimg.append(Image.fromarray(nimg[i]))
+    return fimg
+
+def ConvD(nimg, filters):
+    nimg = np.array(nimg)
+    feat0 = []
+    for i in range(len(filters)):
+        feat0.append(featuring(nimg, filters[i]))
+    return feat0
+
+def ReLU(fo):
+    fo = np.array(fo)
+    fo = (fo > 0) * fo
+    return fo
+
+def ConvMax(nimg, filters):
+    nimg = np.array(nimg)
+    f0 = ConvD(nimg, filters)
+    f0 = ReLU(f0)
+    fg = Pooling(f0)
+    return f0, fg
+
+def draw(f0, fg0, size=(12, 8), k=-1):
+    plt.figure(figsize=size)
+    for i in range(len(f0)):
+        plt.subplot(2, len(f0), i + 1)
+        plt.gca().set_title('Conv' + str(k) + '-' + str(i))
+        plt.imshow(f0[i])
+    for i in range(len(fg0)):
+        plt.subplot(2, len(fg0), i + len(f0) + 1)
+        plt.gca().set_title('MaxP' + str(k) + '-' + str(i))
+        plt.imshow(fg0[i])
+    if k != -1:
+        plt.savefig('conv' + str(k) + '.png')
+    plt.show()
+
+def join(mm):
+    mm = np.array(mm)
+    m1 = np.zeros((mm.shape[1], mm.shape[2], mm.shape[0]))
+    for i in range(mm.shape[1]):
+        for j in range(mm.shape[2]):
+            for k in range(mm.shape[0]):
+                m1[i][j][k] = mm[k][i][j]
+    return m1
+
+def ConvDraw(p0, filters, size=(12, 8), k=-1):
+    f0, fg0 = ConvMax(p0, filters)
+    f0_img = to_img(f0)
+    fg1_img = to_img(fg0)
+    draw(f0, fg0, size, k)
+    p1 = join(fg0)
+    return p1
+
+# 테스트 실행
+nimg31 = np.random.rand(10, 10)
+filters = [np.ones((3, 3))] * 3
+
+m0 = ConvDraw(nimg31, filters, (12, 10), 0)
+```
+## 결과
+![alt text](<../../../assets/img/ARM/AI/CNN/image copy 10.png>)
