@@ -149,10 +149,12 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 
+# 합성곱 함수 구현
 def conv(a, b): 
     c = np.array(a) * np.array(b)
     return np.sum(c)
 
+# MaxPolling 함수 구현
 def MaxPooling(nimg): 
     ning = np.array(nimg)
     i0, j0 = ning.shape
@@ -177,6 +179,7 @@ def MaxPooling(nimg):
             output[i, j] = a.max()
     return output
 
+# 합성곱 출력 층 (Feature Map) 함수 구현 
 def featuring(nimg, filters):
     feature = np.zeros((nimg.shape[0] - 2, nimg.shape[1] - 2))
     for i in range(feature.shape[0]):
@@ -185,6 +188,7 @@ def featuring(nimg, filters):
             feature[i, j] = conv(a, filters)
     return feature
 
+# MaxPooling 출력 층 함수 구현 (여러 map 계산)
 def Pooling(nimg):
     nimg = np.array(nimg)
     pool0 = []
@@ -192,6 +196,7 @@ def Pooling(nimg):
         pool0.append(MaxPooling(nimg[i]))
     return pool0
 
+# 배열을 그림으로 변환
 def to_img(nimg):
     nimg = np.array(nimg)
     nimg = np.uint8(np.round(nimg))
@@ -200,6 +205,7 @@ def to_img(nimg):
         fimg.append(Image.fromarray(nimg[i]))
     return fimg
 
+# Feature map 생성 (여러 개의 Filter 계산)
 def ConvD(nimg, filters):
     nimg = np.array(nimg)
     feat0 = []
@@ -207,11 +213,13 @@ def ConvD(nimg, filters):
         feat0.append(featuring(nimg, filters[i]))
     return feat0
 
+# ReLU 구현
 def ReLU(fo):
     fo = np.array(fo)
     fo = (fo > 0) * fo
     return fo
 
+# Conv+ReLU+MaxPooling
 def ConvMax(nimg, filters):
     nimg = np.array(nimg)
     f0 = ConvD(nimg, filters)
@@ -219,6 +227,7 @@ def ConvMax(nimg, filters):
     fg = Pooling(f0)
     return f0, fg
 
+# 합성곱 후의 상태와 MaxPooling 후의 상태를 그림으로 그리기
 def draw(f0, fg0, size=(12, 8), k=-1):
     plt.figure(figsize=size)
     for i in range(len(f0)):
@@ -233,6 +242,7 @@ def draw(f0, fg0, size=(12, 8), k=-1):
         plt.savefig('conv' + str(k) + '.png')
     plt.show()
 
+# 3개의 activation map 합치기
 def join(mm):
     mm = np.array(mm)
     m1 = np.zeros((mm.shape[1], mm.shape[2], mm.shape[0]))
@@ -242,6 +252,7 @@ def join(mm):
                 m1[i][j][k] = mm[k][i][j]
     return m1
 
+# 과정을 계산하고 결과를 그림으로 출력
 def ConvDraw(p0, filters, size=(12, 8), k=-1):
     f0, fg0 = ConvMax(p0, filters)
     f0_img = to_img(f0)
