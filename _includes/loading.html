@@ -22,12 +22,15 @@
 
 .loading_box {
   text-align: center;
+  max-width: 400px;  /* 최대 너비 */
+  max-height: 400px; /* 최대 높이 */
+  width: 80vw;       /* 화면 가로 80%까지 커질 수 있게 */
+  height: auto;      /* 높이는 비율에 맞게 자동 */
 }
 
 .loading_box img {
-  width: 100%;
-  height: auto;
-  max-width: 300px; 
+  width: 100%;       /* 부모 가득 채우기 */
+  height: auto;      /* 비율 유지 */
   object-fit: contain;
 }
 
