@@ -321,4 +321,16 @@ cv2.destroyAllWindows()
 
 ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 9.png>) ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 10.png>) ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 11.png>) ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 12.png>) ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 13.png>) ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 14.png>) ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 15.png>) ![text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 46.png>)
 
-학습한 Best_model.h5를 기준으로 확인한결과 객체를 잘 인식하는 모습을 확인할 수 있다.
+학습한 Best_model.h5를 기준으로 확인한결과 객체를 잘 인식하는 모습을 확인할 수 있다. 
+
+추가로 진행한 DropOut(0.5 -> 0.3), rotation_range = 10 -> 45 의 경우 Best_model_2.h5로 인식하였고 더 나은 인식도를 보여주었다.
+
+## 고찰
+
+이번 프로젝트에서는 전체적인 데이터셋의 양이 부족해 다양한 각도나 형태에 대한 충분한 학습이 어려웠습니다. 
+
+특히 객체의 위치나 방향이 달라질 경우 인식 정확도가 다소 낮게 나타났습니다.
+
+하지만 데이터 증강 기법을 적용함으로써 이러한 한계를 어느 정도 보완할 수 있었고, 결과적으로 제한된 데이터셋에서도 비교적 높은 정확도로 지정한 객체를 분류할 수 있었습니다. 
+
+이는 데이터 증강이 모델의 일반화 성능을 향상시키는 데 효과적이라는 점을 보여줍니다.
