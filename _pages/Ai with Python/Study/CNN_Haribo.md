@@ -323,7 +323,7 @@ cv2.destroyAllWindows()
 
 학습한 Best_model.h5를 기준으로 확인한결과 객체를 잘 인식하는 모습을 확인할 수 있다. 
 
-추가로 진행한 DropOut(0.5 -> 0.3), rotation_range = 10 -> 45 의 경우 Best_model_2.h5로 인식하였고 더 나은 인식도를 보여주었다.
+추가로 진행한 DropOut(0.5 -> 0.3), rotation_range = 10 -> 45 의 경우 Best_model_2.h5로 진행하였고, 더 나은 인식도를 보여주었다.
 
 ## 고찰
 
