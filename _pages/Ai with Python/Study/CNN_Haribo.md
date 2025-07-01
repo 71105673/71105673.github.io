@@ -146,6 +146,8 @@ plt.show()
 
 ## 결과
 
+## DropOut(0.5), rotation_range = 10
+
 ### Accuracy, Loss (0.8351, 0.4658)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 4.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 5.png>)
@@ -158,7 +160,7 @@ plt.show()
 
 
 
-## DropOut(0.5 -> 0.3), rotation_range = 10 -> 45
+## DropOut(0.3), rotation_range = 45
 
 ### Accuracy, Loss (0.8763, 0.3486)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 16.png>)
@@ -168,6 +170,15 @@ plt.show()
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 18.png>)
 
 
+## DropOut(0.4), rotation_range = 90
+
+### Accuracy, Loss (0.8866, 0.2899)
+![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 19.png>)
+![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 20.png>)
+### graph
+![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 21.png>)
+### 학습 이미지 출력
+![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 22.png>)
 
 
 # 설명
@@ -325,37 +336,10 @@ cv2.destroyAllWindows()
 
 추가로 진행한 DropOut(0.5 -> 0.3), rotation_range = 10 -> 45 의 경우 Best_model_2.h5로 진행하였지만, DropOut이 과도하게 적용 및 증강 강도가 증가함에 따라 튀는 경향이 증가했습니다. 
 
-## 📊 실험 비교 고찰
+따라서 DropOut = 0.4, rotation_range = 90으로 설정한 경우
+안정적인 학습 곡선과 함께 좋은 일반화 성능을 가질 수 있었고, 가장 좋은 인식률을 보였습니다.
 
-### 🔧 실험 설정 변화
-- **Dropout**: 0.5 → 0.3 (규제 감소)  
-- **rotation_range**: 10 → 45 (데이터 증강 강도 증가)
 
----
-
-### (Dropout=0.5, rotation_range=10)
-- **Validation Accuracy**: **0.8351**
-- **Validation Loss**: **0.4658**
-- 학습 및 검증 정확도 모두 일정하게 증가하며 **안정적인 학습 곡선**을 보임
-- 과적합 없이 **좋은 일반화 성능**을 나타냄
-  
----
-
-### (Dropout=0.3, rotation_range=45)
-- **Validation Accuracy**: **0.8763**
-- **Validation Loss**: **0.3486**
-- 검증 정확도 및 손실은 낮음
-- DropOut 및 증강이 과도하게 적용되어 일반화 성능이 낮음
-
----
-
-### 🧠 종합 분석
-Dropout을 낮추고 회전 범위를 확대한 실험 설정은  
-모델의 **정확도를 개선**하고 **손실을 감소**에 주는 영향성을 확인하기에 효과적이었다.  
-이는 **적절한 규제 강도**와 **데이터 다양성**이  
-모델의 **일반화 능력을 향상**에 직접적인 영향을 주는 것을 보여준다.
-
-즉, **적절한 수준의 규제와 적절한 증강 조합**을 통해 더 좋은 성능을 찾아내어야하며, 이에 따른 하이퍼파라메타 수정을 통해 최적의 결과를 도출하여야 한다.
 
 ### 고찰
 
