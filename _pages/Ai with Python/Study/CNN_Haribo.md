@@ -15,7 +15,7 @@ thumbnail: "../../../assets/img/ARM/AI/CNN/image copy 45.png"
 
 **Cola**
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 2.png>)
-
+햐
 **Egg**
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy.png>)
 
