@@ -151,8 +151,7 @@ plt.show()
 ### Accuracy, Loss (0.8351, 0.4658)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 4.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 5.png>)
-
-### graph
+### graph 1
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 6.png>)
 ### 학습 이미지 출력
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 7.png>)
@@ -164,7 +163,7 @@ plt.show()
 
 ### Accuracy, Loss (0.8763, 0.3486)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 16.png>)
-### graph
+### graph 2
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 17.png>)
 ### 학습 이미지 출력
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 18.png>)
@@ -175,7 +174,7 @@ plt.show()
 ### Accuracy, Loss (0.8866, 0.2899)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 19.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 20.png>)
-### graph
+### graph 3
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 21.png>)
 ### 학습 이미지 출력
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 22.png>)
@@ -339,14 +338,51 @@ cv2.destroyAllWindows()
 따라서 DropOut = 0.4, rotation_range = 90으로 설정한 경우
 안정적인 학습 곡선과 함께 좋은 일반화 성능을 가질 수 있었고, 가장 좋은 인식률을 보였습니다.
 
+## 결론 및 고찰
 
+✅ 1. 모델별 성능 요약
+
+| Graph | DropOut | Rotation Range | Accuracy   | Loss       | 특징                                    |
+| ----- | ------- | -------------- | ---------- | ---------- | ------------------------------------- |
+| 1     | 0.5     | 10             | 0.8351     | 0.4658     | 훈련 정확도는 높지만 검증 정확도와 손실 변동 큼 → 과적합 가능성 |
+| 2     | 0.3     | 45             | 0.8763     | 0.3486     | 전반적으로 안정된 성능. Graph 1보다 개선            |
+| 3     | 0.4     | 90             | **0.8866** | **0.2899** | 가장 높은 정확도와 가장 낮은 손실. 학습 안정성 및 일반화 뛰어남 |
+
+✅ 2. 최우수 모델: Graph 3
+
+    DropOut: 0.4
+
+    Rotation Range: 90
+
+    최종 정확도: 0.8866
+
+    최종 손실: 0.2899
+
+    특징: 훈련/검증 정확도 모두 안정적으로 수렴하며 과적합이 가장 적은 모델로 평가됨.
+
+✅ 3. 결론
+
+    DropOut 0.4와 rotation_range 90 조합은 모델 성능 향상에 효과적이었음.
+
+    Graph 3은 높은 정확도, 낮은 손실, 안정된 학습 곡선을 보여주며 최적의 조합으로 판단됨.
+
+    적절한 하이퍼파라미터 튜닝이 모델 성능에 직접적인 영향을 미친다는 것을 확인함.
 
 ### 고찰
 
-이번 프로젝트에서는 전체적인 데이터셋의 양이 부족해 다양한 각도나 형태에 대한 충분한 학습이 어려웠습니다. 
+#### DropOut과 데이터 증강의 시너지
 
-특히 객체의 위치나 방향이 달라질 경우 인식 정확도가 다소 낮게 나타났습니다.
+- DropOut 0.4는 과적합을 억제하고, rotation_range 90은 다양한 형태의 데이터를 학습하게 하여 모델의 일반화 성능을 높였습니다.
 
-하지만 데이터 증강 기법을 적용함으로써 이러한 한계를 어느 정도 보완할 수 있었고, 결과적으로 제한된 데이터셋에서도 비교적 높은 정확도로 지정한 객체를 분류할 수 있었습니다. 
+#### 하이퍼파라미터 튜닝의 중요성
 
-이는 데이터 증강이 모델의 일반화 성능을 향상시키는 데 효과적이라는 점을 보여줍니다.
+- DropOut과 데이터 증강 범위의 적절한 조합이 모델 성능 향상에 결정적인 역할을 했습니다.
+과적합 방지 효과
+
+- 훈련과 검증 간 성능 격차가 작아, 과적합 없이 안정적으로 학습되었고 새로운 데이터에도 높은 정확도를 유지했습니다.
+
+#### 데이터 부족 극복
+
+- 데이터가 부족한 상황에서도 증강 기법을 활용해 제한된 환경에서 높은 분류 성능을 달성할 수 있었습니다.
+
+- 데이터 증강은 모델의 일반화 성능 향상에 효과적인 전략임을 확인할 수 있었습니다.
