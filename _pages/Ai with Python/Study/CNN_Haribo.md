@@ -141,9 +141,12 @@ plt.tight_layout()
 plt.show()
 ```
 
+
+
+
 ## 결과
 
-### Accuracy, Loss
+### Accuracy, Loss (0.8351, 0.4658)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 4.png>)
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 5.png>)
 
@@ -151,6 +154,21 @@ plt.show()
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 6.png>)
 ### 학습 이미지 출력
 ![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 7.png>)
+
+
+
+
+## DropOut(0.5 -> 0.3), rotation_range = 10 -> 45
+
+### Accuracy, Loss (0.8763, 0.3486)
+![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 16.png>)
+### graph
+![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 17.png>)
+### 학습 이미지 출력
+![alt text](<../../../assets/img/ARM/AI/CNN/haribo/image copy 18.png>)
+
+
+
 
 # 설명
 
@@ -236,6 +254,22 @@ Softmax 출력층:
 
     save_best_only=True:
     검증 성능이 좋아질 때만 모델을 저장 → best_model.h5로 저장됨
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 카메라 확인
 
