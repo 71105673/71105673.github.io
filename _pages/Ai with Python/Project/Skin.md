@@ -483,25 +483,32 @@ H5 모델을 8비트 양자화하고 ONNX/TFLite로 변환하여 더 빠르고 �
 ```
 📁 onnx_skin_diagnosis/
 ├── convert_h5_to_onnx.py          # ✅ H5 → ONNX 변환 스크립트
-├── camera_onnx_diagnosis.py       # 📱 기본 카메라 진단 프로그램
-├── camera_onnx_optimized.py       # 🚀 최적화된 카메라 진단 프로그램
+├── camera_h5_diagnosis.py         # 📱 H5 모델 카메라 진단 프로그램
+├── camera_onnx_diagnosis.py       # 📱 기본 ONNX 카메라 진단 프로그램
+├── camera_onnx_optimized.py       # 🚀 최적화된 ONNX 카메라 진단 프로그램
 ├── README.md                      # 📖 프로젝트 설명서
-├── README_OPTIMIZED.md            # 📖 최적화 버전 설명서
+├── README_WINDOW.md               # 📖 Windows 버전 설명서
+├── OPTIMIZED_option.md            # 📖 최적화 옵션 설명서
 ├── requirements.txt               # 📋 필요한 패키지 목록
-├── 📁 model/                      # 모델 저장소
-│   ├── skin_model.h5              # 입력 모델 (11MB)
-│   ├── skin_model.onnx            # 변환된 ONNX (9.1MB)
-│   └── skin_model_quantized.tflite # 양자화 TFLite (2.7MB)
-└── 📁 captures/                   # 진단 이미지 저장 (비어있음)
+├── 📁 model/                      # 🧠 모델 저장소
+│   ├── skin_model.h5              # 원본 Keras 모델 (11.4MB)
+│   ├── skin_model.onnx            # 변환된 ONNX 모델 (9.6MB)
+│   ├── skin_model_quantized.tflite # 양자화 TFLite 모델 (2.9MB)
+│   ├── skin_model_quantized_dynamic.onnx # 동적 양자화 ONNX (2.6MB)
+│   └── skin_model_quantized_static.onnx  # 정적 양자화 ONNX (2.6MB)
+└── 📁 captures/                   # 📸 진단 이미지 저장 폴더
 ```
 
 ## 🚀 설치 및 설정
+
+<details>
+<summary> # window </summary>
+<div markdown="1">
 
 ### 1. 필요한 패키지 설치
 
 ```bash
 # 기본 패키지
-cd onnx_skin_diagnosi
 pip install -r requirements.txt
 
 ## 📂 사용 방법
@@ -511,18 +518,108 @@ pip install -r requirements.txt
 먼저 H5 모델을 ONNX/TFLite로 변환합니다:
 
 ```bash
-python convert_h5_to_onnx.py
+python3 convert_h5_to_onnx.py
 ```
 
 **변환 결과:**
 - ✅ `skin_model.onnx` - ONNX 모델 생성
 - ✅ `skin_model_quantized.tflite` - 8비트 양자화 TFLite 모델 생성
+- ✅ `skin_model_quantized_dynamic.onxx` - 8비트 동적 양자화 onxx 모델 생성
+- ✅ `skin_model_static_dynamic.onxx` - 8비트 정적 양자화 onxx 모델 생성
+ 
 
 ### 2단계: 진단 프로그램 실행
 
 ```bash
-python camera_onnx_diagnosis.py
+# ollama 실행 (터미널 하나 더 열어서 진행행)
+ollama run gemma3:1b
+
 ```
+
+```bash
+# h5 기본
+python camera_h5_diagnosis.py
+
+# onxx 기본
+python camera_onnx_diagnosis.py
+
+# onxx runtime 적용
+python camera_onnx_optimized.py
+
+```
+</div>
+</details>
+
+
+<details>
+<summary> # Linux </summary>
+<div markdown="1">
+
+
+### 1. 필요한 패키지 설치
+
+```bash
+# 기본 패키지 설치
+pip install -r requirements.txt
+
+# Pillow 최신 버전 업그레이드 (텍스트 렌더링 오류 방지용)
+pip install --upgrade pillow
+
+# 리눅스(Ubuntu) 환경에서 한글 폰트가 깨질 경우 아래 명령어로 나눔글꼴 설치
+sudo apt update
+sudo apt install fonts-nanum
+
+💡fonts-nanum은 한글을 깨지지 않게 표시하기 위해 필요합니다. 설치 후 코드에서 다음과 같이 경로를 설정하세요:
+font_path = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"
+
+# Ollama 설치 (Snap 기반)
+sudo snap install ollama
+
+## 📂 사용 방법
+
+### 1단계: 모델 변환
+
+먼저 H5 모델을 ONNX/TFLite로 변환합니다:
+
+
+```bash
+python3 convert_h5_to_onnx.py
+```
+
+
+**변환 결과:**
+- ✅ `skin_model.onnx` - ONNX 모델 생성
+- ✅ `skin_model_quantized.tflite` - 8비트 양자화 TFLite 모델 생성
+- ✅ `skin_model_quantized_dynamic.onxx` - 8비트 동적 양자화 onxx 모델 생성
+- ✅ `skin_model_static_dynamic.onxx` - 8비트 정적 양자화 onxx 모델 생성
+ 
+
+
+### 2단계: 진단 프로그램 실행
+
+```bash
+# ollama 실행 (터미널 하나 더 열어서 진행행)
+ollama run gemma3:1b
+
+```
+
+```bash
+# h5 기본
+python3 camera_h5_diagnosis.py
+
+# onxx 기본
+python3 camera_onnx_diagnosis.py
+
+# onxx runtime 적용
+python3 camera_onnx_optimized.py
+
+```
+
+</div>
+</details>
+
+
+
 
 ## 🎯 모델 우선순위
 
@@ -532,16 +629,15 @@ python camera_onnx_diagnosis.py
 2. **TFLite 모델** (8비트 양자화) - 작은 파일 크기, 빠른 속도
 3. **원본 H5 모델** (백업) - 변환 실패 시 사용
 
-## 📊 진단 클래스 (8개)
+## 📊 진단 클래스 (7개)
 
 1. **기저세포암** - 가장 흔한 피부암
-2. **보웬병** - 편평세포암 전구 단계
-3. **표피낭종** - 양성 낭종
-4. **비립종** - 작은 각질 주머니:1b
+2. **표피낭종** - 양성 낭종
+3. **혈관종** - 혈관 증식 병변 
+4. **비립종** - 작은 각질 주머니
 5. **정상피부** - 건강한 피부
-6. **화농성 육아종** - 혈관 증식 병변
-7. **편평세포암** - 두 번째 흔한 피부암
-8. **사마귀** - HPV 감염
+6. **편평세포암** - 두 번째 흔한 피부암
+7. **사마귀** - HPV 감염
 
 ## 🎮 조작 방법
 
@@ -619,7 +715,7 @@ Ollama 모델을 호출하는 중 오류가 발생했습니다...
 
 ---
 
-**© 2025 ONNX 기반 피부 질환 진단 시스템** 
+**© 2024 ONNX 기반 피부 질환 진단 시스템** 
 
 ## requirements.txt
 ```
