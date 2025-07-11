@@ -4,6 +4,11 @@ date: "2025-07-01"
 thumbnail: "../../../assets/img/ARM/AI/skin_doctor/image.png"
 ---
 
+# File Link
+https://github.com/71105673/Project_skindoctor.git
+
+해당 사이트에서 발표자료 ppt를 확인 가능합니다.
+
 # <Google Colab 학습 Code>
 
 ```python
