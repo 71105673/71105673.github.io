@@ -2384,3 +2384,200 @@ def try_set(cap, prop, value):
 if __name__ == "__main__":
     main() 
 ```
+
+
+
+
+
+
+
+# 스크립트 학습
+```python
+
+import tensorflow as tf
+from tensorflow import keras
+import numpy as np
+import cv2
+from PIL import ImageFont, ImageDraw, Image
+import time
+import os
+import cv2
+import numpy as np
+from PIL import ImageFont, ImageDraw, Image
+import time
+import os
+
+# --- 설정 ---
+CAPTURE_INTERVAL = 1  # 캡처 간격 (초)
+CAPTURE_COUNT = 5     # 캡처 횟수
+CAPTURE_FOLDER = "captures" # 캡처 이미지 저장 폴더
+
+# --- 클래스 및 모델 설정 ---
+# 클래스명 (camera_test.py와 동일)
+class_names_kr = [
+  '기저세포암',
+  '보웬병',
+  '표피낭종',
+  '비립종',
+  '정상피부',
+  '화농성 육아종',
+  '편평세포암',
+  '사마귀']
+
+
+
+# --- 모의 Gemma3 함수 ---
+def get_solution_from_gemma_mock(disease_name):
+    """
+    Gemma3 API 호출을 대체하는 모의 함수입니다.
+    질환명에 따른 해결책 텍스트를 반환합니다.
+    (내용은 예시이며, 실제 의학적 조언이 아닙니다.)
+    """
+    solutions = {
+        '광선각화증': "광선각화증은 장기간의 햇빛 노출이 주요 원인입니다. 자외선 차단제를 꾸준히 사용하고, 피부과 전문의의 진료를 통해 냉동치료, 국소 화학요법 등을 고려할 수 있습니다.",
+        '기저세포암': "가장 흔한 피부암으로, 조기 발견 시 완치율이 매우 높습니다. 외과적 절제술이 주된 치료법이며, 전이 가능성은 낮습니다. 반드시 전문의와 상담하세요.",
+        '멜라닌세포모반': "일반적인 점을 의미하지만, 크기, 모양, 색의 변화가 관찰되면 악성 흑색종과의 감별이 필요합니다. 정기적인 관찰이 중요하며, 미용적 또는 의학적 이유로 제거할 수 있습니다.",
+        '보웬병': "피부 상피 내에 발생하는 편평세포암의 초기 단계입니다. 외과적 절제, 냉동치료, 광역동치료 등 다양한 방법으로 치료할 수 있습니다. 조기 치료가 중요합니다.",
+        '비립종': "피부의 얕은 부위에 생기는 작고 흰색 또는 노란색의 각질 주머니입니다. 보통 건강에 문제는 없으나, 미용적으로 레이저나 압출을 통해 제거할 수 있습니다.",
+        '사마귀': "인유두종 바이러스(HPV) 감염으로 발생합니다. 전염성이 있으므로 손으로 뜯지 않도록 주의해야 하며, 냉동치료, 레이저, 약물 치료 등을 통해 제거합니다.",
+        '악성흑색종': "가장 위험한 피부암 중 하나로, 조기 진단과 치료가 생존에 매우 중요합니다. 모양이 비대칭적이고, 경계가 불규칙하며, 색이 다양하고, 크기가 변하는 특징을 보입니다. 즉시 피부과 전문의의 진료가 필요합니다.",
+        '지루각화증': "가장 흔한 양성 종양 중 하나로, 나이가 들면서 발생합니다. 보통 치료가 필요 없지만, 가렵거나 미용적으로 문제가 될 경우 냉동치료나 레이저로 제거할 수 있습니다.",
+        '편평세포암': "두 번째로 흔한 피부암으로, 자외선 노출이 주 원인입니다. 조기에 발견하면 완치율이 높으나, 방치하면 주변 조직으로 침범하거나 전이될 수 있습니다. 외과적 절제가 주된 치료법입니다.",
+        '표피낭종': "피부 아래에 생기는 주머니 모양의 양성 종양으로, 각질과 피지가 차 있습니다. 보통 치료가 필요 없으나, 염증이 생기거나 크기가 커지면 외과적으로 절제할 수 있습니다.",
+        '피부섬유종': "피부의 진피층에 생기는 단단한 양성 결절입니다. 보통 치료가 필요 없지만, 통증이 있거나 미용적으로 문제가 되면 절제할 수 있습니다.",
+        '피지샘증식종': "피지선이 비정상적으로 커져 발생하는 양성 종양입니다. 미용적인 문제 외에는 건강에 영향이 없으며, 레이저나 전기소작술로 제거할 수 있습니다.",
+        '혈관종': "혈관 조직이 비정상적으로 증식하여 발생하는 양성 종양입니다. 대부분 자연적으로 사라지지만, 크기가 크거나 중요한 부위에 발생하면 약물이나 레이저 치료가 필요할 수 있습니다.",
+        '화농육아종': "작은 상처 후에 혈관이 과도하게 증식하여 발생하는 양성 종양입니다. 쉽게 출혈하는 특징이 있으며, 외과적 절제나 레이저로 치료합니다.",
+        '흑색점': "멜라닌 세포가 증식하여 생기는 반점으로, 주근깨나 검버섯 등이 포함될 수 있습니다. 대부분 양성이지만, 갑자기 변화가 생기면 전문의의 진단이 필요합니다."
+    }
+    return solutions.get(disease_name, "해당 질환에 대한 정보가 없습니다. 전문가와 상담하세요.")
+
+# --- 메인 로직 ---
+def main():
+    # 캡처 폴더 생성
+    if not os.path.exists(CAPTURE_FOLDER):
+        os.makedirs(CAPTURE_FOLDER)
+
+    # --- 모델 및 전처리 설정 ---
+    model_path = 'C:/Users/kccistc/project/pth/jaehong_skin_model.h5'
+    try:
+        model = keras.models.load_model(model_path)
+    except Exception as e:
+        print(f"오류: 모델을 로드하는 중 문제가 발생했습니다: {e}")
+        return
+
+    font_path = "C:/Windows/Fonts/malgun.ttf"
+    try:
+        font = ImageFont.truetype(font_path, 20)
+    except IOError:
+        print(f"오류: 폰트 파일을 찾을 수 없습니다: {font_path}. 기본 폰트를 사용합니다.")
+        font = ImageFont.load_default()
+
+    # --- 카메라 설정 ---
+    cap = cv2.VideoCapture(1) # 노트북 내장 웹캠은 0, 외부 웹캠은 1일 수 있습니다.
+    if not cap.isOpened():
+        print("오류: 카메라를 열 수 없습니다. 다른 프로그램이 사용 중인지 확인하거나 카메라 인덱스를 변경해보세요 (예: 0 또는 1).")
+        return
+
+    print("카메라가 준비되었습니다.")
+    print("화면을 보며 진단할 부위를 중앙에 위치시키세요.")
+    print("키보드 'c'를 누르면 5초간 연속으로 촬영하여 진단합니다.")
+    print("키보드 'q'를 누르면 프로그램을 종료합니다.")
+
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            print("오류: 카메라에서 프레임을 읽을 수 없습니다.")
+            break
+
+        # 중앙 1:1 영역 crop
+        h, w, _ = frame.shape
+        min_dim = min(h, w)
+        start_x = (w - min_dim) // 2
+        start_y = (h - min_dim) // 2
+        crop_frame = frame[start_y:start_y+min_dim, start_x:start_x+min_dim]
+
+        # --- 실시간 예측 ---
+        # 이미지 전처리 (Keras 모델에 맞게)
+        img_array = cv2.resize(crop_frame, (96, 96))
+        img_array = np.expand_dims(img_array, axis=0)  # 배치 차원 추가
+        img_array = img_array / 255.0  # 정규화
+
+        predictions = model.predict(img_array)
+        predicted_class_idx = np.argmax(predictions[0])
+        confidence = predictions[0][predicted_class_idx]
+
+        # 결과 텍스트 생성
+        label = f"{class_names_kr[predicted_class_idx]} ({confidence*100:.1f}%)"
+        
+        # 화면에 표시 (Pillow 사용)
+        img_pil = Image.fromarray(cv2.cvtColor(crop_frame, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(img_pil)
+        draw.text((10, 10), "실시간 예측:", font=font, fill=(0, 255, 0))
+        draw.text((10, 35), label, font=font, fill=(0, 255, 0))
+        display_frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
+
+        cv2.imshow('Skin Disease Diagnosis', display_frame)
+
+        key = cv2.waitKey(1) & 0xFF
+
+        # --- 'c' 키를 눌러 연속 캡처 및 진단 ---
+        if key == ord('c'):
+            print("\n" + "="*40)
+            print(f"진단을 시작합니다. {CAPTURE_COUNT}초 동안 {CAPTURE_COUNT}번 촬영합니다.")
+            print("="*40)
+            
+            captured_classes = []
+            
+            for i in range(CAPTURE_COUNT):
+                time.sleep(CAPTURE_INTERVAL)
+                
+                # 현재 프레임(crop_frame)으로 예측
+                current_img_array = cv2.resize(crop_frame, (96, 96))
+                current_img_array = np.expand_dims(current_img_array, axis=0)
+                current_img_array = current_img_array / 255.0
+
+                current_predictions = model.predict(current_img_array)
+                current_predicted_idx = np.argmax(current_predictions[0])
+                
+                predicted_name = class_names_kr[current_predicted_idx]
+                captured_classes.append(predicted_name)
+                
+                # 캡처 이미지 저장
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                capture_path = os.path.join(CAPTURE_FOLDER, f"capture_{timestamp}_{i+1}.png")
+                cv2.imwrite(capture_path, crop_frame)
+                
+                print(f"촬영 {i+1}/5... 예측: {predicted_name} (이미지 저장: {capture_path})")
+
+            # --- 최종 진단 ---
+            print("\n" + "-"*40)
+            if len(set(captured_classes)) == 1:
+                final_diagnosis = captured_classes[0]
+                print(f"최종 진단 결과: **{final_diagnosis}**")
+                print("-"*40)
+                
+                # Gemma3 해결책 요청 (모의)
+                solution = get_solution_from_gemma_mock(final_diagnosis)
+                print("\n[Gemma3의 건강 조언]")
+                print(solution)
+                print("\n(주의: 이 정보는 참고용이며, 정확한 진단과 치료를 위해 반드시 전문 의료기관을 방문하세요.)")
+                
+            else:
+                print("진단 실패: 예측 결과가 일치하지 않습니다.")
+                print(f"지난 {CAPTURE_COUNT}번의 예측: {captured_classes}")
+            
+            print("="*40)
+            print("\n다시 진단하려면 'c'를, 종료하려면 'q'를 누르세요.")
+
+        # --- 'q' 키를 눌러 종료 ---
+        elif key == ord('q'):
+            print("프로그램을 종료합니다.")
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
+```
