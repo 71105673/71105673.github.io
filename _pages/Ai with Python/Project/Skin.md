@@ -1,7 +1,7 @@
 ---
 title: "Skin_Check" 
 date: "2025-07-01"
-thumbnail: "../../../assets/img/ARM/AI/skin/images.png"
+thumbnail: "../../../assets/img/ARM/AI/skin_doctor/image.png"
 ---
 
 # <Google Colab 학습 Code>
