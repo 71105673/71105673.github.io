@@ -1,5 +1,5 @@
 ---
-title: "Skin_Check" 
+title: "Skin_Doctor" 
 date: "2025-07-01"
 thumbnail: "../../../assets/img/ARM/AI/skin_doctor/image.png"
 ---
