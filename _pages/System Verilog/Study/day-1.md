@@ -453,6 +453,9 @@ vcs -f shift_reg_filelist -kdb -full64 -debug_access+all+reverse -lca
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 161449.png>)
 
 > error 발생한 것을 확인할 수 있음
+> 
+> ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 161714.png>)
+> ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 161814.png>)
 
 | 조건                  | Shift 동작                         | 원인                                        |
 | ------------------- | -------------------------------- | ----------------------------------------- |
