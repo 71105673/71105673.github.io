@@ -442,7 +442,19 @@ vcs -f shift_reg_filelist -kdb -full64 -debug_access+all+reverse -lca
 ./simv -verdi &
 ```
 
-
-
-### 결과
+### 결과 -> (Normal) #25 data_in <= 7'd3; 
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 154648.png>)
+
+> 7state register이기 때문에 8clk뒤에 출력나옴
+
+
+### 결과 -> (Abnormal) #20 data_in <= 7'd3; 
+   
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 161449.png>)
+
+> error 발생한 것을 확인할 수 있음
+
+| 조건                  | Shift 동작                         | 원인                                        |
+| ------------------- | -------------------------------- | ----------------------------------------- |
+| `#20 data_in <= 3;` | ❌ 첫 입력값 0이 정상적으로 shift되지 않음      | `data_in` 값이 **clk 엣지와 겹쳐서** 제대로 샘플링되지 못함 |
+| `#25 data_in <= 3;` | ✅ 첫 값 0이 정확히 shift register에 들어감 | `data_in`이 **clk 이전에 충분히 안정되어** 정상적으로 샘플링 |
