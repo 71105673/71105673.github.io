@@ -234,3 +234,22 @@ repeat(4) @(posedge clk);
 | 🔁 Feedback Loop에 의한 불안정 | 조합 회로에 피드백이 걸릴 경우 오동작 가능 |
 
 
+## Svae
+
+**`$save`, `$restart` (Simulator Dependent)**
+
+| 기능         | 설명                                                                |
+| ---------- | ----------------------------------------------------------------- |
+| `$save`    | 현재 시뮬레이션 상태를 저장 (snapshot 생성)                                     |
+| `$restart` | 이전에 저장한 snapshot으로 복귀 (roll back)                                 |
+| ⛔ 제한 사항    | 대부분의 commercial 시뮬레이터에서만 지원 (VCS, ModelSim, Questa 등), SV 표준에는 없음 |
+
+
+**`VCD`, `FSDB` 파일 이용 (waveform 저장)**
+
+| 목적                     | 설명                                        |
+| ---------------------- | ----------------------------------------- |
+| `$dumpfile`            | 시뮬레이션 중 waveform 파일로 저장 (`.vcd`, `.fsdb`) |
+| `$dumpvars`            | 변수 저장 시작                                  |
+| `$dumpon` / `$dumpoff` | 특정 타이밍에만 저장 제어 가능                         |
+| 복원 여부                  | ❌ 복원은 안 되지만 wave 분석엔 유용                   |
