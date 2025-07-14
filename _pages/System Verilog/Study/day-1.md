@@ -84,6 +84,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 - `#`: **timescale 기준의 지연**
 - `##`: **clock 주기를 지난다는 의미**
 
+
 ```sv
 ##4  // clk을 4번 지나는 의미
 
