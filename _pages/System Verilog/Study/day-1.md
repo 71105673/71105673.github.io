@@ -268,3 +268,7 @@ repeat(4) @(posedge clk);
 
 > 기본 세팅 Cycle
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 150555.png>)
+
+> Error 확인
+![text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 150853.png>) ![text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 151129.png>) ![text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 151137.png>)
+
