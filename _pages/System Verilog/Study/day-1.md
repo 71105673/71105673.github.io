@@ -274,3 +274,156 @@ repeat(4) @(posedge clk);
 
 >save signal
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 151410.png>)
+
+
+## 실습
+
+### shift_register.v
+```verilog
+`timescale 1ns / 1ps
+
+module shift_reg #(
+    parameter WIDTH = 7
+)(
+    input clk,
+    input rstn,
+    input signed [WIDTH-1:0] data_in,
+    output reg signed [WIDTH-1:0] data_out
+);
+
+reg signed [WIDTH-1:0] shift_din [32:0];
+integer i;
+always@(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        for(i = 32; i >= 0; i=i-1) begin
+            shift_din[i] <= 0;
+        end
+    end
+    else begin
+        for(i = 32; i > 0; i=i-1) begin
+            shift_din[i] <= shift_din[i-1];
+        end
+        shift_din[0] <= data_in;
+    end
+end
+
+wire [WIDTH-1:0] shift_dout;
+//assign shift_dout = shift_din[32];
+assign shift_dout = shift_din[8];
+
+reg [5:0] count;
+always @(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        count <= 4'b0;
+    end
+    else begin
+        count <= count + 4'b1;
+    end
+end
+
+reg [WIDTH-1:0] ref_data;
+always @(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        ref_data <= 4'b0;
+    end
+    else if (count==6'd1) begin
+        ref_data <= data_in;
+    end
+end
+
+reg [WIDTH-1:0] data_out;
+always @(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        data_out <= 4'b0;
+    end
+    else if (count==6'd10) begin
+        data_out <= shift_dout;
+    end
+end
+
+reg shift_op;
+always @(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        shift_op <= 1'b0;
+    end
+    else if (count==6'd10) begin
+        if (shift_dout == ref_data)
+            shift_op <= 1'b0;
+        else
+            shift_op <= 1'b1;
+    end
+end
+
+reg error_ind;
+always @(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        error_ind <= 1'b0;
+    end
+    else if (count==6'd10) begin
+        if (shift_dout == 3)
+            error_ind <= 1'b0;
+        else
+            error_ind <= 1'b1;
+    end
+end
+
+endmodule
+```
+
+### tb_shift_register.v
+
+```verilog
+`timescale 1ns/10ps
+
+module tb_shift_reg();
+
+reg clk, rstn;
+reg [6:0] data_in;
+wire [6:0] data_out;
+
+initial begin
+    clk <= 1'b1;
+    rstn <= 1'b0;
+    #15 rstn <= 1'b1;
+    #400 $finish;
+end
+
+initial begin
+    data_in <= 7'd0;
+    //#20 data_in <= 7'd3; // Abnormal
+    #25 data_in <= 7'd3; // Normal
+    #10 data_in <= 7'd1;
+    #10 data_in <= 7'd5;
+    #10 data_in <= 7'd11;
+    #10 data_in <= 7'd21;
+    #10 data_in <= 7'd6;
+    #10 data_in <= 7'd8;
+    #10 data_in <= 7'd16;
+    #10 data_in <= 7'd0;
+    #10 data_in <= 7'd3;
+    #10 data_in <= 7'd10;
+end
+
+shift_reg #( .WIDTH(7) ) i_shift_reg (
+    .clk(clk),
+    .rstn(rstn),
+    .data_in(data_in),
+    .data_out(data_out)
+);
+
+always #5 clk <= ~clk;
+
+endmodule
+```
+
+### run_shift_reg.f
+```
+tb_shift_register.v
+shift_register.v
+```
+
+### RUN_shift_register
+```
+vcs -f run_shift_reg.f -kdb -full64 -debug_access+all+reverse -lca
+./simv -verdi &
+```
