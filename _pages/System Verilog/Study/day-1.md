@@ -190,9 +190,7 @@ repeat(4) @(posedge clk);
 기본 Default 값:
 
 - 값: x
-
 - Signed: unsigned
-
 - 상태: 4-state (0, 1, z, x)
 
 | 타입        | 크기    | Signed | 상태      |
