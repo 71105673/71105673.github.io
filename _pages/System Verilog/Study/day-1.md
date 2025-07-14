@@ -55,6 +55,10 @@ module d_ff_sync_rst(clk, d, rst_n, q, qb);
 endmodule
 ```
 
+**Tip**
+
+- if else륾 많이 쓰면 Power가 증가하여 되도록이면 안쓰는거로!!
+
 
 ## 🧠 SystemVerilog 연산자 정리 모음: Shift & 비교
 
