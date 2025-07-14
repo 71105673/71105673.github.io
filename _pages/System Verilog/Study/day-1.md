@@ -427,3 +427,7 @@ shift_register.v
 vcs -f run_shift_reg.f -kdb -full64 -debug_access+all+reverse -lca
 ./simv -verdi &
 ```
+
+
+### 결과
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 154225.png>)
