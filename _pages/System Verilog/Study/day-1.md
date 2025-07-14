@@ -6,6 +6,9 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 
 # SystemVerilog 기본 개념 정리
 
+blocking이고, 시간의 흐름이 없으면? => **Combination Logic**
+
+non-blocking이고, 시간의 흐름이 있으면? => **Sequential Logic**
 
 ## `blocking (=)` vs `non-blocking (<=)`
 
