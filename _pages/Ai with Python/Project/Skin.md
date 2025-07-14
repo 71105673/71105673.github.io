@@ -1,6 +1,6 @@
 ---
 title: "Skin_Doctor" 
-date: "2025-07-01"
+date: "2025-07-11"
 thumbnail: "../../../assets/img/ARM/AI/skin_doctor/image.png"
 ---
 

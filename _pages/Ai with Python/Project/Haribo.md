@@ -1,6 +1,6 @@
 ---
 title: "Day-7 Haribo" 
-date: "2025-07-01"
+date: "2025-07-07"
 thumbnail: "../../../assets/img/ARM/AI/CNN/image copy 45.png"
 ---
 
