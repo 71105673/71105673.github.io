@@ -24,6 +24,37 @@ non-blocking이고, 시간의 흐름이 있으면? => **Sequential Logic**
 | race condition    | 발생 가능성 높음                    | 방지 가능 (순차적 레지스터 설계에 적합)      |
 
 
+## Latch vs FF
+
+**Latch**
+```verilog
+module dlatch_rst(rst, clk, d, q);
+  input rst, clk, d;
+  output reg q;
+
+  always @(*) begin
+    if (!rst) q = 1'b0;
+    else if (clk) q = d;
+  end
+endmodule
+```
+
+**FF**
+```verilog
+module d_ff_sync_rst(clk, d, rst_n, q, qb);
+  input clk, d, rst_n;
+  output reg q;
+  output qb;
+
+  assign qb = ~q;
+
+  always @(posedge clk) begin
+    if (!rst_n) q <= 1'b0;
+    else q <= d;
+  end
+endmodule
+```
+
 
 ## 🧠 SystemVerilog 연산자 정리 모음: Shift & 비교
 
