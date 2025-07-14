@@ -264,3 +264,7 @@ repeat(4) @(posedge clk);
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 145138.png>)
 에러 지점 확인 가능
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 145203.png>)
+
+
+> 기본 세팅 Cycle
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 150555.png>)
