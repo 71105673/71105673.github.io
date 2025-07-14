@@ -253,3 +253,14 @@ repeat(4) @(posedge clk);
 | `$dumpvars`            | 변수 저장 시작                                  |
 | `$dumpon` / `$dumpoff` | 특정 타이밍에만 저장 제어 가능                         |
 | 복원 여부                  | ❌ 복원은 안 되지만 wave 분석엔 유용                   |
+
+
+
+# Verdi & 이용
+
+> x 누르면 시뮬레이션 커서의 값을 확인 가능
+ 
+> 에러 부분이 생겼을 때, 해당 << 버튼을 통해
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 145138.png>)
+에러 지점 확인 가능
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 145203.png>)
