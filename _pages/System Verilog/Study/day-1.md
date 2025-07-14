@@ -415,18 +415,33 @@ always #5 clk <= ~clk;
 
 endmodule
 ```
-
-### run_shift_reg.f
+## 실행방법 1
+**run_shift_reg.f**
 ```
 tb_shift_register.v
 shift_register.v
 ```
 
-### RUN_shift_register
+**RUN_shift_register**
 ```
 vcs -f run_shift_reg.f -kdb -full64 -debug_access+all+reverse -lca
 ./simv -verdi &
 ```
+
+
+## 실행방법 2
+**shift_reg_filelist**
+```
+./shift_register.v
+./tb_shift_register.v
+```
+
+**RUN_shift_register2**
+```
+vcs -f shift_reg_filelist -kdb -full64 -debug_access+all+reverse -lca
+./simv -verdi &
+```
+
 
 
 ### 결과
