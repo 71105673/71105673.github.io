@@ -272,3 +272,5 @@ repeat(4) @(posedge clk);
 > Error 확인
 ![text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 150853.png>) ![text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 151129.png>) ![text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 151137.png>)
 
+>save signal
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-14 151410.png>)
