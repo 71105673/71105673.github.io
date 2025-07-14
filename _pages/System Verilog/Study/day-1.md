@@ -85,7 +85,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 - `##`: **clock 주기를 지난다는 의미**
 
 
-```sv
+```verilog
 ##4  // clk을 4번 지나는 의미
 
 // 어떤 클럭인지 명확하지 않기 때문에 아래처럼 작성하는 것이 안전:
