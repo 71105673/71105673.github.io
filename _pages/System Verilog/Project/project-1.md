@@ -24,3 +24,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 >
 > 즉 정수부 1, 소수부 8 = 9bit
 ![alt text](<../../../assets/img/SystemVerilog/project_1/스크린샷 2025-07-15 163719.png>)
+
+# code.v
+
+# tb.v
