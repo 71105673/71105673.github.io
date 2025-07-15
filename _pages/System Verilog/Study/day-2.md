@@ -283,7 +283,7 @@ vcs -full64 -kdb -debug_access+all+reverse -f counter_list
 ./simv -verdi &
 ```
 
-# 결과 -> Pre-Layout Simulation
+# 결과 -> RTL Simulation
 **코드가 잘 돌아가나 시험**
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 115205.png>)
 
@@ -521,7 +521,7 @@ vcs -full64 \
 ./simv -verdi &
 ```
 
-# 결과 -> Gate Level Simulation
+# 결과 -> Pre-Layout Simulation
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 141335.png>)
 결과가 동일하게 나오며 이상 없음을 확인
 
@@ -530,12 +530,52 @@ vcs -full64 \
 
 
 
+# Gate Level Simulation
 
+## run_counter_xpro.dc
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 145610.png>)
 
+```
+ cp ../syn/output/counter1_xpro_0/counter1_xpro_0.v .
+```
 
+## counter1_xpro_0.v
+```verilog
+`timescale 1ps/1fs
 
+module counter1_xpro ( clk, rst, cnt, ind_cnt );
+  output [3:0] cnt;
+  input clk, rst;
+  output ind_cnt;
+  wire   N6, N7, N8, N9, n3, n4, n5, n60, n70, n80, n90;
 
-
+  SC7P5T_SDFFQX4_CSC20L count_reg_0_ ( .D(N6), .SI(n4), .SE(n4), .CLK(clk),
+        .Q(cnt[0]) );
+  SC7P5T_SDFFQX4_CSC20L count_reg_2_ ( .D(N8), .SI(n4), .SE(n4), .CLK(clk),
+        .Q(cnt[2]) );
+  SC7P5T_SDFFQX4_CSC20L count_reg_1_ ( .D(N7), .SI(n4), .SE(n4), .CLK(clk),
+        .Q(cnt[1]) );
+  SC7P5T_SDFFQX4_CSC20L count_reg_3_ ( .D(N9), .SI(n4), .SE(n4), .CLK(clk),
+        .Q(cnt[3]) );
+  SC7P5T_SDFFRQX4_CSC20L ind_cnt_reg ( .D(n80), .SI(n4), .SE(n4), .CLK(clk),
+        .RESET(n3), .Q(ind_cnt) );
+  SC7P5T_AO22IA1A2X1_CSC20L U12 ( .A1(n60), .A2(cnt[3]), .B1(n60), .B2(cnt[3]),
+        .Z(N9) );
+  SC7P5T_INVX3_CSC20L U13 ( .A(cnt[0]), .Z(N6) );
+  SC7P5T_ND2X4_CSC20L U14 ( .A(n70), .B(cnt[1]), .Z(n60) );
+  SC7P5T_OA22IA1A2X2_CSC20L U15 ( .A1(cnt[1]), .A2(cnt[0]), .B1(cnt[0]), .B2(
+        cnt[1]), .Z(N7) );
+  SC7P5T_AN2X4_CSC20L U16 ( .A(cnt[0]), .B(cnt[2]), .Z(n70) );
+  SC7P5T_INVX20_CSC20L U17 ( .A(rst), .Z(n3) );
+  SC7P5T_OR3X2_CSC20L U18 ( .A(cnt[2]), .B(n90), .C(cnt[3]), .Z(n5) );
+  SC7P5T_INVX2_CSC20L U19 ( .A(n5), .Z(n80) );
+  SC7P5T_ND2X2_CSC20L U20 ( .A(N6), .B(cnt[1]), .Z(n90) );
+  SC7P5T_AOA211X2_CSC20L U21 ( .C1(cnt[0]), .C2(cnt[1]), .B(cnt[2]), .A(n60),
+        .Z(N8) );
+  SC7P5T_TIELOX1_CSC20L U22 ( .Z(n4) );
+endmodule
+```
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 145908.png>)
 
 
 
