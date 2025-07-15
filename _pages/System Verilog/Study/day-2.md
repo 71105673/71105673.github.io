@@ -83,7 +83,7 @@ CDC 경로는 STA에서 false path 또는 max/min delay로 제약을 걸어줘�
 
 # 실습
 
-### counter1.v
+## counter1.v
 ```verilog
 `timescale 1ns/10ps;
 
@@ -121,7 +121,7 @@ end
 endmodule
 ```
 
-### counter1_xpor.v
+## counter1_xpor.v
 ```verilog
 `timescale 1ns/10ps;
 
@@ -161,7 +161,7 @@ end
 endmodule
 ```
 
-### counter2.v
+## counter2.v
 ```verilog
 `timescale 1ns/10ps;
 
@@ -190,7 +190,7 @@ end
 endmodule
 ```
 
-### counter3.v
+## counter3.v
 ```verilog
 `timescale 1ns/10ps;
 module counter3(
@@ -226,7 +226,7 @@ end
 endmodule
 ```
 
-### tb_counter.v
+## tb_counter.v
 ```verilog
 `timescale 1ns/10ps;
 
@@ -254,7 +254,7 @@ always #5 clk <= ~clk;
 endmodule
 ```
 
-### counter_list
+## counter_list
 ```
 ./counter1.v
 ./counter1_xpro.v
@@ -263,16 +263,16 @@ endmodule
 ./tb_counter.v
 ```
 
-### RUN_CNT
+## RUN_CNT
 ```
 vcs -full64 -kdb -debug_access+all+reverse -f counter_list
 ./simv -verdi &
 ```
 
-### 결과
+# 결과
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 115205.png>)
 
-### counter.list
+## counter.list
 ```
 lappend search_path  ../verilog
 set net_list "\
@@ -281,20 +281,20 @@ set net_list "\
  analyze -format verilog -library WORK $net_list
 ```
 
-### run_counter.dc
+## run_counter.dc
 ```
 dc_shell -f counter.tcl | tee run.log
 ```
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123440.png>)
 
-### vi counter.tcl
+## vi counter.tcl
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 124815.png>)
 
 
-### vi output/counter1_0/counter1_0.v
+## vi output/counter1_0/counter1_0.v
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123557.png>)
 
-### vi output/counter1_0/counter1_0.timing_max.rpt
+## vi output/counter1_0/counter1_0.timing_max.rpt
 ```verilog
 Information: Updating design information... (UID-85)
 
@@ -345,7 +345,7 @@ Wire Load Model Mode: enclosed
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123753.png>)
 
 
-### vi counter.sdc
+## vi counter.sdc
 ```verilog
 #-----------------------------------------------------------------------
 #  case &  clock definition
