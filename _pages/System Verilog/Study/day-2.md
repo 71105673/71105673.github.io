@@ -520,13 +520,14 @@ vcs -full64 \
 # Gate Level Simulation
 
 ## run_counter_xpro.dc
-![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 145610.png>)
-
 위치를 verilog로 옮긴 후
 
 ```
  cp ../syn/output/counter1_xpro_0/counter1_xpro_0.v .
 ```
+
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 145610.png>)
+
 
 ## counter1_xpro_0.v
 ```verilog
@@ -564,11 +565,37 @@ module counter1_xpro ( clk, rst, cnt, ind_cnt );
   SC7P5T_TIELOX1_CSC20L U22 ( .Z(n4) );
 endmodule
 ```
+**더욱 자세한 스케일로 보기 위해 1ps/1fs로 설정**
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 145908.png>)
 
 
+## tb_gate_cnt1_xpro.v
+```verilog
+`timescale 1ps/1fs
 
+module tb_gate_cnt1_xpro();
 
+reg clk,rst;
+wire [3:0] cnt1;
+wire ind_cnt1;
+
+initial begin
+ clk <= 1'b1;
+ rst <= 1'b0;
+ #5 rst <= 1'b1;
+ #5 rst <= 1'b0;
+ #400 $finish;
+end
+
+counter1_xpro GATE_CNT1_XPRO(clk, rst, cnt1, ind_cnt1);
+
+always #5 clk <= ~clk;
+
+endmodule
+```
+
+## 결과 -> Gate Level Simulation
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 152334.png>)
 
 
 
