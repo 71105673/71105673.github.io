@@ -3,6 +3,7 @@ title: "Project_1 Sysyem Verilog"
 date: "2025-07-15~16"
 thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
+
 > 대부분 Low Pass Filter 사용
 ![alt text](<../../../assets/img/SystemVerilog/project_1/스크린샷 2025-07-15 161918.png>)
 
