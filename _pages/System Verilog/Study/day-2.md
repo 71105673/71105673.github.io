@@ -399,6 +399,7 @@ Wire Load Model Mode: enclosed
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123753.png>)
 
 ## vi output/counter1_0/counter1_0.timing_min.rpt
+**Hole**의 경우는 시간 그래프상 오른쪽이기 때문에 -가 나오면 violation
 ```verilog
 
 ****************************************
@@ -444,4 +445,5 @@ Wire Load Model Mode: enclosed
   slack (MET)                                                       12.37
 ```
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 125237.png>)
+
 
