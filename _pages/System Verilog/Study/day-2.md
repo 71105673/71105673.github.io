@@ -472,3 +472,19 @@ always #5 clk <= ~clk;
 endmodule
 ```
 
+## run_gate_cnt1
+```
+vcs -full64 \
+    -kdb \
+    -debug_access+all \
+    -v /pdk/GF22FDX_SC7P5T_116CPP_BASE_CSC20L_FDK_RELV02R80/verilog/GF22FDX_SC7P5T_116CPP_BASE_CSC20L.v \
+    -v /pdk/GF22FDX_SC7P5T_116CPP_BASE_CSC20L_FDK_RELV02R80/verilog/prim.v \
+    -f gate_cnt_filelist
+./simv -verdi &
+```
+
+## gate_cnt_filelist
+```
+./counter1_0.v
+./tb_gate_cnt1.v
+```
