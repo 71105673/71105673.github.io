@@ -48,7 +48,35 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 
 ### set_multicycle_path
 - **여러 클럭 사이클(multi-cycle)** 을 사용하는 경로를 명시적으로 설정하여, 타이밍 분석이 과도하게 보수적이지 않도록 조정
+- 
 ### set_false_path
 - 실제 회로 동작에서 타이밍을 맞출 필요가 없는 경로를 STA 분석에서 제외시킴
 
 - false path는 실제 데이터 전송이 발생하지 않거나, 타이밍 위반이 발생해도 무관한 경로
+
+***<false_path 예시>*** ⬇️
+## 🔀 Clock Domain Crossing (CDC) 
+
+CDC(Clock Domain Crossing)는 서로 다른 클럭 도메인 간에 신호가 전달될 때 발생하는 상황입니다.  
+
+이 때 **메타스테이블 현상(metastability)**, **데이터 손실**, **타이밍 위반** 등이 발생할 수 있기 때문에, **적절한 동기화 및 STA 예외 처리**가 필요합니다.
+
+### ⚠️ 1. 문제점
+
+**📌 Metastability**
+- 수신 클럭 도메인에서 신호가 클럭 엣지 근처에 들어오면 레지스터가 불안정한 상태로 유지됨
+
+**📌 데이터 손실**
+- 전송 신호가 너무 짧거나 수신 쪽에서 제대로 샘플링하지 못하는 경우
+
+**📌 STA 타이밍 위반**
+- 서로 다른 클럭 도메인 간의 경로는 정상적인 타이밍 분석으로 처리할 수 없음
+
+### 🔧 2. 해결 방법
+
+**✅ 동기화 회로(Synchronizer)**
+- 단일 비트: 2-stage flip-flop synchronizer 사용
+- 멀티 비트: handshake, FIFO 사용
+
+**✅ 타이밍 예외 설정**
+CDC 경로는 STA에서 false path 또는 max/min delay로 제약을 걸어줘야 한다.
