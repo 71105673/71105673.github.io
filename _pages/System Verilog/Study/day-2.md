@@ -285,3 +285,10 @@ set net_list "\
 ```
 dc_shell -f counter.tcl | tee run.log
 ```
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123440.png>)
+
+### vi output/counter1_0/counter1_0.v
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123557.png>)
+
+### vi output/counter1_0/counter1_0.timing_max.rpt
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123753.png>)
