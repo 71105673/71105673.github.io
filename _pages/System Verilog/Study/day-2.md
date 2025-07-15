@@ -81,7 +81,7 @@ CDC(Clock Domain Crossing)는 서로 다른 클럭 도메인 간에 신호가 �
 **✅ 타이밍 예외 설정**
 CDC 경로는 STA에서 false path 또는 max/min delay로 제약을 걸어줘야 한다.
 
-# 실습
+# 실습 Pre-Layout Simulation
 
 ## counter1.v
 ```verilog
@@ -487,3 +487,41 @@ vcs -full64 \
 ./simv -verdi &
 ```
 
+## 결과
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 141335.png>)
+
+결과가 동일하게 나오며 이상 없음을 확인
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 실습 Gate Level Simulation
