@@ -294,57 +294,6 @@ dc_shell -f counter.tcl | tee run.log
 ## vi output/counter1_0/counter1_0.v
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123557.png>)
 
-## vi output/counter1_0/counter1_0.timing_max.rpt
-```verilog
-Information: Updating design information... (UID-85)
-
-****************************************
-Report : timing
-        -path full
-        -delay max
-        -max_paths 1
-Design : counter1
-Version: V-2023.12-SP5-4
-Date   : Tue Jul 15 12:31:21 2025
-****************************************
-
-Operating Conditions: TT_0P80V_0P00V_0P00V_0P00V_25C   Library: GF22FDX_SC7P5T_116CPP_BASE_CSC20L_TT_0P80V_0P00V_0P00V_0P00V_25C
-Wire Load Model Mode: enclosed
-
-  Startpoint: count_reg_0_
-              (rising edge-triggered flip-flop clocked by cnt_clk)
-  Endpoint: count_reg_2_
-            (rising edge-triggered flip-flop clocked by cnt_clk)
-  Path Group: cnt_clk
-  Path Type: max
-
-  Point                                                   Incr       Path
-  --------------------------------------------------------------------------
-  clock cnt_clk (rise edge)                               0.00       0.00
-  clock network delay (ideal)                             0.00       0.00
-  count_reg_0_/CLK (SC7P5T_SDFFRQX4_CSC20L)               0.00       0.00 r
-  count_reg_0_/Q (SC7P5T_SDFFRQX4_CSC20L)                62.79      62.79 f
-  U14/Z (SC7P5T_AN2X4_CSC20L)                            15.88      78.68 f
-  U13/Z (SC7P5T_ND2X3_CSC20L)                             7.13      85.80 r
-  U18/Z (SC7P5T_AOA211X2_CSC20L)                         30.05     115.86 r
-  count_reg_2_/D (SC7P5T_SDFFRQX4_CSC20L)                 0.00     115.86 r
-  data arrival time                                                115.86
-
-  clock cnt_clk (rise edge)                             700.00     700.00
-  clock network delay (ideal)                             0.00     700.00
-  clock uncertainty                                     -50.00     650.00
-  count_reg_2_/CLK (SC7P5T_SDFFRQX4_CSC20L)               0.00     650.00 r
-  library setup time                                    -54.03     595.97
-  data required time                                               595.97
-  --------------------------------------------------------------------------
-  data required time                                               595.97
-  data arrival time                                               -115.86
-  --------------------------------------------------------------------------
-  slack (MET)                                                      480.12
-```
-![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123753.png>)
-
-
 ## vi counter.sdc
 ```verilog
 #-----------------------------------------------------------------------
@@ -398,3 +347,101 @@ set_max_transition  0.15 -clock_path [all_clocks]
 set_max_fanout 64       [current_design]
 ```
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123943.png>)
+
+## vi output/counter1_0/counter1_0.timing_max.rpt
+```verilog
+Information: Updating design information... (UID-85)
+
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : counter1
+Version: V-2023.12-SP5-4
+Date   : Tue Jul 15 12:31:21 2025
+****************************************
+
+Operating Conditions: TT_0P80V_0P00V_0P00V_0P00V_25C   Library: GF22FDX_SC7P5T_116CPP_BASE_CSC20L_TT_0P80V_0P00V_0P00V_0P00V_25C
+Wire Load Model Mode: enclosed
+
+  Startpoint: count_reg_0_
+              (rising edge-triggered flip-flop clocked by cnt_clk)
+  Endpoint: count_reg_2_
+            (rising edge-triggered flip-flop clocked by cnt_clk)
+  Path Group: cnt_clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  count_reg_0_/CLK (SC7P5T_SDFFRQX4_CSC20L)               0.00       0.00 r
+  count_reg_0_/Q (SC7P5T_SDFFRQX4_CSC20L)                62.79      62.79 f
+  U14/Z (SC7P5T_AN2X4_CSC20L)                            15.88      78.68 f
+  U13/Z (SC7P5T_ND2X3_CSC20L)                             7.13      85.80 r
+  U18/Z (SC7P5T_AOA211X2_CSC20L)                         30.05     115.86 r
+  count_reg_2_/D (SC7P5T_SDFFRQX4_CSC20L)                 0.00     115.86 r
+  data arrival time                                                115.86
+
+  clock cnt_clk (rise edge)                             700.00     700.00
+  clock network delay (ideal)                             0.00     700.00
+  clock uncertainty                                     -50.00     650.00
+  count_reg_2_/CLK (SC7P5T_SDFFRQX4_CSC20L)               0.00     650.00 r
+  library setup time                                    -54.03     595.97
+  data required time                                               595.97
+  --------------------------------------------------------------------------
+  data required time                                               595.97
+  data arrival time                                               -115.86
+  --------------------------------------------------------------------------
+  slack (MET)                                                      480.12
+```
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123753.png>)
+
+## vi output/counter1_0/counter1_0.timing_min.rpt
+```verilog
+
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : counter1
+Version: V-2023.12-SP5-4
+Date   : Tue Jul 15 12:31:21 2025
+****************************************
+
+Operating Conditions: TT_0P80V_0P00V_0P00V_0P00V_25C   Library: GF22FDX_SC7P5T_116CPP_BASE_CSC20L_TT_0P80V_0P00V_0P00V_0P00V_25C
+Wire Load Model Mode: enclosed
+
+  Startpoint: count_reg_0_
+              (rising edge-triggered flip-flop clocked by cnt_clk)
+  Endpoint: count_reg_0_
+            (rising edge-triggered flip-flop clocked by cnt_clk)
+  Path Group: cnt_clk
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  count_reg_0_/CLK (SC7P5T_SDFFRQX4_CSC20L)               0.00       0.00 r
+  count_reg_0_/Q (SC7P5T_SDFFRQX4_CSC20L)                57.03      57.03 r
+  U12/Z (SC7P5T_INVX3_CSC20L)                             8.51      65.54 f
+  count_reg_0_/D (SC7P5T_SDFFRQX4_CSC20L)                 0.00      65.54 f
+  data arrival time                                                 65.54
+
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  count_reg_0_/CLK (SC7P5T_SDFFRQX4_CSC20L)               0.00      50.00 r
+  library hold time                                       3.17      53.17
+  data required time                                                53.17
+  --------------------------------------------------------------------------
+  data required time                                                53.17
+  data arrival time                                                -65.54
+  --------------------------------------------------------------------------
+  slack (MET)                                                       12.37
+```
+![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 125237.png>)
+
