@@ -80,3 +80,191 @@ CDC(Clock Domain Crossing)는 서로 다른 클럭 도메인 간에 신호가 �
 
 **✅ 타이밍 예외 설정**
 CDC 경로는 STA에서 false path 또는 max/min delay로 제약을 걸어줘야 한다.
+
+# 실습
+
+### counter1.v
+```verilog
+`timescale 1ns/10ps;
+
+module counter1 (
+ input clk, rst,
+ output [3:0] cnt,
+ output ind_cnt
+);
+
+reg [3:0] count;
+
+assign cnt = count;
+
+always @(posedge clk or posedge rst) begin
+ if (rst) begin
+	count <= 4'b0;
+ end
+ else begin
+	count <= count + 4'b1;
+ end
+end
+
+reg ind_cnt;
+always @(posedge clk or posedge rst) begin
+	if(rst) begin
+		ind_cnt <= 1'b0;
+	end
+	else if (count == 4'b0010)
+		ind_cnt <= 1'b1;
+	else
+		ind_cnt <= 1'b0;
+end
+
+
+endmodule
+```
+
+### counter1_xpor.v
+```verilog
+`timescale 1ns/10ps;
+
+module counter1_xpro (
+ input clk, rst,
+ output [3:0] cnt,
+ output ind_cnt
+);
+
+reg [3:0] count;
+
+assign cnt = count;
+
+//always @(posedge clk or posedge rst) begin
+always @(posedge clk) begin
+ //if (rst) begin
+//	count <= 4'b0;
+ //end
+ if (count == 4'd15)
+	count <= 0;
+ else
+	count <= count + 4'b1;
+end
+
+
+reg ind_cnt;
+always @(posedge clk or posedge rst) begin
+	if(rst) begin
+		ind_cnt <= 1'b0;
+	end
+	else if (count == 4'b0010)
+		ind_cnt <= 1'b1;
+	else
+		ind_cnt <= 1'b0;
+end
+
+endmodule
+```
+
+### counter2.v
+```verilog
+`timescale 1ns/10ps;
+
+module counter2(
+    input clk, rst,
+    output [3:0] cnt
+);
+
+reg [3:0] count;
+assign cnt = count;
+
+always @(posedge clk or posedge rst) begin
+	if (rst) begin
+        	count <= 4'b0;
+   	end
+    	else begin
+		if(count == 4'b0011) begin
+			count <= 4'b0;
+		end
+		else begin
+			count <= count + 4'b1;
+		end
+     	end
+end
+
+endmodule
+```
+
+### counter3.v
+```verilog
+`timescale 1ns/1ps
+module counter3(
+        input clk, rst,
+        output [3:0] cnt1, cnt2
+);
+
+reg [3:0] count1, count2;
+
+assign cnt1 = count1;
+assign cnt2 = count2;
+
+always @ (posedge clk or posedge rst) begin
+        if (rst) begin
+                count1 <= 4'b0;
+                count2 <= 4'b0;
+        end
+        else begin
+                if (count1==4'd11) begin
+                        count1<=4'b0;
+                        if (count2==4'd14) begin
+                                count2<=4'b0;
+                        end
+                        else begin
+                                count2<=count2+4'b1;
+                        end
+                end
+                else begin
+                        count1 <= count1 + 4'b1;
+                end
+        end
+end
+endmodule
+```
+
+### tb_counter.v
+```verilog
+`timescale 1ns/10ps
+
+module tb_cnt();
+
+reg clk, rst;
+wire [3:0] cnt1, cnt2, cnt3_1, cnt3_2;
+wire ind_cnt1, ind_cnt1_xpro;
+
+initial begin
+	clk <= 1'b1;
+	rst <= 1'b0;
+	#5 rst <=1'b1;
+	#5 rst <=1'b0;
+	#400 $finish;
+end
+
+counter1 TEST1(clk, rst, cnt1, ind_cnt1);
+counter1_xpro TEST1_xpro (clk, rst, cnt1_xpro, ind_cnt1_xpro);
+counter2 TEST2(clk, rst, cnt2);
+counter3 TEST3(clk, rst, cnt3_1, cnt3_2);
+
+always #5 clk <= ~clk;
+
+endmodule
+```
+
+### counter_list
+```
+./counter1.v
+./counter1_xpro.v
+./counter2.v
+./counter3.v
+./tb_counter.v
+```
+
+### RUN_CNT
+```
+vcs -full64 -kdb -debug_access+all+reverse -f counter_list
+./simv -verdi &
+```
