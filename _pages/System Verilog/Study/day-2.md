@@ -178,7 +178,7 @@ always @(posedge clk or posedge rst) begin
         	count <= 4'b0;
    	end
     	else begin
-		if(count == 4'b0011) begin
+		if(count == 4'd11) begin
 			count <= 4'b0;
 		end
 		else begin
