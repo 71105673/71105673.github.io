@@ -94,8 +94,7 @@ CDC 경로는 STA에서 false path 또는 max/min delay로 제약을 걸어줘�
 
 
 
-
-# 실습 RTL 
+# 실습 1. RTL Level 
 
 ## counter1.v
 ```verilog
@@ -283,21 +282,9 @@ vcs -full64 -kdb -debug_access+all+reverse -f counter_list
 ./simv -verdi &
 ```
 
-# 결과 -> RTL Simulation
+## 결과 -> RTL Simulation
 **코드가 잘 돌아가나 시험**
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 115205.png>)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -521,7 +508,7 @@ vcs -full64 \
 ./simv -verdi &
 ```
 
-# 결과 -> Pre-Layout Simulation
+## 결과 -> Pre-Layout Simulation
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 141335.png>)
 결과가 동일하게 나오며 이상 없음을 확인
 
@@ -534,6 +521,8 @@ vcs -full64 \
 
 ## run_counter_xpro.dc
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 145610.png>)
+
+위치를 verilog로 옮긴 후
 
 ```
  cp ../syn/output/counter1_xpro_0/counter1_xpro_0.v .
