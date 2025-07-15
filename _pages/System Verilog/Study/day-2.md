@@ -595,6 +595,16 @@ endmodule
 ```
 
 ## 결과 -> Gate Level Simulation
+
+> RTL Level에서는 0이 나온 값이 Gate Level에서는 X가 나옴
+>
+> 코드에서 오류가 나온 이유를 찾아야함
+>
+> 해당 코드의 경우 X가 뜨기 이전(0ns) 에서부터 오류 발생
+>
+> tb상의 rst시 0초기화 부분이 없기에 발생한 오류인 것을 확인 가능하다.
+
+
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 152334.png>)
 
 
