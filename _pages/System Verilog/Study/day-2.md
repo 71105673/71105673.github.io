@@ -471,7 +471,11 @@ always #5 clk <= ~clk;
 
 endmodule
 ```
-
+## gate_cnt_filelist
+```
+./counter1_0.v
+./tb_gate_cnt1.v
+```
 ## run_gate_cnt1
 ```
 vcs -full64 \
@@ -483,8 +487,3 @@ vcs -full64 \
 ./simv -verdi &
 ```
 
-## gate_cnt_filelist
-```
-./counter1_0.v
-./tb_gate_cnt1.v
-```
