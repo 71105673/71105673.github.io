@@ -21,3 +21,34 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 
 ### Recovery / Removal time
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 092225.png>)
+
+
+### set_clock_transition
+- 클럭의 **rise/fall 전이 시간(transition time)** 을 명시적으로 정의하여 **정확한 타이밍 분석**을 수행하도록 합니다.
+  
+- 클럭 신호가 **0 → 1 또는 1 → 0**으로 바뀌는 데 걸리는 시간 (slew rate) 
+### set_max_transition
+- 넷(net) 또는 핀(pin)에서 허용되는 최대 전이 시간을 제한합니다.
+
+- 전이 시간이 너무 크면 타이밍 오류 또는 신호 무결성 문제 발생 가능
+### set_max_fanout
+- 하나의 게이트 출력이 연결 가능한 최대 fanout 수를 제한
+
+- fanout이 많아지면 부하가 커지고, 그에 따라 지연 및 전이 시간 악화됨
+
+### set_input_delay
+- **입력 신호**가 클럭 엣지 기준으로 언제 도착하는지를 설정
+
+- 클럭 도메인 간 인터페이스 또는 외부 장치에서 데이터를 받을 때 타이밍 분석에 사용됨
+  
+### set_output_delay
+- 출력 신호가 클럭 엣지 기준으로 언제까지 도착해야 하는지 설정
+
+- 회로가 외부 장치로 데이터를 전송할 때 그 장치의 세팅 타이밍에 맞춰야 함
+
+### set_multicycle_path
+- **여러 클럭 사이클(multi-cycle)** 을 사용하는 경로를 명시적으로 설정하여, 타이밍 분석이 과도하게 보수적이지 않도록 조정
+### set_false_path
+- 실제 회로 동작에서 타이밍을 맞출 필요가 없는 경로를 STA 분석에서 제외시킴
+
+- false path는 실제 데이터 전송이 발생하지 않거나, 타이밍 위반이 발생해도 무관한 경로
