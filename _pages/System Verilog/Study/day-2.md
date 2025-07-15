@@ -287,14 +287,14 @@ dc_shell -f counter.tcl | tee run.log
 ```
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123440.png>)
 
-## vi counter.tcl
+## counter.tcl
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 124815.png>)
 
 
-## vi output/counter1_0/counter1_0.v
+## output/counter1_0/counter1_0.v
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123557.png>)
 
-## vi counter.sdc
+## counter.sdc
 ```verilog
 #-----------------------------------------------------------------------
 #  case &  clock definition
@@ -348,7 +348,7 @@ set_max_fanout 64       [current_design]
 ```
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123943.png>)
 
-## vi output/counter1_0/counter1_0.timing_max.rpt
+## output/counter1_0/counter1_0.timing_max.rpt
 ```verilog
 Information: Updating design information... (UID-85)
 
@@ -398,7 +398,7 @@ Wire Load Model Mode: enclosed
 ```
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 123753.png>)
 
-## vi output/counter1_0/counter1_0.timing_min.rpt
+## output/counter1_0/counter1_0.timing_min.rpt
 **Hole**의 경우는 시간 그래프상 오른쪽이기 때문에 -가 나오면 violation
 ```verilog
 
@@ -446,4 +446,29 @@ Wire Load Model Mode: enclosed
 ```
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 125237.png>)
 
+
+## tb_gate_cnt1.v
+```verilog
+`timescale 1ps/1fs
+
+module tb_gate_cnt1();
+
+reg clk,rst;
+wire [3:0] cnt1;
+wire ind_cnt1;
+
+initial begin
+ clk <= 1'b1;
+ rst <= 1'b0;
+ #5 rst <= 1'b1;
+ #5 rst <= 1'b0;
+ #400 $finish;
+end
+
+counter1 GATE_CNT1(clk, rst, cnt1, ind_cnt1);
+
+always #5 clk <= ~clk;
+
+endmodule
+```
 
