@@ -271,3 +271,17 @@ vcs -full64 -kdb -debug_access+all+reverse -f counter_list
 
 ### 결과
 ![alt text](<../../../assets/img/SystemVerilog/스크린샷 2025-07-15 115205.png>)
+
+### counter.list
+```
+lappend search_path  ../verilog
+set net_list "\
+../verilog/counter1.v\
+"
+ analyze -format verilog -library WORK $net_list
+```
+
+### run_counter.dc
+```
+dc_shell -f counter.tcl | tee run.log
+```
