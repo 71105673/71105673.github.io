@@ -85,7 +85,7 @@ CDC 경로는 STA에서 false path 또는 max/min delay로 제약을 걸어줘�
 
 ### counter1.v
 ```verilog
-`timescale 1ns/10ps;
+`timescale 1ns/10ps
 
 module counter1 (
  input clk, rst,
@@ -123,7 +123,7 @@ endmodule
 
 ### counter1_xpor.v
 ```verilog
-`timescale 1ns/10ps;
+`timescale 1ns/10ps
 
 module counter1_xpro (
  input clk, rst,
@@ -163,7 +163,7 @@ endmodule
 
 ### counter2.v
 ```verilog
-`timescale 1ns/10ps;
+`timescale 1ns/10ps
 
 module counter2(
     input clk, rst,
@@ -192,7 +192,7 @@ endmodule
 
 ### counter3.v
 ```verilog
-`timescale 1ns/1ps
+`timescale 1ns/10ps
 module counter3(
         input clk, rst,
         output [3:0] cnt1, cnt2
