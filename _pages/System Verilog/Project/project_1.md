@@ -16,3 +16,10 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 > 
 > 이것을 fixed point simulation
 ![alt text](<../../../assets/img/SystemVerilog/project_1/스크린샷 2025-07-15 163210.png>)
+
+> RRC Filter -> 주파수 도메인 확인
+>
+> 여기서 fixed = 1.8인 이유가 정수부가 작아서
+>
+> 즉 정수부 1, 소수부 8 = 9bit
+![alt text](<../../../assets/img/SystemVerilog/project_1/스크린샷 2025-07-15 163719.png>)
