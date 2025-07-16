@@ -262,7 +262,7 @@ endmodule
 ./tb_rrc_filter.sv
 ```
 
-## run_rrc_filter2
+## run_rrc_filter2 -> verdi 실행용
 ```
 vcs -full64 -sverilog -kdb -debug_access+all+reverse -f rrc_filelist
 ./simv -verdi &
@@ -275,7 +275,7 @@ vcs -full64 -sverilog -kdb -debug_access+all+reverse -f rrc_filelist
 >
 > Saturation이 되며 상위 비트를 처리하는 것을 확인할 수 있다.
 
-## run_rrc_filter
+## run_rrc_filter -> txt 파일 생성
 ```
 vcs -sverilog -full64 -debug_all \
 	rrc_filter.sv tb_rrc_filter.sv \
