@@ -275,94 +275,13 @@ vcs -full64 -sverilog -kdb -debug_access+all+reverse -f rrc_filelist
 >
 > Saturation이 되며 상위 비트를 처리하는 것을 확인할 수 있다.
 
+### 인풋 33개로 직접 게산해보기
 또한
 ![alt text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 140612.png>)
 
-```
-shift_din[ 0] = 22
-shift_din[ 1] = 9
-shift_din[ 2] = -5
-shift_din[ 3] = 9
-shift_din[ 4] = 22
-shift_din[ 5] = 8
-shift_din[ 6] = -4
-shift_din[ 7] = 9
-shift_din[ 8] = 21
-shift_din[ 9] = 10
-shift_din[10] = -3
-shift_din[11] = 7
-shift_din[12] = 20
-shift_din[13] = 15
-shift_din[14] = -1
-shift_din[15] = -13
-shift_din[16] = -17
-shift_din[17] = -14
-shift_din[18] = 1
-shift_din[19] = 13
-shift_din[20] = 18
-shift_din[21] = 13
-shift_din[22] = 0
-shift_din[23] = -13
-shift_din[24] = -18
-shift_din[25] = -12
-shift_din[26] = -1
-shift_din[27] = 14
-shift_din[28] = 19
-shift_din[29] = 7
-shift_din[30] = -2
-shift_din[31] = 8
-shift_din[32] = 20
-```
-**입력에 대한 계수 값을 곱셈 후 누산 결과**
-
-| i  | din\[i] | coeff\[i] | mul\[i] |
-| -- | ------- | --------- | ------- |
-| 0  | 22      | 0         | 0       |
-| 1  | 9       | -1        | -9      |
-| 2  | -5      | 1         | -5      |
-| 3  | 9       | 0         | 0       |
-| 4  | 22      | -3        | -66     |
-| 5  | 8       | 0         | 0       |
-| 6  | -4      | 6         | -24     |
-| 7  | 9       | 0         | 0       |
-| 8  | 21      | -11       | -231    |
-| 9  | 10      | 0         | 0       |
-| 10 | -3      | 19        | -57     |
-| 11 | 7       | 0         | 0       |
-| 12 | 20      | -33       | -660    |
-| 13 | 15      | 0         | 0       |
-| 14 | -1      | 59        | -59     |
-| 15 | -13     | 111       | -1443   |
-| 16 | -17     | 196       | -3332   |
-| 17 | -14     | 111       | -1554   |
-| 18 | 1       | 59        | 59      |
-| 19 | 13      | 0         | 0       |
-| 20 | 18      | -33       | -594    |
-| 21 | 13      | 0         | 0       |
-| 22 | 0       | 19        | 0       |
-| 23 | -13     | 0         | 0       |
-| 24 | -18     | -11       | 198     |
-| 25 | -12     | 0         | 0       |
-| 26 | -1      | 6         | -6      |
-| 27 | 14      | 0         | 0       |
-| 28 | 19      | -3        | -57     |
-| 29 | 7       | 0         | 0       |
-| 30 | -2      | 1         | -2      |
-| 31 | 8       | -1        | -8      |
-| 32 | 20      | 0         | 0       |
-= **-7780**
-
-**Fixed-point 보정:**
--7780 >> 8 = -30.46 → 소수 버리고 → -31
-
-**Saturation:**
--31 ∈ [-64, 63] → 범위 안 → 그대로 사용
-
-첫 출력: data_out = -31
-
 ![alt text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 140937.png>)
 
-390ns 이후, (rstn 이후 33clk 지난 시점) + Saturation & Truncation (2clk)
+390ns 이후, (rstn 이후 33clk 지난 시점) + Saturation & Truncation (1clk)
 즉 410ns에서 결과 값 -31을 확인 가능하다.
 
 
@@ -383,28 +302,29 @@ vcs -sverilog -full64 -debug_all \
 
 ## MATLAB 결과
 ```matlab
->> % 데이터 불러오기
-y1 = load('rrc_do_pro.txt');
-y2 = load('my_rrc_do.txt');
+% Created on 2025/07/02 by jihan
 
-% 서브플롯: 좌우 1행 2열
-subplot(1, 2, 1);            % 왼쪽 그래프
-plot(y1);
-xlabel('Sample');
-ylabel('Amplitude');
-title('rrc\_do\_pro.txt');
-grid on;
+clc;
 
-subplot(1, 2, 2);            % 오른쪽 그래프
-plot(y2);
-xlabel('Sample');
-ylabel('Amplitude');
-title('my\_rrc\_do.txt');
-grid on;
+% fixed_mode = 0; % '0' = floating
+fixed_mode = 1;   % '1' = fixed
+
+[FileName, PathName] = uigetfile('*.txt', 'select the capture binary file');
+[FID, message] = fopen(FileName, 'r');
+
+if (fixed_mode)
+    waveform = fscanf(FID, '%d', [1 Inf]);
+else
+    waveform = fscanf(FID, '%f', [1 Inf]);
+end
+
+Iwave = waveform(1, :);
+
+figure;
+pwelch(double(Iwave));
 ```
 제시된 결과와 비슷한 파형을 확인 가능
 
-![alt text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 110058.png>)
-
+![alt text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 161553.png>)
 
 
