@@ -375,6 +375,12 @@ vcs -sverilog -full64 -debug_all \
 
 해당 코드를 통해 rrc_do.txt를 출력하여 MATLAB을 통해 파형 확인
 
+## Verdi 파형 -> analog wave
+![text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 144256.png>) 
+![text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 144313.png>) 
+![text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 144325.png>) 
+![text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 144405.png>)
+
 ## MATLAB 결과
 ```matlab
 >> % 데이터 불러오기
