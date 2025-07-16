@@ -166,16 +166,20 @@ end
 logic signed [WIDTH+8-1:0] trunc_filter_sum;
 assign trunc_filter_sum = filter_sum[WIDTH+16-1:8];
 
-// Saturation <1.6> 최종 출력을 위해 (7bit) 범위 -64~63
+// Saturation <1.6> 최종 출력을 위해 (7bit) 범위 -64~
 always_ff @(posedge clk or negedge rstn) begin
-    if (~rstn)
+    if (~rstn) begin
         data_out <= 'h0;
-    else if (trunc_filter_sum >= 63)
+    end 
+    else if (trunc_filter_sum >= 63)begin
         data_out <= 63;
-    else if (trunc_filter_sum < -64)
+    end
+    else if (trunc_filter_sum < -64)begin
         data_out <= -64;
-    else
+    end
+    else begin
         data_out <= trunc_filter_sum[WIDTH-1:0];
+    end
 end
 
 endmodule
@@ -258,7 +262,7 @@ endmodule
 ./tb_rrc_filter.sv
 ```
 
-## run_rrc_filter
+## run_rrc_filter2
 ```
 vcs -full64 -sverilog -kdb -debug_access+all+reverse -f rrc_filelist
 ./simv -verdi &
