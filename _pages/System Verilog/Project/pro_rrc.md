@@ -79,9 +79,8 @@ module rrc_filter #(
     output logic signed [WIDTH-1:0] data_out
 );
 
-// coeff -3, -1.8, -7, -14, 24, 19, -62, -23, 225, 387, 225, -23, -62, 19, 24, -14, -7, 8, -1, -3 -> <8.14>
-// format : <1.8>
 
+// format <8.14> -> 16bit 표현하기 위한 범위 설정
 logic signed [WIDTH+9-1:0] mul_00, mul_01, mul_02, mul_03;
 logic signed [WIDTH+9-1:0] mul_04, mul_05, mul_06, mul_07;
 logic signed [WIDTH+9-1:0] mul_08, mul_09, mul_10, mul_11;
@@ -108,6 +107,8 @@ always@(posedge clk or negedge rstn) begin
     end
 end
 
+// format : <1.8> 에 해당되는 coeff 곱하여 가중치 계산
+// <1.6> din * <1.8> coeff -> <2.14> format
 always @(*) begin
     mul_00 = shift_din[00]*0;
     mul_01 = shift_din[01]*-1;
@@ -145,7 +146,10 @@ always @(*) begin
 end
 
 logic signed [WIDTH+16-1:0] filter_sum;
+
 //always_comb begin
+// <2.14> format -> 33개 그럼 여유롭게 32<33<64 
+// <2.14> 를 64개 더하면 -> <8.14> 2+ 2^6 -> 2+8 = 8
 always @(*) begin
     filter_sum = mul_00 + mul_01 + mul_02 + mul_03 +
                  mul_04 + mul_05 + mul_06 + mul_07 +
@@ -158,9 +162,11 @@ always @(*) begin
                  mul_32;
 end
 
+// Truncation  <8.14> 22bit를 뒷자리 8만큼 짤라서 (<1.6>으로 만들기 위해 소수보면 14 - 6 = 8)
 logic signed [WIDTH+8-1:0] trunc_filter_sum;
 assign trunc_filter_sum = filter_sum[WIDTH+16-1:8];
 
+// Saturation <1.6> 최종 출력을 위해 (7bit) 범위 -64~63
 always_ff @(posedge clk or negedge rstn) begin
     if (~rstn)
         data_out <= 'h0;
