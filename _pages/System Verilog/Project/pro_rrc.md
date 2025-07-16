@@ -274,3 +274,37 @@ vcs -full64 -sverilog -kdb -debug_access+all+reverse -f rrc_filelist
 > Truncation에서 하위 8bit를 자른 후, 
 >
 > Saturation이 되며 상위 비트를 처리하는 것을 확인할 수 있다.
+
+## run_rrc_filter
+```
+vcs -sverilog -full64 -debug_all \
+	rrc_filter.sv tb_rrc_filter.sv \
+	-o simv && ./simv
+```
+
+해당 코드를 통해 rrc_do.txt를 출력하여 MATLAB을 통해 파형 확인
+
+## MATLAB 결과
+```matlab
+>> % 데이터 불러오기
+y1 = load('rrc_do_pro.txt');
+y2 = load('my_rrc_do.txt');
+
+% 서브플롯: 좌우 1행 2열
+subplot(1, 2, 1);            % 왼쪽 그래프
+plot(y1);
+xlabel('Sample');
+ylabel('Amplitude');
+title('rrc\_do\_pro.txt');
+grid on;
+
+subplot(1, 2, 2);            % 오른쪽 그래프
+plot(y2);
+xlabel('Sample');
+ylabel('Amplitude');
+title('my\_rrc\_do.txt');
+grid on;
+```
+![alt text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 110058.png>)
+
+제시된 결과와 비슷한 파형을 확인 가능
