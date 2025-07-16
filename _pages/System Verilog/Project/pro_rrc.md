@@ -251,3 +251,15 @@ rrc_filter #(.WIDTH(7)) i_rrc_filter (
 
 endmodule
 ```
+
+## rrc_filelist
+```
+./rrc_filter.sv
+./tb_rrc_filter.sv
+```
+
+## run_rrc_filter
+```
+vcs -full64 -sverilog -kdb -debug_access+all+reverse -f rrc_filelist
+./simv -verdi &
+```
