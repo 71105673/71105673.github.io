@@ -267,3 +267,10 @@ endmodule
 vcs -full64 -sverilog -kdb -debug_access+all+reverse -f rrc_filelist
 ./simv -verdi &
 ```
+
+## 결과
+![alt text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 105522.png>)
+
+> Truncation에서 하위 8bit를 자른 후, 
+>
+> Saturation이 되며 상위 비트를 처리하는 것을 확인할 수 있다.
