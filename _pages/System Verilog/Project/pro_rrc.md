@@ -305,6 +305,7 @@ ylabel('Amplitude');
 title('my\_rrc\_do.txt');
 grid on;
 ```
+제시된 결과와 비슷한 파형을 확인 가능
+
 ![alt text](<../../../assets/img/SystemVerilog/rrc/스크린샷 2025-07-16 110058.png>)
 
-제시된 결과와 비슷한 파형을 확인 가능
