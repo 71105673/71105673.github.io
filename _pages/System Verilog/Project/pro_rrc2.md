@@ -590,3 +590,57 @@ end
 # MATLAB waveform
 
 ![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 113208.png>)
+
+## 이전 비교
+```matlab
+clc;
+
+% fixed_mode = 0; % '0' = floating
+fixed_mode = 1;   % '1' = fixed
+
+% 첫 번째 파일 선택
+[FileName1, PathName1] = uigetfile('*.txt', 'Select the FIRST capture binary file');
+if isequal(FileName1, 0)
+    error('No file selected');
+end
+[FID1, message1] = fopen(fullfile(PathName1, FileName1), 'r');
+
+% 두 번째 파일 선택
+[FileName2, PathName2] = uigetfile('*.txt', 'Select the SECOND capture binary file');
+if isequal(FileName2, 0)
+    error('No second file selected');
+end
+[FID2, message2] = fopen(fullfile(PathName2, FileName2), 'r');
+
+% 데이터 읽기
+if fixed_mode
+    waveform1 = fscanf(FID1, '%d', [1 Inf]);
+    waveform2 = fscanf(FID2, '%d', [1 Inf]);
+else
+    waveform1 = fscanf(FID1, '%f', [1 Inf]);
+    waveform2 = fscanf(FID2, '%f', [1 Inf]);
+end
+
+% 파일 닫기
+fclose(FID1);
+fclose(FID2);
+
+% 파형 변수
+Iwave1 = waveform1(1, :);
+Iwave2 = waveform2(1, :);
+
+% 파워 스펙트럼 비교
+figure;
+[pxx1, f1] = pwelch(double(Iwave1));
+[pxx2, f2] = pwelch(double(Iwave2));
+
+plot(f1, 10*log10(pxx1), 'b', 'DisplayName', 'File 1');
+hold on;
+plot(f2, 10*log10(pxx2), 'r', 'DisplayName', 'File 2');
+grid on;
+xlabel('Frequency (Hz)');
+ylabel('Power/Frequency (dB/Hz)');
+legend;
+title('Comparison of Power Spectral Density (pwelch)');
+```
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 113937.png>)
