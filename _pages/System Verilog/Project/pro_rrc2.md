@@ -482,3 +482,107 @@ endmodule
   slack (VIOLATED)                                                 -16.27
 ```
 ![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 112105.png>)
+
+## 추가 실험
+```verilog
+logic signed [WIDTH+16-1:0] filter_sum_1;
+logic signed [WIDTH+16-1:0] filter_sum_2;
+logic signed [WIDTH+16-1:0] filter_sum_3;
+logic signed [WIDTH+16-1:0] filter_sum_4;
+
+//always_comb begin
+// <2.14> format -> 33개 그럼 여유롭게 32<33<64 
+// <2.14> 를 64개 더하면 -> <8.14> 2+ 2^6 -> 2+8 = 8
+always @(*) begin
+    filter_sum_1 <= mul_00 + mul_01 + mul_02 + mul_03 +
+                 mul_04 + mul_05 + mul_06 + mul_07;
+
+    filter_sum_2 <= mul_08 + mul_09 + mul_10 + mul_11 +
+                 mul_12 + mul_13 + mul_14 + mul_15;
+
+    filter_sum_3 <= mul_16 + mul_17 + mul_18 + mul_19 +
+                 mul_20 + mul_21 + mul_22 + mul_23;
+
+    filter_sum_4 <= mul_24 + mul_25 + mul_26 + mul_27 +
+                 mul_28 + mul_29 + mul_30 + mul_31 +
+                 mul_32;
+end
+
+logic signed [WIDTH+16-1:0] filter_sum_reg;
+
+always_ff @(posedge clk or negedge rstn) begin
+	if(~rstn) begin
+		filter_sum_reg <= 'h0;
+	end
+	else begin
+		filter_sum_reg <= filter_sum_1 + filter_sum_2 + filter_sum_3 + filter_sum_4;
+	end
+end
+```
+
+## Timing Max -> Setup
+```
+
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  mul_13_reg_7_/CLK (SC7P5T_SDFFRQX4_CSC20L)              0.00       0.00 r
+  mul_13_reg_7_/Q (SC7P5T_SDFFRQX4_CSC20L)               59.32      59.32 f
+  U804/S (SC7P5T_FAX2_A_CSC20L)                          54.36     113.67 r
+  U812/S (SC7P5T_FAX2_A_CSC20L)                          57.70     171.38 f
+  U818/S (SC7P5T_FAX2_A_CSC20L)                          61.07     232.45 r
+  U541/Z (SC7P5T_XNR2X2_CSC20L)                          38.87     271.32 f
+  U528/Z (SC7P5T_XNR2X2_CSC20L)                          31.62     302.94 r
+  U251/Z (SC7P5T_XNR2X2_CSC20L)                          36.30     339.24 f
+  U245/Z (SC7P5T_XNR2X2_CSC20L)                          34.62     373.86 r
+  U274/Z (SC7P5T_ND2IAX2_CSC20L)                         13.42     387.29 f
+  U292/Z (SC7P5T_OA21X4_CSC20L)                          24.55     411.84 f
+  U236/Z (SC7P5T_OAI21X6_CSC20L)                         12.13     423.97 r
+  U220/Z (SC7P5T_INVX2_CSC20L)                           11.33     435.30 f
+  U542/Z (SC7P5T_XNR2X2_CSC20L)                          29.94     465.24 r
+  filter_sum_reg_reg_9_/D (SC7P5T_SDFFRQX4_S_CSC20L)      0.00     465.24 r
+  data arrival time                                                465.24
+
+  clock cnt_clk (rise edge)                             560.00     560.00
+  clock network delay (ideal)                             0.00     560.00
+  clock uncertainty                                     -50.00     510.00
+  filter_sum_reg_reg_9_/CLK (SC7P5T_SDFFRQX4_S_CSC20L)
+                                                          0.00     510.00 r
+  library setup time                                    -44.26     465.74
+  data required time                                               465.74
+  --------------------------------------------------------------------------
+  data required time                                               465.74
+  data arrival time                                               -465.24
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.50
+```
+
+## Timing Min -> Hold
+```
+
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  shift_din_reg_23__2_/CLK (SC7P5T_DFFRQX4_S_CSC20L)      0.00       0.00 r
+  shift_din_reg_23__2_/Q (SC7P5T_DFFRQX4_S_CSC20L)       47.04      47.04 f
+  shift_din_reg_24__2_/D (SC7P5T_DFFRQX1_AS_CSC20L)       0.00      47.04 f
+  data arrival time                                                 47.04
+
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  shift_din_reg_24__2_/CLK (SC7P5T_DFFRQX1_AS_CSC20L)     0.00      50.00 r
+  library hold time                                      13.32      63.32
+  data required time                                                63.32
+  --------------------------------------------------------------------------
+  data required time                                                63.32
+  data arrival time                                                -47.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                 -16.27
+```
