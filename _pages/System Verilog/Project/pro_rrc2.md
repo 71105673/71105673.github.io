@@ -586,3 +586,7 @@ end
   --------------------------------------------------------------------------
   slack (VIOLATED)                                                 -16.27
 ```
+
+# MATLAB waveform
+
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 113208.png>)
