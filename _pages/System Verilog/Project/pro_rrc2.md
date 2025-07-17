@@ -129,7 +129,7 @@ dc_shell -f rrc_filter.tcl | tee run.log
 
 ## 고찰
 Logic Delay가 너무 길어 생긴 상황
-따라서 Pipe Path를 넣어서 Setup Delay를 해결하고자 함
+따라서 Pipe reg를 넣어서 Setup Delay를 해결하고자 함
 
 
 
@@ -387,7 +387,7 @@ endmodule
 ![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 135257.png>)
 
 ## 고찰
-Pipe Line을 통해 Setup Violation 해결완료  
+Pipe reg를 통해 Setup Violation 해결완료  
 
 # Pipe 추가 및 개선
 **Sum 부분의 계산에 FF 추가**
