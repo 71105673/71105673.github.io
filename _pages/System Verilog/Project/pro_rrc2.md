@@ -132,7 +132,7 @@ Logic Delay가 너무 길어 생긴 상황
 따라서 Pipe Path를 넣어서 Setup Delay를 해결하고자 함
 
 
-# Pipe 구조 변경
+# Pipe 구조 변경 synthesis
 ```verilog
 `timescale 1ns / 1ps
 
@@ -298,7 +298,7 @@ endmodule
 ![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 110558.png>)
 
 
-# Synthesis
+# Synthesis 결과
 
 ## Timing Max -> Setup
 ```
@@ -371,3 +371,114 @@ endmodule
 
 ## 고찰
 아직 Setup Violation이 발생 그러나 이전에 비해 많은 개선이 일어남 추가 수정을 통해 오류를 잡기위해 stage를 더 나누기 시도
+
+# Pipe 추가 
+**Sum 부분의 계산에 FF 추가**
+```verilog
+
+logic signed [WIDTH+16-1:0] filter_sum_reg;
+
+always_ff @(posedge clk or negedge rstn) begin
+        if(~rstn) begin
+                filter_sum_reg <= 'h0;
+        end
+        else begin
+                filter_sum_reg <= filter_sum_1 + filter_sum_2;
+        end
+end
+
+// Truncation  <8.14> 22bit를 뒷자리 8만큼 짤라서 (<1.6>으로 만들기 위해 소수보면 14 - 6 = 8)
+logic signed [WIDTH+8-1:0] trunc_filter_sum;
+assign trunc_filter_sum = filter_sum_reg[WIDTH+16-1:8];
+
+// Saturation <1.6> 최종 출력을 위해 (7bit) 범위 -64~
+always_ff @(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        data_out <= 'h0;
+    end
+    else if (trunc_filter_sum >= 63)begin
+        data_out <= 63;
+    end
+    else if (trunc_filter_sum < -64)begin
+        data_out <= -64;
+    end
+    else begin
+        data_out <= trunc_filter_sum[WIDTH-1:0];
+    end
+end
+
+endmodule
+```
+# Synthesis
+## Timing Max -> Setup
+```
+
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  mul_19_reg_6_/CLK (SC7P5T_SDFFRQX4_S_CSC20L)            0.00       0.00 r
+  mul_19_reg_6_/Q (SC7P5T_SDFFRQX4_S_CSC20L)             50.30      50.30 f
+  U780/S (SC7P5T_FAX2_A_CSC20L)                          58.68     108.97 r
+  U812/S (SC7P5T_FAX2_A_CSC20L)                          56.77     165.74 f
+  U535/Z (SC7P5T_XNR2X2_CSC20L)                          39.25     204.99 r
+  U534/Z (SC7P5T_XNR2X2_CSC20L)                          29.53     234.52 f
+  U277/Z (SC7P5T_OA21X4_CSC20L)                          23.39     257.92 f
+  U276/Z (SC7P5T_NR2X4_CSC20L)                           11.41     269.32 r
+  U532/Z (SC7P5T_NR2IAX4_CSC20L)                         18.41     287.74 r
+  U400/Z (SC7P5T_OAI21X4_CSC20L)                         12.96     300.70 f
+  U518/Z (SC7P5T_XNR2X2_CSC20L)                          38.40     339.10 r
+  U517/Z (SC7P5T_XNR2X2_CSC20L)                          30.14     369.24 f
+  U218/Z (SC7P5T_NR2X4_CSC20L)                           11.79     381.04 r
+  U215/Z (SC7P5T_NR2X2_MR_CSC20L)                        10.29     391.33 f
+  U214/Z (SC7P5T_NR2X4_CSC20L)                           12.34     403.67 r
+  U230/Z (SC7P5T_ND2X6_CSC20L)                           14.91     418.58 f
+  U232/Z (SC7P5T_AO21IAX2_CSC20L)                        24.40     442.98 f
+  U551/Z (SC7P5T_XOR2X2_CSC20L)                          27.76     470.74 r
+  filter_sum_reg_reg_16_/D (SC7P5T_SDFFRQX2_A_CSC20L)     0.00     470.74 r
+  data arrival time                                                470.74
+
+  clock cnt_clk (rise edge)                             560.00     560.00
+  clock network delay (ideal)                             0.00     560.00
+  clock uncertainty                                     -50.00     510.00
+  filter_sum_reg_reg_16_/CLK (SC7P5T_SDFFRQX2_A_CSC20L)
+                                                          0.00     510.00 r
+  library setup time                                    -39.12     470.88
+  data required time                                               470.88
+  --------------------------------------------------------------------------
+  data required time                                               470.88
+  data arrival time                                               -470.74
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.14
+```
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 112043.png>)
+
+## Timing Min -> Hold
+```
+
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  shift_din_reg_23__0_/CLK (SC7P5T_DFFRQX4_S_CSC20L)      0.00       0.00 r
+  shift_din_reg_23__0_/Q (SC7P5T_DFFRQX4_S_CSC20L)       47.04      47.04 f
+  shift_din_reg_24__0_/D (SC7P5T_DFFRQX1_AS_CSC20L)       0.00      47.04 f
+  data arrival time                                                 47.04
+
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  shift_din_reg_24__0_/CLK (SC7P5T_DFFRQX1_AS_CSC20L)     0.00      50.00 r
+  library hold time                                      13.32      63.32
+  data required time                                                63.32
+  --------------------------------------------------------------------------
+  data required time                                                63.32
+  data arrival time                                                -47.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                 -16.27
+```
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 112105.png>)
