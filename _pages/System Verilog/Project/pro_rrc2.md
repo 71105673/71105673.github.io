@@ -705,3 +705,28 @@ legend;
 title('Comparison of Power Spectral Density (pwelch)');
 ```
 ![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 113937.png>)
+
+
+
+
+
+
+
+# MATLAB
+## RRC filter coefficient
+```matlab
+clc;
+
+% RRC filter coeffiecient
+rolloff = 0.3;
+span = 16;
+sps = 2;
+rrc_coef = rcosdesign(rolloff, span, sps, "sqrt");
+%[H,w] = freqz(rrc_coef);
+%plot(w,abs(H), 'r'), grid;
+freqz(rrc_coef);
+```
+
+## 결과 
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 152541.png>)
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 152545.png>)
