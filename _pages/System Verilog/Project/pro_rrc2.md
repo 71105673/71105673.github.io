@@ -293,3 +293,81 @@ end
 
 endmodule
 ```
+
+## Verdi
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 110558.png>)
+
+
+# Synthesis
+
+## Timing Max -> Setup
+```
+
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  mul_28_reg_10_/CLK (SC7P5T_SDFFRQNX4_CSC20L)            0.00       0.00 r
+  mul_28_reg_10_/QN (SC7P5T_SDFFRQNX4_CSC20L)            46.04      46.04 f
+  U1042/S (SC7P5T_FAX2_A_CSC20L)                         60.86     106.90 r
+  U1044/CO (SC7P5T_FAX2_A_CSC20L)                        37.49     144.39 r
+  U715/Z (SC7P5T_XOR3X2_CSC20L)                          66.89     211.28 f
+  U793/S (SC7P5T_FAX2_A_CSC20L)                          56.68     267.96 r
+  U293/Z (SC7P5T_XOR3X2_CSC20L)                          67.46     335.42 f
+  U276/Z (SC7P5T_XNR2X2_CSC20L)                          31.58     366.99 f
+  U210/Z (SC7P5T_NR2X4_CSC20L)                           16.34     383.33 r
+  U223/Z (SC7P5T_OAI21X4_CSC20L)                         15.36     398.69 f
+  U229/Z (SC7P5T_AOI21X6_CSC20L)                         14.95     413.65 r
+  U652/Z (SC7P5T_INVX4_CSC20L)                            9.13     422.77 f
+  U316/Z (SC7P5T_AOI21X2_CSC20L)                         12.50     435.27 r
+  U245/Z (SC7P5T_XNR2X1_CSC20L)                          27.47     462.75 f
+  U1096/Z (SC7P5T_OAI21X2_CSC20L)                        11.82     474.57 r
+  data_out_reg_4_/D (SC7P5T_SDFFRQX2_A_CSC20L)            0.00     474.57 r
+  data arrival time                                                474.57
+
+  clock cnt_clk (rise edge)                             560.00     560.00
+  clock network delay (ideal)                             0.00     560.00
+  clock uncertainty                                     -50.00     510.00
+  data_out_reg_4_/CLK (SC7P5T_SDFFRQX2_A_CSC20L)          0.00     510.00 r
+  library setup time                                    -39.68     470.32
+  data required time                                               470.32
+  --------------------------------------------------------------------------
+  data required time                                               470.32
+  data arrival time                                               -474.57
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -4.25
+```
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 110827.png>)
+
+## Timing Min -> Hold
+```
+
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  shift_din_reg_23__3_/CLK (SC7P5T_DFFRQX4_S_CSC20L)      0.00       0.00 r
+  shift_din_reg_23__3_/Q (SC7P5T_DFFRQX4_S_CSC20L)       47.04      47.04 f
+  shift_din_reg_24__3_/D (SC7P5T_DFFRQX1_AS_CSC20L)       0.00      47.04 f
+  data arrival time                                                 47.04
+
+  clock cnt_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                      50.00      50.00
+  shift_din_reg_24__3_/CLK (SC7P5T_DFFRQX1_AS_CSC20L)     0.00      50.00 r
+  library hold time                                      13.32      63.32
+  data required time                                                63.32
+  --------------------------------------------------------------------------
+  data required time                                                63.32
+  data arrival time                                                -47.04
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                 -16.27
+```
+![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 110931.png>)
+
+## 고찰
+아직 Setup Violation이 발생 그러나 이전에 비해 많은 개선이 일어남 추가 수정을 통해 오류를 잡기위해 stage를 더 나누기 시도
