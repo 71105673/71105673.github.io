@@ -127,3 +127,169 @@ dc_shell -f rrc_filter.tcl | tee run.log
 ![alt text](<../../../assets/img/SystemVerilog/rrc2/스크린샷 2025-07-17 093723.png>)
 
 
+## 고찰
+Logic Delay가 너무 길어 생긴 상황
+따라서 Pipe Path를 넣어서 Setup Delay를 해결하고자 함
+
+
+# Pipe 구조 변경
+```verilog
+`timescale 1ns / 1ps
+
+module rrc_filter #(
+    parameter WIDTH = 7
+)(
+    input         clk,
+    input         rstn,
+
+    input  [WIDTH-1:0]        data_in,   // format : <1.6>
+    output logic signed [WIDTH-1:0] data_out
+);
+
+
+// format <8.14> -> 16bit 표현하기 위한 범위 설정
+logic signed [WIDTH+9-1:0] mul_00, mul_01, mul_02, mul_03;
+logic signed [WIDTH+9-1:0] mul_04, mul_05, mul_06, mul_07;
+logic signed [WIDTH+9-1:0] mul_08, mul_09, mul_10, mul_11;
+logic signed [WIDTH+9-1:0] mul_12, mul_13, mul_14, mul_15;
+logic signed [WIDTH+9-1:0] mul_16, mul_17, mul_18, mul_19;
+logic signed [WIDTH+9-1:0] mul_20, mul_21, mul_22, mul_23;
+logic signed [WIDTH+9-1:0] mul_24, mul_25, mul_26, mul_27;
+logic signed [WIDTH+9-1:0] mul_28, mul_29, mul_30, mul_31;
+logic signed [WIDTH+9-1:0] mul_32;
+
+logic signed [WIDTH-1:0] shift_din [32:0];
+integer i;
+always@(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        for(i = 32; i >= 0; i=i-1) begin
+            shift_din[i] <= 0;
+        end
+    end
+    else begin
+        for(i = 32; i > 0; i=i-1) begin
+            shift_din[i] <= shift_din[i-1];
+        end
+        shift_din[0] <= data_in;
+    end
+end
+
+// format : <1.8> 에 해당되는 coeff 곱하여 가중치 계산
+// <1.6> din * <1.8> coeff -> <2.14> format
+always_ff @(posedge clk or negedge rstn) begin
+	if(~rstn) begin
+        mul_00 <= 'h0;
+        mul_01 <= 'h0;
+        mul_02 <= 'h0;
+        mul_03 <= 'h0;
+        mul_04 <= 'h0;
+        mul_05 <= 'h0;
+        mul_06 <= 'h0;
+        mul_07 <= 'h0;
+        mul_08 <= 'h0;
+        mul_09 <= 'h0;
+        mul_10 <= 'h0;
+        mul_11 <= 'h0;
+        mul_12 <= 'h0;
+        mul_13 <= 'h0;
+        mul_14 <= 'h0;
+        mul_15 <= 'h0;
+        mul_16 <= 'h0;
+        mul_17 <= 'h0;
+        mul_18 <= 'h0;
+        mul_19 <= 'h0;
+        mul_20 <= 'h0;
+        mul_21 <= 'h0;
+        mul_22 <= 'h0;
+        mul_23 <= 'h0;
+        mul_24 <= 'h0;
+        mul_25 <= 'h0;
+        mul_26 <= 'h0;
+        mul_27 <= 'h0;
+        mul_28 <= 'h0;
+        mul_29 <= 'h0;
+        mul_30 <= 'h0;
+        mul_31 <= 'h0;
+        mul_32 <= 'h0;
+    end
+    else begin
+        mul_00 <= shift_din[00]*0;
+        mul_01 <= shift_din[01]*-1;
+        mul_02 <= shift_din[02]*1;
+        mul_03 <= shift_din[03]*0;
+        mul_04 <= shift_din[04]*-1;
+        mul_05 <= shift_din[05]*2;
+        mul_06 <= shift_din[06]*0;
+        mul_07 <= shift_din[07]*-2;
+        mul_08 <= shift_din[08]*2;
+        mul_09 <= shift_din[09]*0;
+        mul_10 <= shift_din[10]*-6;
+        mul_11 <= shift_din[11]*8;
+        mul_12 <= shift_din[12]*10;
+        mul_13 <= shift_din[13]*-28;
+        mul_14 <= shift_din[14]*-14;
+        mul_15 <= shift_din[15]*111;
+        mul_16 <= shift_din[16]*196;
+        mul_17 <= shift_din[17]*111;
+        mul_18 <= shift_din[18]*-14;
+        mul_19 <= shift_din[19]*-28;
+        mul_20 <= shift_din[20]*10;
+        mul_21 <= shift_din[21]*8;
+        mul_22 <= shift_din[22]*-6;
+        mul_23 <= shift_din[23]*0;
+        mul_24 <= shift_din[24]*2;
+        mul_25 <= shift_din[25]*-2;
+        mul_26 <= shift_din[26]*0;
+        mul_27 <= shift_din[27]*2;
+        mul_28 <= shift_din[28]*-1;
+        mul_29 <= shift_din[29]*0;
+        mul_30 <= shift_din[30]*1;
+        mul_31 <= shift_din[31]*-1;
+        mul_32 <= shift_din[32]*0;
+    end
+end
+
+logic signed [WIDTH+16-1:0] filter_sum_1;
+logic signed [WIDTH+16-1:0] filter_sum_2;
+
+//always_comb begin
+// <2.14> format -> 33개 그럼 여유롭게 32<33<64 
+// <2.14> 를 64개 더하면 -> <8.14> 2+ 2^6 -> 2+8 = 8
+always @(*) begin
+    filter_sum_1 <= mul_00 + mul_01 + mul_02 + mul_03 +
+                 mul_04 + mul_05 + mul_06 + mul_07 +
+                 mul_08 + mul_09 + mul_10 + mul_11 +
+                 mul_12 + mul_13 + mul_14 + mul_15;
+
+    filter_sum_2 <= mul_16 + mul_17 + mul_18 + mul_19 +
+                 mul_20 + mul_21 + mul_22 + mul_23 +
+                 mul_24 + mul_25 + mul_26 + mul_27 +
+                 mul_28 + mul_29 + mul_30 + mul_31 +
+                 mul_32;
+end
+
+logic signed [WIDTH+16-1:0] filter_sum;
+assign filter_sum = filter_sum_1 + filter_sum_2;
+
+// Truncation  <8.14> 22bit를 뒷자리 8만큼 짤라서 (<1.6>으로 만들기 위해 소수보면 14 - 6 = 8)
+logic signed [WIDTH+8-1:0] trunc_filter_sum;
+assign trunc_filter_sum = filter_sum[WIDTH+16-1:8];
+
+// Saturation <1.6> 최종 출력을 위해 (7bit) 범위 -64~
+always_ff @(posedge clk or negedge rstn) begin
+    if (~rstn) begin
+        data_out <= 'h0;
+    end 
+    else if (trunc_filter_sum >= 63)begin
+        data_out <= 63;
+    end
+    else if (trunc_filter_sum < -64)begin
+        data_out <= -64;
+    end
+    else begin
+        data_out <= trunc_filter_sum[WIDTH-1:0];
+    end
+end
+
+endmodule
+```
