@@ -330,4 +330,13 @@ grid on;
 | step2\_2 | 2점 butterfly (최종 단계) | 512 = 256×2 | 512         | 없음                          | 최종 결과 완성됨 |
 
 
+### Twiddle Factor 참고
+| 이름      | 길이  | 적용되는 위치                      | 설명                    |
+| ------- | --- | ---------------------------- | --------------------- |
+| fac8\_0 | 4   | step0\_0, step1\_0, step2\_0 | N=4 FFT 기준 twiddle 상수 |
+| fac8\_1 | 8   | step0\_1, step1\_1, step2\_1 | N=8 FFT 기준 twiddle 상수 |
+| twf\_m0 | 512 | step0\_2                     | MSB 기준 `K3` 정렬용 위상 곱  |
+| twf\_m1 | 64  | step1\_2                     | MSB 기준 `K2` 정렬용 위상 곱  |
+
+
 ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_155319191.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160836190.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160844101.jpg)
