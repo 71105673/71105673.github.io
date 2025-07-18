@@ -326,3 +326,5 @@ grid on;
 | step2\_0 | 8점 단위 butterfly, 4점씩 쪼갬 | 512 (64×8)  | 512 (64×8)  | 8-point → 4-point butterfly | fac8\_2 (길이 16)로 4개씩 그룹화해 곱함 |
 | step2\_1 | 4점 단위 butterfly, 2점씩 쪼갬 | 512 (128×4) | 512 (128×4) | 4-point → 2-point butterfly | fac8\_3 (길이 32)로 2개씩 그룹화해 곱함 |
 | step2\_2 | 2점 단위 butterfly, 1점씩 쪼갬 | 512 (256×2) | 512 (256×2) | 2-point → 1-point butterfly | fac8\_4 (길이 64)로 1개씩 그룹화해 곱함 |
+
+![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_155319191.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160836190.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160844101.jpg)
