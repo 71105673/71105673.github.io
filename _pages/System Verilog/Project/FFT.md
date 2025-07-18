@@ -252,59 +252,13 @@ function [data_float, data_fixed] = cos_in_gen(fft_mode, num)
 end
 ```
 
-## 일단 확인
-
-```matlab
-% Test fft function (fft_float) with cosine input
-fft_mode = 1; % 1: FFT mode
-N = 512;
-
-% Generate cosine input (floating point)
-[cos_float, ~] = cos_in_gen(fft_mode, N);
-
-% Compute FFT using fft_float function (floating point FFT)
-[fft_out, ~] = fft_float(fft_mode, cos_float);
-
-% Time domain plot (input signal)
-figure;
-
-subplot(2,2,1);
-plot(0:N-1, real(cos_float));
-title('Input Signal (Time domain) - Real part');
-xlabel('Sample index');
-ylabel('Amplitude');
-grid on;
-
-subplot(2,2,2);
-plot(0:N-1, imag(cos_float));
-title('Input Signal (Time domain) - Imag part');
-xlabel('Sample index');
-ylabel('Amplitude');
-grid on;
-
-% Frequency domain plot (FFT output)
-freq_axis = (0:N-1)*(1/N); % Normalized frequency axis
-
-subplot(2,2,3);
-plot(freq_axis, real(fft_out));
-title('FFT Output (Frequency domain) - Real part');
-xlabel('Normalized Frequency');
-ylabel('Amplitude');
-grid on;
-
-subplot(2,2,4);
-plot(freq_axis, imag(fft_out));
-title('FFT Output (Frequency domain) - Imag part');
-xlabel('Normalized Frequency');
-ylabel('Amplitude');
-grid on;
-```
-![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-17 171436.png>)
+# MATLAB 그래프 확인
 
 
-## 고찰
 
-### Module0 
+# Flow
+
+## Module0 
 | Step     | 역할                           | 입력 크기 | 출력 크기 | Twiddle Factor 적용             | 비고                  |
 | -------- | ---------------------------- | ----- | ----- | ----------------------------- | ------------------- |
 | step0\_0 | 512 → 256×2로 홀짝 분할 (radix-4) | 512   | 512   | `fac8_0(ceil(nn/128))` (길이 4) | N=4 FFT, MSB 초기 정렬용 |
@@ -313,7 +267,7 @@ grid on;
                                 
 
 
-### Module1
+## Module1
 | Step     | 역할                     | 입력 크기       | 출력 크기       | Twiddle Factor 적용            | 비고                 |
 | -------- | ---------------------- | ----------- | ----------- | ---------------------------- | ------------------ |
 | step1\_0 | 64점 그룹 → 32점 butterfly | 512 = 8×64  | 512 = 8×64  | `fac8_0(ceil(nn/16))` (길이 4) |                    |
@@ -321,8 +275,7 @@ grid on;
 | step1\_2 | 16점 그룹 → 8점 butterfly  | 512 = 32×16 | 512 = 32×16 | `twf_m1(nn)` (K2 기반 위상 곱)    | **K2 = Bit Reverse** 적용 |
 
 
-
-### Module2
+## Module2
 | Step     | 역할                   | 입력 크기       | 출력 크기       | Twiddle Factor 적용           | 비고        |
 | -------- | -------------------- | ----------- | ----------- | --------------------------- | --------- |
 | step2\_0 | 8점 그룹 → 4점 butterfly | 512 = 64×8  | 512 = 64×8  | `fac8_0(ceil(nn/2))` (길이 4) |           |
@@ -330,7 +283,7 @@ grid on;
 | step2\_2 | 2점 butterfly (최종 단계) | 512 = 256×2 | 512         | 없음                          | 최종 결과 완성됨 |
 
 
-### Twiddle Factor 참고
+## Twiddle Factor 참고
 | 이름      | 길이  | 적용되는 위치                      | 설명                    |
 | ------- | --- | ---------------------------- | --------------------- |
 | fac8\_0 | 4   | step0\_0, step1\_0, step2\_0 | N=4 FFT 기준 twiddle 상수 |
@@ -339,11 +292,17 @@ grid on;
 | twf\_m1 | 64  | step1\_2                     | MSB 기준 `K2` 정렬용 위상 곱  |
 
 
+## Flow Design 수기
+
 ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_155319191.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160836190.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160844101.jpg)
 
-### 추가 과정
+## 추가 과정
+### 짝수, 홀수 분리 및 의미
 ![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161953.png>)
- ![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161146.png>) ![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161200.png>) ![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161210.png>)![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161222.png>)
+![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161146.png>)
+![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161200.png>) 
+![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161210.png>)
+![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161222.png>)
 따라서 홀수는 1을 곱하여 의미 없는 값, 짝수에 위상 변화가 적용
 
 ### K
