@@ -253,7 +253,34 @@ end
 ```
 
 # MATLAB 그래프 확인
+```matlab
+% 파일 열기
+fid = fopen('bfly00_tmp.txt', 'r');
 
+% 'bfly00_tmp(index)=%f+j%f' 형식으로 파싱
+data = textscan(fid, 'bfly00_tmp(%d)=%f+j%f');
+
+% 파일 닫기
+fclose(fid);
+
+% 실수/허수 부분 추출
+real_part = data{2};
+imag_part = data{3};
+
+% 복소수 벡터로 결합
+fft_stage = complex(real_part, imag_part);
+
+% 시각화
+N = length(fft_stage);
+
+figure;
+plot(0:N-1, abs(fft_stage));
+title('FFT Magnitude Spectrum');
+xlabel('Frequency Bin');
+ylabel('|FFT Output|');
+grid on;
+```
+![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 185816.png>)
 
 
 # Flow
