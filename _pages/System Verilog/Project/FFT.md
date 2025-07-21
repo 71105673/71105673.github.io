@@ -3,6 +3,8 @@ title: "project FFT"
 date: "2025-07-17"
 thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
+# Git
+https://github.com/71105673/FFT_Project
 
 # 주어진 MATLAB Code
 ## test_fft_float_stu.m
@@ -361,3 +363,6 @@ grid on;
 
 ## RTL 구조
 ![alt text](<스크린샷 2025-07-17 155839.png>)
+
+
+
