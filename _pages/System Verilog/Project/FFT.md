@@ -363,3 +363,13 @@ grid on;
 
 ## RTL 구조
 ![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-17 155839.png>)
+
+
+
+
+
+
+
+
+## matlab SQNR 결과
+![alt text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_155319191.jpg)
