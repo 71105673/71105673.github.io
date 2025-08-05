@@ -356,20 +356,3 @@ grid on;
 | 5          | `101`  | `101`       | 5          |
 | 6          | `110`  | `011`       | 3          |
 | 7          | `111`  | `111`       | 7          |
-
-
-
-
-
-## RTL 구조
-![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-17 155839.png>)
-
-
-
-
-
-
-
-
-## matlab SQNR 결과
-![alt text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_155319191.jpg)
