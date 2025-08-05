@@ -320,18 +320,13 @@ grid on;
 | twf\_m0 | 512 | step0\_2                     | MSB 기준 `K3` 정렬용 위상 곱  |
 | twf\_m1 | 64  | step1\_2                     | MSB 기준 `K2` 정렬용 위상 곱  |
 
-
-## Flow Design 수기
-
-![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_155319191.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160836190.jpg) ![text](../../../assets/img/SystemVerilog/FFT/KakaoTalk_20250718_160844101.jpg)
-
-## 추가 과정
 ### 짝수, 홀수 분리 및 의미
 ![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161953.png>)
 ![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161146.png>)
 ![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161200.png>) 
 ![text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161210.png>)
 ![alt text](<../../../assets/img/SystemVerilog/FFT/스크린샷 2025-07-18 161222.png>)
+
 따라서 홀수는 1을 곱하여 의미 없는 값, 짝수에 위상 변화가 적용
 
 ### K
@@ -356,3 +351,5 @@ grid on;
 | 5          | `101`  | `101`       | 5          |
 | 6          | `110`  | `011`       | 3          |
 | 7          | `111`  | `111`       | 7          |
+
+
