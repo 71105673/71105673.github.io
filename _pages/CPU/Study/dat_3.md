@@ -375,6 +375,79 @@ module receive (
 endmodule
 ```
 
+## command_to_uart.sv
+```verilog
+`timescale 1ns / 1ps
+
+module command_to_uart (
+    input  logic       clk,
+    input  logic       reset,
+    input  logic [7:0] rx_data_command,
+    input  logic       rx_done_command,
+    output logic       com_run,
+    output logic       com_stop,
+    output logic       com_clear,
+    output logic       com_mode
+);
+    typedef enum {
+        IDLE,
+        PROCESS,
+        RUN,
+        STOP,
+        CLEAR,
+        MODE
+    } command_state_e;
+
+    command_state_e command_state, command_next_state;
+
+    assign com_run   = (command_state == RUN) ? 1 : 0;
+    assign com_stop  = (command_state == STOP) ? 1 : 0;
+    assign com_clear = (command_state == CLEAR) ? 1 : 0;
+    assign com_mode  = (command_state == MODE) ? 1 : 0;
+
+
+    always_ff @(posedge clk, posedge reset) begin
+        if (reset) begin
+            command_state <= IDLE;
+        end else begin
+            command_state <= command_next_state;
+        end
+    end
+
+    always_comb begin
+        command_next_state = command_state;
+        case (command_state)
+            IDLE: begin
+                if (rx_done_command) begin
+                    command_next_state = PROCESS;
+                end
+            end
+            PROCESS: begin
+                case (rx_data_command)
+                    8'h52, 8'h72: command_next_state = RUN;  //'R', 'r'
+                    8'h43, 8'h63: command_next_state = CLEAR;  // 'C', 'c'
+                    8'h53, 8'h73: command_next_state = STOP;  // 'S', 'sn_
+                    8'h4D, 8'h6D: command_next_state = MODE;  // 'M' or 'm'
+                    default: command_next_state = IDLE;
+                endcase
+            end
+            RUN: begin
+                command_next_state = IDLE;
+            end
+            STOP: begin
+                command_next_state = IDLE;
+            end
+            CLEAR: begin
+                command_next_state = IDLE;
+            end
+            MODE: begin
+                command_next_state = IDLE;
+            end
+        endcase
+    end
+endmodule
+```
+
 ## top_module.sv (버튼 + counter + fnd 연결)
 ```verilog
 `timescale 1ns / 1ps
