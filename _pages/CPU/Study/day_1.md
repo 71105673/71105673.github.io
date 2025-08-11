@@ -4,7 +4,7 @@ date: "2025-08-06"
 thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 # 버튼을 통해 Up / Down 모드를 수정하는 10000진 카운터
-<video controls src="../../../assets/img/CPU/0806자막.mp4" title="Title"></video>
+<video controls src="../../../assets/img/CPU/day_1/0806자막.mp4" title="Title"></video>
 
 # Top Module
 ```verilog

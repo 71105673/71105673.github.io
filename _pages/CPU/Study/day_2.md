@@ -14,7 +14,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 
 **BtnC** -> 리셋 기능
 
-<video controls src="../../../assets/img/CPU/0807자막버전.mp4" title="Title"></video>
+<video controls src="../../../assets/img/CPU/day_2/0807자막버전.mp4" title="Title"></video>
 
 ## top_updowncounter.sv
 ```verilog

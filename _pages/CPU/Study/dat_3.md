@@ -14,7 +14,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 
 **C, c** -> Stop 모드일 때, 누르면 Clear
 
-<video controls src="../../../assets/img/CPU/자막_0808.mp4" title="Title"></video>
+<video controls src="../../../assets/img/CPU/day_3/자막_0808.mp4" title="Title"></video>
 
 ## top_uart_counter.sv
 ```verilog
