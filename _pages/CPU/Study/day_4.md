@@ -7,6 +7,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 # RISC vs CISC 차이
 
 ## 1. 설계 철학
+
 | 구분 | RISC (Reduced Instruction Set Computer) | CISC (Complex Instruction Set Computer) |
 |------|----------------------------------------|-----------------------------------------|
 | 핵심 아이디어 | 간단하고 빠른 명령어를 적게 제공 → 실행 속도 향상, 파이프라이닝 최적화 | 다양한 복잡한 명령어 제공 → 한 명령으로 많은 작업 수행 |
@@ -15,6 +16,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
 ## 2. 명령어 구조
+
 | 구분 | RISC | CISC |
 |------|------|------|
 | 명령어 개수 | 적음 (수십 개 수준) | 많음 (수백 개 이상) |
@@ -26,6 +28,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
 ## 3. 하드웨어와 소프트웨어 역할
+
 - **RISC**
   - 하드웨어 단순
   - 명령어 단순 → 복잡한 기능은 소프트웨어(컴파일러)가 여러 명령으로 조합
@@ -38,6 +41,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
 ## 4. 대표 예시
+
 | RISC | CISC |
 |------|------|
 | ARM, MIPS, RISC-V, SPARC, PowerPC | x86, x86-64, VAX, Motorola 68000 |
@@ -45,6 +49,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
 ## 5. 요약 비교표
+
 | 특징 | RISC | CISC |
 |------|------|------|
 | 명령어 수 | 적음 | 많음 |
@@ -57,6 +62,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
 ## 💡 정리
+
 - **RISC**: "간단한 명령어 + 빠른 실행 + 파이프라인 최적화" → 현대 모바일·임베디드 CPU(ARM, RISC-V)에서 주로 사용
 - **CISC**: "복잡한 명령어 + 코드 길이 절약" → 데스크톱·서버 CPU(x86)에서 강세
 - 최신 x86 CPU는 내부적으로 RISC와 유사한 **마이크로-오퍼레이션(uOp) 변환** 구조 사용 → 두 구조의 경계가 흐려짐
@@ -65,6 +71,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 # 폰 노이만 구조 vs 하버드 구조
 
 ## 1. 개념
+
 | 구조 | 개념 |
 |------|------|
 | **폰 노이만 구조** | 프로그램 코드와 데이터를 **같은 메모리**에 저장, 하나의 버스를 통해 CPU와 메모리를 연결 |
@@ -75,6 +82,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ## 2. 구조도
 
 ### 폰 노이만 & 하버드 구조
+
 ![alt text](../../../assets/img/CPU/day_4/image.png)
 
 **폰 노이만 구조**
@@ -84,6 +92,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ![alt text](<../../../assets/img/CPU/day_4/스크린샷 2025-08-11 125920.png>)
 
 ## 3. 특징 비교
+
 | 구분 | 폰 노이만 구조 | 하버드 구조 |
 |------|---------------|-------------|
 | 메모리 구성 | 코드와 데이터가 같은 메모리 | 코드와 데이터가 분리된 메모리 |
@@ -96,6 +105,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
 ## 4. 정리
+
 - **폰 노이만 구조**: 단순하고 구현이 쉬움 → 범용 컴퓨터, 서버, PC에서 주로 사용  
 - **하버드 구조**: 명령어와 데이터를 동시에 가져올 수 있어 성능 우수 → 실시간 처리, 임베디드, DSP에서 활용  
 - 현대 CPU는 **수정된 하버드 구조(Modified Harvard)**를 사용하여 캐시 단계에서 분리 후 통합
@@ -105,5 +115,4 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 # 수업
 
 ## C언어로 0~9를 count 하는 processor
-![alt text](<../../../assets/img/CPU/day_4/스크린샷 2025-08-11 144043.png>)
-
+![alt text](<../../../assets/img/CPU/day_4/스크린샷 2025-08-11 145121.png>)
