@@ -77,6 +77,12 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ### 폰 노이만 & 하버드 구조
 ![alt text](../../../assets/img/CPU/day_4/image.png)
 
+**폰 노이만 구조**
+![alt text](<../../../assets/img/CPU/day_4/스크린샷 2025-08-11 125833.png>)
+
+**하버드 구조**
+![alt text](<../../../assets/img/CPU/day_4/스크린샷 2025-08-11 125920.png>)
+
 ## 3. 특징 비교
 | 구분 | 폰 노이만 구조 | 하버드 구조 |
 |------|---------------|-------------|
