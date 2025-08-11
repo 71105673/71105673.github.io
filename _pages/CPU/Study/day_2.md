@@ -1,5 +1,5 @@
 ---
-title: "System Verolog Day-1"
+title: "System Verolog Day-2"
 date: "2025-08-07"
 thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
