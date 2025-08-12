@@ -417,4 +417,4 @@ endmodule
 
 # Home Work 2
 **ALU** 기능을 만들어 **ALUop 2bit** 를 통해 +, -, &, | 연산을 추가하기
-
+![alt text](<../../../assets/img/CPU/day_5/스크린샷 2025-08-12 162026.png>)
