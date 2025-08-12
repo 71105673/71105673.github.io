@@ -409,7 +409,12 @@ endmodule
 ![alt text](<../../../assets/img/CPU/day_5/스크린샷 2025-08-12 132915.png>)
 
 
-# Home Work
+# Home Work 1
+**Register File** 을 만들어, 동작 기능
 
 ![alt text](<../../../assets/img/CPU/day_5/화면 캡처 2025-08-12 155354.png>)
 ![alt text](<../../../assets/img/CPU/day_5/화면 캡처 2025-08-12 155320.png>)
+
+# Home Work 2
+**ALU** 기능을 만들어 **ALUop 2bit** 를 통해 +, -, &, | 연산을 추가하기
+
