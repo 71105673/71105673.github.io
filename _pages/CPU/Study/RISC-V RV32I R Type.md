@@ -1,5 +1,5 @@
 ---
-title: "System Verolog Day-6 RISC-V RV32I R Type"
+title: "RISC-V RV32I R Type"
 date: "2025-08-14"
 thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
