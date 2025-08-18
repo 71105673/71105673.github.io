@@ -4,7 +4,18 @@ date: "2025-08-18"
 thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
-# MCU.sv
+# S, L ,I Type
+
+## S-Type 
+![alt text](../../../assets/img/CPU/day_7/S.png)
+
+## L-Type
+![alt text](../../../assets/img/CPU/day_7/L.png)
+
+## I-Type
+![alt text](../../../assets/img/CPU/day_7/I.png)
+
+## MCU.sv
 ```verilog
 `timescale 1ns / 1ps
 
