@@ -133,6 +133,12 @@ module ROM (
         rom[15] = 32'b000000000010_00001_100_10001_0010011; // XORI   x17  x1  2   =>   1011 ^ 0010 = 1001 = 9
         rom[16] = 32'b000000000101_00100_110_10010_0010011; // ORI    x18  x4  5   =>   10111 | 00101 = 10111 = 23
         rom[17] = 32'b000000000101_00100_111_10011_0010011; // ANDI   x19  x4  5   =>   10111 & 00101 = 00101 = 5
+        
+        
+        //rom[x] =    imm(7)  shamt  rs1  f3   rd   opcode            rd   rs1 imm
+        rom[18] = 32'b0000000_00010_00010_001_10101_0010011; // SLLI  x21  x2  2   =>   1100 <<  2 = 110000 = 48
+        rom[19] = 32'b0000000_00010_00010_101_10110_0010011; // SRLI  x22  x2  2   =>   1100 >>  2 = 0011 = 3
+        rom[20] = 32'b0100000_00010_00010_101_10111_0010011; // SRAI  x23  x2  2   =>   1100 >>> 2 = 0011 = 3     
 
     end
     assign data = rom[addr[31:2]];
@@ -462,13 +468,14 @@ endmodule
 ## Simulation 
 
 ### CU, DP
-![alt text](../../../assets/img/CPU/day_7/sim.png)
+assets/img/CPU/day_7/sim_final.png
 
 ### Mem(RegFile)
-![alt text](../../../assets/img/CPU/day_7/mem_sim.png)
+assets/img/CPU/day_7/mem_sim2.png
 
 ### Test 검증용
-![alt text](../../../assets/img/CPU/day_7/test_table.png)
+assets/img/CPU/day_7/test_table2.png
+
 ```
 // ******* R Type *******
 // add  x4,  x2, x1    23 = 12 + 11
@@ -495,4 +502,8 @@ endmodule
 // XORI   x17  x1  2   =>   1011 ^ 0010 = 1001 = 9
 // ORI    x18  x4  5   =>   10111 | 00101 = 10111 = 23
 // ANDI   x19  x4  5   =>   10111 & 00101 = 00101 = 5
+
+// SLLI  x21  x2  2   =>   1100 <<  2 = 110000 = 48
+// SRLI  x22  x2  2   =>   1100 >>  2 = 0011 = 3
+// SRAI  x23  x2  2   =>   1100 >>> 2 = 0011 = 3     
 ```
