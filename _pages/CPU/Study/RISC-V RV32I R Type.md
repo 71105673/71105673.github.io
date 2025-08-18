@@ -8,7 +8,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ![alt text](../../../assets/img/CPU/day_6/image.png)
 
 ## Block Diagram
-![alt text](../../../assets/img/CPU/day_6/block_diagram.png)
+![alt text](../../../assets/img/CPU/day_7/block.png)
 
 ## Single-Cycle vs Multi-Cycle
 
