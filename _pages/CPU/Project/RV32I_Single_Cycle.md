@@ -5,7 +5,7 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ---
 
 # Block Diagram
-![alt text](../../../assets/img/CPU/Single_Cycle/uch_block.png)
+![alt text](../../../assets/img/CPU/Single_Cycle/uch_block_single_Cycle.drawio.png)
 
 ## Bit 위치가 섞인 이유
 ![alt text](<../../../assets/img/CPU/Single_Cycle/스크린샷 2025-08-19 124238.png>)
