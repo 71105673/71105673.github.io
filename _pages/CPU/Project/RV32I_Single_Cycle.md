@@ -618,11 +618,11 @@ endmodule
 # 결과
 
 Rom의 주석과 Sim을 비교
-## Test_Rom
+### Test_Rom
 ![alt text](../../../assets/img/CPU/Single_Cycle/Rom.png)
 
-## Simulation
+### Simulation
 ![alt text](../../../assets/img/CPU/Single_Cycle/sim_t.png)
 
-## Control Unit, Data Path
+### Control Unit, Data Path
 ![alt text](../../../assets/img/CPU/Single_Cycle/cu_dp.png)
