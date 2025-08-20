@@ -398,3 +398,10 @@ Disassembly of section .stack:
 4회전
 첫 번째의 1과 두 번째의 3을 비교하여 교환하지 않는다.
 
+### 멸령어
+| 명령어 | 내부 변환 | 역할 |
+| --- | --- | --- |
+| `ret` | `jalr zero, 0(ra)` | `ra` 값(복귀 주소)로 점프 |
+| `mv` | `addi rd, rs, 0` | `rs` 값을 `rd`로 복사 |
+| `li` | `addi rd, x0, imm` 또는 `lui + addi` | 즉시 값을 레지스터에 로드 |
+| `j` | `jal zero, offset` | 절대 주소로 점프 (복귀 주소 저장 안 함) |
