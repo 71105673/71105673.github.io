@@ -30,7 +30,7 @@ machine code -> ![alt text](<../../../assets/img/CPU/code_com/스크린샷 2025-
 
 
 ![text](<../../../assets/img/CPU/code_com/스크린샷 2025-08-20 143407.png>)
-
+C 언어에서 Return은 JALR을 사용
 
 
 # 분석
