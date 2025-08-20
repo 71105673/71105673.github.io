@@ -370,6 +370,20 @@ Disassembly of section .stack:
 	...
 ```
 
+### 멸령어
+| 명령어 | 내부 변환 | 역할 |
+| --- | --- | --- |
+| `ret` | `jalr zero, 0(ra)` | `ra` 값(복귀 주소)로 점프 |
+| `mv` | `addi rd, rs, 0` | `rs` 값을 `rd`로 복사 |
+| `li` | `addi rd, x0, imm` 또는 `lui + addi` | 즉시 값을 레지스터에 로드 |
+| `j` | `jal zero, offset` | 절대 주소로 점프 (복귀 주소 저장 안 함) |
+
+# 코드 분석 및 비교
+- 스택 프레임이 초기화
+- 배열이 {5,4,3,2,1} 값으로 초기화
+- 중첩된 루프가 배열 요소를 반복하며 비교하고 교환합니다.
+- 정렬 과정이 메모리 내에서 수행됩니다.
+  
 ## Buble Sort
 **버블 정렬(bubble sort) 알고리즘의 개념 요약**
 서로 인접한 두 원소를 검사하여 정렬하는 알고리즘
@@ -398,10 +412,140 @@ Disassembly of section .stack:
 4회전
 첫 번째의 1과 두 번째의 3을 비교하여 교환하지 않는다.
 
-### 멸령어
-| 명령어 | 내부 변환 | 역할 |
-| --- | --- | --- |
-| `ret` | `jalr zero, 0(ra)` | `ra` 값(복귀 주소)로 점프 |
-| `mv` | `addi rd, rs, 0` | `rs` 값을 `rd`로 복사 |
-| `li` | `addi rd, x0, imm` 또는 `lui + addi` | 즉시 값을 레지스터에 로드 |
-| `j` | `jal zero, offset` | 절대 주소로 점프 (복귀 주소 저장 안 함) |
+## Assembly
+C 코드에서 실행되는 sort() 함수와 swap() 함수의 동작을 어셈블리 코드에서 확인할 수 있습니다.
+
+## main
+```bash
+addi    sp,sp,-48
+sw      ra,44(sp)
+sw      s0,40(sp)
+addi    s0,sp,48
+```
+[sp+44] = ra 저장
+
+[sp+40] = s0 저장
+
+s0 = sp + 48 → 프레임 포인터
+
+### 로컬 변수 초기화
+```bash
+sw      zero,-40(s0)   # arr[0]=0
+sw      zero,-36(s0)   # arr[1]=0
+sw      zero,-32(s0)   # arr[2]=0
+sw      zero,-28(s0)   # arr[3]=0
+sw      zero,-24(s0)   # arr[4]=0
+sw      zero,-20(s0)   # arr[5]=0
+```
+-40 ~ -20(s0)에 배열 원소 저장 공간
+
+### 배열 값 설정
+```bash
+li a5,5; sw a5,-40(s0)   # arr[0]=5
+li a5,4; sw a5,-36(s0)   # arr[1]=4
+li a5,3; sw a5,-32(s0)   # arr[2]=3
+li a5,2; sw a5,-28(s0)   # arr[3]=2
+li a5,1; sw a5,-24(s0)   # arr[4]=1
+```
+
+### sort 호출
+```bash
+addi a5,s0,-40   # a5 = &arr[0]
+li   a1,5        # 길이 = 5
+mv   a0,a5       # a0 = &arr[0]
+call sort
+```
+
+### 리턴 처리
+```bash
+li a5,0
+mv a0,a5         # return 0
+lw ra,44(sp)
+lw s0,40(sp)
+addi sp,sp,48
+jr ra            # main 끝
+```
+
+## sort
+```bash
+addi sp,sp,-48
+sw   ra,44(sp)
+sw   s0,40(sp)
+addi s0,sp,48
+```
+
+### 인자 저장
+```bash
+sw a0,-36(s0)   # 배열 포인터 저장
+sw a1,-40(s0)   # 길이 저장
+sw zero,-20(s0) # i=0
+```
+
+### 루프 구조 (bubble sort)
+
+- Outer loop (i 루프): .L4
+ 
+- Inner loop (j 루프): .L5 ~ .L7
+ 
+- 비교: arr[j] > arr[j+1] → swap 호출
+
+```bash
+.L7:   # j 루프
+  lw  a5,-24(s0)   # j
+  ...
+  lw  a4,0(a5)     # arr[j]
+  ...
+  lw  a5,0(a5)     # arr[j+1]
+  ble a4,a5,.L6    # if arr[j] <= arr[j+1] skip
+  call swap        # swap(&arr[j], &arr[j+1])
+```
+
+- i++ : .L6에서
+
+- j++ : .L6에서
+
+### sort Return
+```bash
+lw ra,44(sp)
+lw s0,40(sp)
+addi sp,sp,48
+jr ra
+```
+
+## swap
+```bash
+addi sp,sp,-48
+sw   ra,44(sp)
+sw   s0,40(sp)
+addi s0,sp,48
+```
+
+### 인자 저장
+```bash
+sw a0,-36(s0)   # 첫 번째 포인터
+sw a1,-40(s0)   # 두 번째 포인터
+```
+
+### 스왑 과정
+```bash
+lw a5,-36(s0)   # ptr1
+lw a5,0(a5)     # *ptr1
+sw a5,-20(s0)   # temp = *ptr1
+
+lw a5,-40(s0)   # ptr2
+lw a4,0(a5)     # *ptr2
+lw a5,-36(s0)
+sw a4,0(a5)     # *ptr1 = *ptr2
+
+lw a5,-40(s0)
+lw a4,-20(s0)   # temp
+sw a4,0(a5)     # *ptr2 = temp
+```
+
+### swap return
+```bash
+lw ra,44(sp)
+lw s0,40(sp)
+addi sp,sp,48
+jr ra
+```
