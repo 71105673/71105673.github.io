@@ -633,4 +633,7 @@ Rom의 주석과 Sim을 비교
 
 
 
-# Professor Version
+## rom 쓰는 법
+Create memory file을 같은 경로에 넣는다.
+후에 code에서 다음과 같이 Hexa 형식으로 읽어 rom에 저장할 수 있다.
+![alt text](<../../../assets/img/CPU/code_com/스크린샷 2025-08-20 151441.png>)
