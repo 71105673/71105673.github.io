@@ -237,14 +237,8 @@ swap:
 
 ### DisAssembly
 ```bash
-
-file.elf:     file format elf64-littleriscv
-
-
-Disassembly of section .text:
-
 0000000000000000 :
-   0:	04000113          	li	sp,64
+   0:	09000113          	li	sp,144
 
 0000000000000004 
 :
@@ -358,16 +352,6 @@ Disassembly of section .text:
  1a0:	02812403          	lw	s0,40(sp)
  1a4:	03010113          	addi	sp,sp,48
  1a8:	00008067          	ret
-
-Disassembly of section .heap:
-
-0000000000010000 <_sheap>:
-	...
-
-Disassembly of section .stack:
-
-0000000000010200 <_estack>:
-	...
 ```
 
 ### 멸령어
