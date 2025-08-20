@@ -119,6 +119,7 @@ void swap(int *pA, int *pB) {
 
 ### Assembly
 ```bash
+        li	sp, 0x90
 main:
         addi    sp,sp,-48
         sw      ra,44(sp)
