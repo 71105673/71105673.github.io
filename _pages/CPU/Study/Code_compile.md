@@ -540,3 +540,294 @@ jr ra
 ![text](<../../../assets/img/CPU/code_com/스크린샷 2025-08-21 094814.png>) 
 
 ![text](<../../../assets/img/CPU/code_com/스크린샷 2025-08-21 094842.png>)
+
+### Assembly
+```bash
+Li	sp, 0x40
+main:
+        addi    sp,sp,-48        # 스택 48바이트 확보 (지역변수/ra/s0 저장용)
+        sw      ra,44(sp)        # 반환주소 ra 저장
+        sw      s0,40(sp)        # 프레임 포인터 s0 저장
+        addi    s0,sp,48         # s0 = sp+48 → 프레임 기준 레지스터 설정
+
+        # 배열 초기화 (6칸 확보: -40 ~ -20)
+        sw      zero,-40(s0)     # arr[0] = 0
+        sw      zero,-36(s0)     # arr[1] = 0
+        sw      zero,-32(s0)     # arr[2] = 0
+        sw      zero,-28(s0)     # arr[3] = 0
+        sw      zero,-24(s0)     # arr[4] = 0
+        sw      zero,-20(s0)     # arr[5] = 0
+
+        li      a5,5             # a5 = 5
+        sw      a5,-40(s0)       # arr[0] = 5
+        li      a5,4             # a5 = 4
+        sw      a5,-36(s0)       # arr[1] = 4
+        li      a5,3             # a5 = 3
+        sw      a5,-32(s0)       # arr[2] = 3
+        li      a5,2             # a5 = 2
+        sw      a5,-28(s0)       # arr[3] = 2
+        li      a5,1             # a5 = 1
+        sw      a5,-24(s0)       # arr[4] = 1
+
+        addi    a5,s0,-40        # a5 = &arr[0]
+        li      a1,5             # a1 = 배열 길이 5
+        mv      a0,a5            # a0 = &arr[0] (배열 포인터)
+        call    sort             # sort(arr, 5) 호출
+
+        li      a5,0             # return 0 준비
+        mv      a0,a5            # a0 = 0
+
+        # 스택 정리 및 복귀
+        lw      ra,44(sp)        # 저장했던 ra 복원
+        lw      s0,40(sp)        # 저장했던 s0 복원
+        addi    sp,sp,48         # 스택 복구
+        jr      ra               # main 종료 → OS로 복귀
+
+# ------------------------------------------------------------
+
+sort:
+        addi    sp,sp,-48        # 스택 48바이트 확보
+        sw      ra,44(sp)        # ra 저장
+        sw      s0,40(sp)        # s0 저장
+        addi    s0,sp,48         # s0 = sp+48 (프레임 기준)
+
+        sw      a0,-36(s0)       # -36(s0) = 배열 시작주소
+        sw      a1,-40(s0)       # -40(s0) = 배열 길이
+        sw      zero,-20(s0)     # i = 0
+
+        j       .L4              # i 루프 조건 검사로 점프
+
+.L8:    sw      zero,-24(s0)     # j = 0 초기화
+        j       .L5              # j 루프 조건 검사로 점프
+
+.L7:    # arr[j]와 arr[j+1] 비교
+        lw      a5,-24(s0)       # a5 = j
+        slli    a5,a5,2          # a5 = j*4 (word offset)
+        lw      a4,-36(s0)       # a4 = arr 시작주소
+        add     a5,a4,a5         # a5 = &arr[j]
+        lw      a4,0(a5)         # a4 = arr[j]
+
+        lw      a5,-24(s0)       # a5 = j
+        addi    a5,a5,1          # a5 = j+1
+        slli    a5,a5,2          # a5 = (j+1)*4
+        lw      a3,-36(s0)       # a3 = arr 시작주소
+        add     a5,a3,a5         # a5 = &arr[j+1]
+        lw      a5,0(a5)         # a5 = arr[j+1]
+
+        ble     a4,a5,.L6        # if (arr[j] <= arr[j+1]) skip swap
+‘
+
+        # swap(arr[j], arr[j+1])
+        lw      a5,-24(s0)       # a5 = j
+        slli    a5,a5,2          # a5 = j*4
+        lw      a4,-36(s0)       # a4 = arr base
+        add     a3,a4,a5         # a3 = &arr[j]
+
+        lw      a5,-24(s0)       # a5 = j
+        addi    a5,a5,1          # a5 = j+1
+        slli    a5,a5,2          # a5 = (j+1)*4
+        lw      a4,-36(s0)       # a4 = arr base
+        add     a5,a4,a5         # a5 = &arr[j+1]
+
+        mv      a1,a5            # a1 = &arr[j+1]
+        mv      a0,a3            # a0 = &arr[j]
+        call    swap             # swap(&arr[j], &arr[j+1])
+
+.L6:    lw      a5,-24(s0)       # a5 = j
+        addi    a5,a5,1          # j++
+        sw      a5,-24(s0)       # 저장
+
+.L5:    # j 루프 조건 검사
+        lw      a4,-40(s0)       # a4 = n
+        lw      a5,-20(s0)       # a5 = i
+        sub     a5,a4,a5         # n - i
+        addi    a5,a5,-1         # n - i - 1
+        lw      a4,-24(s0)       # a4 = j
+        blt     a4,a5,.L7        # j < n-i-1 → 반복
+
+        lw      a5,-20(s0)       # a5 = i
+        addi    a5,a5,1          # i++
+        sw      a5,-20(s0)       # 저장
+
+.L4:    # i 루프 조건 검사
+        lw      a4,-20(s0)       # a4 = i
+        lw      a5,-40(s0)       # a5 = n
+        blt     a4,a5,.L8        # i < n → 반복
+
+        nop                      # padding
+        nop
+
+        # 함수 종료 (스택/레지스터 복구)
+        lw      ra,44(sp)
+        lw      s0,40(sp)
+        addi    sp,sp,48
+        jr      ra
+
+# ------------------------------------------------------------
+
+swap:
+        addi    sp,sp,-48        # 스택 48바이트 확보
+        sw      ra,44(sp)        # ra 저장
+        sw      s0,40(sp)        # s0 저장
+        addi    s0,sp,48         # s0 = sp+48
+
+        sw      a0,-36(s0)       # -36(s0) = ptr1 (arr[j])
+        sw      a1,-40(s0)       # -40(s0) = ptr2 (arr[j+1])
+
+        lw      a5,-36(s0)       # a5 = ptr1
+        lw      a5,0(a5)         # a5 = *ptr1
+        sw      a5,-20(s0)       # temp = *ptr1
+
+        lw      a5,-40(s0)       # a5 = ptr2
+        lw      a4,0(a5)         # a4 = *ptr2
+        lw      a5,-36(s0)       # a5 = ptr1
+        sw      a4,0(a5)         # *ptr1 = *ptr2
+
+        lw      a5,-40(s0)       # a5 = ptr2
+        lw      a4,-20(s0)       # a4 = temp
+        sw      a4,0(a5)         # *ptr2 = temp
+
+        nop                      # padding
+
+        # 함수 종료 (스택/레지스터 복구)
+        lw      ra,44(sp)
+        lw      s0,40(sp)
+        addi    sp,sp,48
+        jr      ra
+```
+
+### Disassembly
+```bash
+0:   04000113           li sp,64                # sp = 64 (초기 스택 세팅)
+4:   fd010113           addi sp,sp,-48          # 스택 프레임 48바이트 확보
+8:   02112623           sw ra,44(sp)            # return address 저장
+c:   02812423           sw s0,40(sp)            # old frame pointer 저장
+10:  03010413           addi s0,sp,48           # s0 = frame pointer
+
+# 배열 초기화
+14:  fc042c23           sw zero,-40(s0)         # arr[0] = 0
+18:  fc042e23           sw zero,-36(s0)         # arr[1] = 0
+1c:  fe042023           sw zero,-32(s0)         # arr[2] = 0
+20:  fe042223           sw zero,-28(s0)         # arr[3] = 0
+24:  fe042423           sw zero,-24(s0)         # arr[4] = 0
+28:  fe042623           sw zero,-20(s0)         # arr[5] = 0
+
+2c:  00500793           li a5,5
+30:  fcf42c23           sw a5,-40(s0)           # arr[0] = 5
+34:  00400793           li a5,4
+38:  fcf42e23           sw a5,-36(s0)           # arr[1] = 4
+3c:  00300793           li a5,3
+40:  fef42023           sw a5,-32(s0)           # arr[2] = 3
+44:  00200793           li a5,2
+48:  fef42223           sw a5,-28(s0)           # arr[3] = 2
+4c:  00100793           li a5,1
+50:  fef42423           sw a5,-24(s0)           # arr[4] = 1
+
+# sort 호출
+54:  fd840793           addi a5,s0,-40          # a5 = 배열 시작 주소
+58:  00500593           li a1,5                 # a1 = 5 (배열 길이)
+5c:  00078513           mv a0,a5                # a0 = 배열 주소
+60:  01c000ef           jal ra,7c               # call sort(a0, a1)
+
+# return 0
+64:  00000793           li a5,0
+68:  00078513           mv a0,a5                # return value = 0
+6c:  02c12083           lw ra,44(sp)            # 복구
+70:  02812403           lw s0,40(sp)
+74:  03010113           addi sp,sp,48
+78:  00008067           ret
+7c:  fd010113           addi sp,sp,-48
+80:  02112623           sw ra,44(sp)
+84:  02812423           sw s0,40(sp)
+88:  03010413           addi s0,sp,48
+8c:  fca42e23           sw a0,-36(s0)           # 배열 주소 저장
+90:  fcb42c23           sw a1,-40(s0)           # 배열 크기 저장
+94:  fe042623           sw zero,-20(s0)         # i = 0
+98:  09c0006f           j 134                   # L4: 바깥 루프 조건 체크로 점프
+
+# --- L8 (inner loop 초기화) ---
+9c:  fe042423           sw zero,-24(s0)         # j = 0
+a0:  0700006f           j 110                   # L5
+
+# --- L7 (내부 루프) ---
+a4:  fe842783           lw a5,-24(s0)           # j
+a8:  00279793           slli a5,a5,0x2          # j * 4
+ac:  fdc42703           lw a4,-36(s0)           # 배열 주소
+b0:  00f707b3           add a5,a4,a5            # &arr[j]
+b4:  0007a703           lw a4,0(a5)             # arr[j]
+b8:  fe842783           lw a5,-24(s0)           # j
+bc:  00178793           addi a5,a5,1            # j+1
+c0:  00279793           slli a5,a5,0x2          # (j+1)*4
+c4:  fdc42683           lw a3,-36(s0)           # base
+c8:  00f687b3           add a5,a3,a5            # &arr[j+1]
+cc:  0007a783           lw a5,0(a5)             # arr[j+1]
+d0:  02e7da63           ble a4,a5,104           # if (arr[j] <= arr[j+1]) skip
+
+# swap(arr[j], arr[j+1])
+d4:  fe842783           lw a5,-24(s0)
+d8:  00279793           slli a5,a5,0x2
+dc:  fdc42703           lw a4,-36(s0)
+e0:  00f706b3           add a3,a4,a5            # &arr[j]
+e4:  fe842783           lw a5,-24(s0)
+e8:  00178793           addi a5,a5,1
+ec:  00279793           slli a5,a5,0x2
+f0:  fdc42703           lw a4,-36(s0)
+f4:  00f707b3           add a5,a4,a5            # &arr[j+1]
+f8:  00078593           mv a1,a5
+fc:  00068513           mv a0,a3
+100: 058000ef           jal ra,158               # call swap(&arr[j], &arr[j+1])
+
+# j++
+104: fe842783           lw a5,-24(s0)
+108: 00178793           addi a5,a5,1
+10c: fef42423           sw a5,-24(s0)
+
+# L5 조건
+110: fd842703           lw a4,-40(s0)           # n
+114: fec42783           lw a5,-20(s0)           # i
+118: 40f707b3           sub a5,a4,a5            # n - i
+11c: fff78793           addi a5,a5,-1
+120: fe842703           lw a4,-24(s0)           # j
+124: f8f740e3           blt a4,a5,a4            # j < n-i-1 -> L7
+128: fec42783           lw a5,-20(s0)
+12c: 00178793           addi a5,a5,1
+130: fef42623           sw a5,-20(s0)           # i++
+
+# L4 조건
+134: fec42703           lw a4,-20(s0)           # i
+138: fd842783           lw a5,-40(s0)           # n
+13c: f6f740e3           blt a4,a5,9c            # if (i < n) -> L8
+
+140: 00000013           nop
+144: 00000013           nop
+148: 02c12083           lw ra,44(sp)            # 복구
+14c: 02812403           lw s0,40(sp)
+150: 03010113           addi sp,sp,48
+154: 00008067           ret
+
+158: fd010113           addi sp,sp,-48
+15c: 02112623           sw ra,44(sp)
+160: 02812423           sw s0,40(sp)
+164: 03010413           addi s0,sp,48
+168: fca42e23           sw a0,-36(s0)           # arg0 (ptr1)
+16c: fcb42c23           sw a1,-40(s0)           # arg1 (ptr2)
+
+170: fdc42783           lw a5,-36(s0)           # ptr1
+174: 0007a783           lw a5,0(a5)             # *ptr1
+178: fef42623           sw a5,-20(s0)           # temp = *ptr1
+
+17c: fd842783           lw a5,-40(s0)           # ptr2
+180: 0007a703           lw a4,0(a5)             # *ptr2
+184: fdc42783           lw a5,-36(s0)           # ptr1
+188: 00e7a023           sw a4,0(a5)             # *ptr1 = *ptr2
+
+18c: fd842783           lw a5,-40(s0)           # ptr2
+190: fec42703           lw a4,-20(s0)           # temp
+194: 00e7a023           sw a4,0(a5)             # *ptr2 = temp
+
+198: 00000013           nop
+19c: 02c12083           lw ra,44(sp)
+1a0: 02812403           lw s0,40(sp)
+1a4: 03010113           addi sp,sp,48
+1a8: 00008067           ret
+```
