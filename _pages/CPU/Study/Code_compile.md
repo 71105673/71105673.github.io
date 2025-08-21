@@ -119,7 +119,7 @@ void swap(int *pA, int *pB) {
 
 ### Assembly
 ```bash
-        li	sp, 0x90
+        li	sp, 0x100
 main:
         addi    sp,sp,-48
         sw      ra,44(sp)
@@ -239,7 +239,7 @@ swap:
 ### DisAssembly
 ```bash
 0000000000000000 :
-   0:	09000113          	li	sp,144
+   0:	10000113          	li	sp,256
 
 0000000000000004 
 :
