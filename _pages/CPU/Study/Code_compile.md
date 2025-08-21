@@ -534,3 +534,9 @@ lw s0,40(sp)
 addi sp,sp,48
 jr ra
 ```
+
+## 분석
+![text](<../../../assets/img/CPU/code_com/스크린샷 2025-08-21 094805.png>) 
+![text](<../../../assets/img/CPU/code_com/스크린샷 2025-08-21 094814.png>) 
+
+![text](<../../../assets/img/CPU/code_com/스크린샷 2025-08-21 094842.png>)
