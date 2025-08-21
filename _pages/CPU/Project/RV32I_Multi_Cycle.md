@@ -11,4 +11,4 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ![alt text](../../../assets/img/CPU/Multi_Cycle/전환.png)
 
 ## Block
-![alt text](../../../assets/img/CPU/Multi_Cycle/Block.png)
+![alt text](<../../../assets/img/CPU/Multi_Cycle/Block - 복사본.png>)
