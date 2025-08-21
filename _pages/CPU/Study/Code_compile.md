@@ -831,3 +831,11 @@ fc:  00068513           mv a0,a3
 1a4: 03010113           addi sp,sp,48
 1a8: 00008067           ret
 ```
+
+### simulation
+
+**RAM**
+![alt text](../../../assets/img/CPU/code_com/결과_fina_RAMl.png)
+
+**RegFile**
+![alt text](../../../assets/img/CPU/code_com/Reg_FIle_Final.png)
