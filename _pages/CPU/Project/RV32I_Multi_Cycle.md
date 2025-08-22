@@ -11,12 +11,17 @@ thumbnail: "../../../assets/img/SystemVerilog/image.png"
 ![alt text](../../../assets/img/CPU/Multi_Cycle/전환.png)
 
 ## Block
-![alt text](../../../assets/img/CPU/Multi_Cycle/Block_Control.png)
+![alt text](../../../assets/img/CPU/Multi_Cycle/Final_Full_Diagram.png)
 
 ## FSM
 ![alt text](../../../assets/img/CPU/Multi_Cycle/fsm.png)
 
 # Code
+
+## MCU.sv
+```verilog
+
+```
 
 ## CPU_RV32I.sv
 ```verilog
@@ -45,6 +50,122 @@ module CPU_RV32I (
     DataPath U_DataPath (.*);
 endmodule
 ```
+
+## ROM.sv
+```verilog
+`timescale 1ns / 1ps
+
+module ROM (
+    input  logic [31:0] addr,
+    output logic [31:0] data
+);
+    logic [31:0] rom[0:2**8-1];
+
+    initial begin
+        //$readmemh("code.mem", rom);
+
+        // R Type
+        // rom[x] =  func7    rs2   rs1  fc3  rd   opcode             rd   rs1 rs2         
+        rom[0] = 32'b0000000_00001_00010_000_00100_0110011;  // add  x4,  x2, x1    23 = 12 + 11
+        rom[1] = 32'b0100000_00001_00010_000_00101_0110011;  // sub  x5,  x2, x1    1  = 12 - 11
+        rom[2] = 32'b0000000_00011_00010_001_00110_0110011;  // sll  x6,  x2, x3    98,304 = 12 << 13  -> 98,304(12를 bit로) << 13
+        rom[3] = 32'b0000000_00001_00010_101_00111_0110011;  // srl  x7,  x2, x1    0  = 12 >> 11 
+        rom[4] = 32'b0100000_00001_00010_101_01000_0110011;  // sra  x8,  x2, x1    0  = 12 >>> 11 
+        rom[5] = 32'b0000000_00001_00010_010_01001_0110011;  // slt  x9,  x2, x1    0  = (12 < 11) ? 1 : 0 
+        rom[6] = 32'b0000000_00001_00010_011_01010_0110011;  // sltu x10, x2, x1    0  = (12 < 11) ? 1 : 0
+        rom[7] = 32'b0000000_00001_00010_100_01011_0110011;  // xor  x11, x2, x1    0111(7)  = 1100 ^ 1011 
+        rom[8] = 32'b0000000_00001_00010_110_01100_0110011;  // or   x12, x2, x1    1111(15) = 1100 | 1011
+        rom[9] = 32'b0000000_00001_00010_111_01101_0110011;  // and  x13, x2, x1    1000(8)  = 1100 & 1011
+
+        // S Type
+        // rom[x] =  imm(7)   rs2   rs1   f3  imm(5) opcode           rs1  imm rs2
+        rom[10] = 32'b0000000_00110_00000_010_00100_0100011; // SW    x0   4   x6  =>  RAM[0+1] = 0x18000 = 98,304
+        rom[11] = 32'b0000000_00110_00000_000_01000_0100011; // SB    x0   8   x6  =>  RAM[0+2] = 0x00    = 0
+        rom[12] = 32'b0000000_00110_00000_001_01100_0100011; // SH    x0   12  x6  =>  RAM[0+3] = 0x8000  = 32,768
+
+        //L Type
+        // rom[x] =     imm(12)     rs1  f3   rd   opcode            rd   rs1 imm
+        rom[13] = 32'b000000000100_00000_010_11100_0000011;  // LW   x28  x0  4    => regFile[0+28] = 98,304
+        rom[14] = 32'b000000001000_00000_000_11101_0000011;  // LB   x29  x0  8    => regFile[0+29] = 0
+        rom[15] = 32'b000000001100_00000_001_11110_0000011;  // LH   x30  x0  12   => regFile[0+30] = 32,768
+        rom[16] = 32'b000000001000_00000_100_11111_0000011;  // LBU  x31  x0  8    => regFile[0+29] = 0
+        rom[17] = 32'b000000001100_00000_101_00000_0000011;  // LHU  x0   x0  12   => regFile[0+30] = 32,768
+
+        //I Type
+        // rom[x] =   imm(12)       rs1  f3   rd   opcode             rd   rs1 imm           
+        rom[18] = 32'b000000000111_00100_000_01110_0010011; // ADDI   x14  x4  7   =>   23 + 7 = 30 
+        rom[19] = 32'b000000000010_00100_010_01111_0010011; // SLIT   x15  x4  2   =>   (23 < 2) ? 1: 0 = 0
+        rom[20] = 32'b000000000011_00101_011_10000_0010011; // SLTIU  x16  x5  3   =>   (1 < 3) ? 1 :0 = 1
+        rom[21] = 32'b000000000010_00001_100_10001_0010011; // XORI   x17  x1  2   =>   1011 ^ 0010 = 1001 = 9
+        rom[22] = 32'b000000000101_00100_110_10010_0010011; // ORI    x18  x4  5   =>   10111 | 00101 = 10111 = 23
+        rom[23] = 32'b000000000101_00100_111_10011_0010011; // ANDI   x19  x4  5   =>   10111 & 00101 = 00101 = 5
+        //rom[x] =    imm(7)  shamt  rs1  f3   rd   opcode            rd   rs1 imm
+        rom[24] = 32'b0000000_00010_00010_001_10101_0010011; // SLLI  x21  x2  2   =>   1100 <<  2 = 110000 = 48
+        rom[25] = 32'b0000000_00010_00010_101_10110_0010011; // SRLI  x22  x2  2   =>   1100 >>  2 = 0011 = 3
+        rom[26] = 32'b0100000_00010_00010_101_10111_0010011; // SRAI  x23  x2  2   =>   1100 >>> 2 = 0011 = 3     
+
+        //B Type
+        // 조건 만족한 경우
+        // rom[x] =   imm(7)_ rs2 _ rs1 _f3 _imm5 _ opcode;           rs1  rs2 imm      PC  -> PC + 8  |   2씩 분기
+        rom[27] = 32'b0000000_00001_00001_000_01000_1100011; // BEQ   x1   x1  8   =>   108 -> 116     |   rom[27] -> rom[29]
+        rom[29] = 32'b0000000_00010_00001_001_01000_1100011; // BNE   x1   x2  8   =>   116 -> 124     |   rom[29] -> rom[31]
+        rom[31] = 32'b0000000_00010_00001_100_01000_1100011; // BLT   x1   x2  8   =>   124 -> 132     |   rom[31] -> rom[33]
+        rom[33] = 32'b0000000_00011_00100_101_01000_1100011; // BGE   x4   x3  8   =>   132 -> 140     |   rom[33] -> rom[35]
+        rom[35] = 32'b0000000_00010_00001_110_01000_1100011; // BLTU  x1   x2  8   =>   140 -> 148     |   rom[35] -> rom[37]
+        rom[37] = 32'b0000000_00011_00100_111_01000_1100011; // BGEU  x4   x3  8   =>   148 -> 156     |   rom[37] -> rom[39]
+        // 조건 만족하지 않는 경우
+        // rom[x] =   imm(7)_ rs2 _ rs1 _f3 _imm5 _ opcode;           rs1  rs2 imm      PC  -> PC + 4  |   정상 진행
+        rom[39] = 32'b0000000_00010_00001_000_01000_1100011; // BEQ   x2   x1  8   =>   156 -> 160     |   rom[39] -> rom[40]
+        rom[40] = 32'b0000000_00001_00001_001_01000_1100011; // BNE   x1   x1  8   =>   160 -> 164     |   rom[40] -> rom[41]
+        rom[41] = 32'b0000000_00010_00010_100_01000_1100011; // BLT   x2   x2  8   =>   164 -> 168     |   rom[41] -> rom[42]
+        rom[42] = 32'b0000000_00100_00011_101_01000_1100011; // BGE   x3   x4  8   =>   168 -> 172     |   rom[42] -> rom[43]
+        rom[43] = 32'b0000000_00010_00010_110_01000_1100011; // BLTU  x2   x2  8   =>   172 -> 176     |   rom[43] -> rom[44]
+        rom[44] = 32'b0000000_00100_00011_111_01000_1100011; // BGEU  x3   x4  8   =>   176 -> 180     |   rom[44] -> rom[45]
+
+        //LU Type
+        //rom[x]  = 32'b  imm(20)            rd    opcode             rd   imm
+        rom[45] = 32'b00000000000000000101_11000_0110111;    // LUI   x24  5       =>  5 << 12 = 20480
+        
+        //AU Type
+        //rom[x]  = 32'b  imm(20)            rd    opcode             rd   imm
+        rom[46] = 32'b00000000000000000101_11001_0010111;    // AUIPC x25  5       =>  PC(184) + (5 << 12) = 20664 
+
+        //J Type
+        //rom[x]  = 32'b  imm(20)            rd    opcode             rd   imm
+        rom[47] = 32'b00000000100000000000_11010_1101111;    // JAL   x26  8       =>  x26 = 188 + 4 = 192 / PC + 8  = 196    
+
+        //JL Type
+        //rom[x]  = 32'b  imm(12)    rs1  f3  rd   opcode             rd   rs1  imm
+        rom[49] = 32'b000000001000_11111_000_11011_1100111;  // JALR  x27  x31   8  =>  x27 = 196 + 4 = 200 / PC = x31(0) + 8 = 8
+    end
+
+    assign data = rom[addr[31:2]];
+endmodule
+
+
+
+```
+## RAM.sv
+```verilog
+`timescale 1ns / 1ps
+
+module RAM (
+    input  logic        clk,
+    input  logic        we,
+    input  logic [31:0] addr,
+    input  logic [31:0] wData,
+    output logic [31:0] rData
+);
+    logic [31:0] mem[0:2**4-1]; // 0x00 ~ 0x0f => 0x10 * 4 => 0x40
+
+    always_ff @( posedge clk ) begin
+        if (we) mem[addr[31:2]] <= wData;
+    end
+
+    assign rData = mem[addr[31:2]];
+endmodule
+```
+
 
 ## ControlUnit.sv
 ```verilog
@@ -239,6 +360,9 @@ module DataPath (
     logic PCSrcMuxSel;
     logic btaken;
 
+    //********** Data ReSizeing **********//
+    logic [31:0] Resize_Out_S, Resize_Out_L;
+
     //********** Multi Cycle Signals **********//
     // Decode Level
     logic [31:0] DecReg_RFData1, DecReg_RFData2, DecReg_immExt;
@@ -281,10 +405,16 @@ module DataPath (
         .q    (DecReg_RFData2)  // -> AluSrcMux
     );
 
+    data_resize_s Data_ReSize_S(
+        .i_RegData(DecReg_RFData2),  // 레지스터에서 들어온 데이터
+        .instrCode(instrCode),  // instrCode[14:12] (S-type funct3)
+        .ram_w_data(Resize_Out_S)  // 메모리에 저장할 데이터
+    );
+
     register U_ExeReg_RFRD2 (
         .clk  (clk),
         .reset(reset),
-        .d    (DecReg_RFData2),
+        .d    (Resize_Out_S),
         .q    (ExeReg_RFData2)   // -> busWData
     );
 
@@ -311,10 +441,9 @@ module DataPath (
     register U_ExeReg_ALU (
         .clk  (clk),
         .reset(reset),
-        .d    (RFData1),
+        .d    (aluResult),
         .q    (ExeReg_aluResult)  // -> busAddr
     );
-
 
 
     //////////////////////////////////////
@@ -322,18 +451,24 @@ module DataPath (
     mux_5x1 U_RFWDSrcMux (
         .sel(RFWDSrcMuxSel),
         .x0 (aluResult),
-        .x1 (MemAccReg_busRData),
+        .x1 (Resize_Out_L),
         .x2 (DecReg_immExt),
         .x3 (PC_Imm_AdderResult),
         .x4 (PC_4_AdderResult),
         .y  (RFWDSrcMuxOut)
     );
-    
+
     register U_MemAccReg_ReadData (
         .clk  (clk),
         .reset(reset),
         .d    (busRData),
         .q    (MemAccReg_busRData)  // -> 
+    );
+
+    data_resize_l Data_ReSize_L(
+        .ram_r_data(MemAccReg_busRData),  // 메모리에서 읽은 데이터
+        .instrCode(instrCode),       // instrCode[14:12] (I-type funct3)
+        .o_RegData(Resize_Out_L)   // 레지스터에 쓸 데이터
     );
 
     // FF //////////////////////////////////
@@ -399,10 +534,9 @@ module DataPath (
     );
     //////////////////////////////////////
 
-
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module alu (
     input  logic [ 3:0] aluControl,
@@ -441,7 +575,7 @@ module alu (
     end
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module RegisterFile (
     input  logic        clk,
@@ -455,13 +589,13 @@ module RegisterFile (
 );
     logic [31:0] mem[0:2**5-1];
 
-    
+
     initial begin  // for simulation test
         for (int i = 0; i < 32; i++) begin
             mem[i] = 10 + i;
         end
     end
-    
+
 
     always_ff @(posedge clk) begin
         if (we) mem[WA] <= WD;
@@ -471,7 +605,7 @@ module RegisterFile (
     assign RD2 = (RA2 != 0) ? mem[RA2] : 32'b0;
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module registerEn (
     input  logic        clk,
@@ -489,7 +623,7 @@ module registerEn (
     end
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module register (
     input  logic        clk,
@@ -506,7 +640,7 @@ module register (
     end
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module adder (
     input  logic [31:0] a,
@@ -516,7 +650,7 @@ module adder (
     assign y = a + b;
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module mux_2x1 (
     input  logic        sel,
@@ -533,7 +667,7 @@ module mux_2x1 (
     end
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module mux_5x1 (
     input  logic [ 2:0] sel,
@@ -556,7 +690,7 @@ module mux_5x1 (
     end
 endmodule
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 module immExtend (
     input  logic [31:0] instrCode,
@@ -604,4 +738,44 @@ module immExtend (
         endcase
     end
 endmodule
+
+////////////////////////////////////////////////////////////////////////////////////
+
+module data_resize_s (
+    input  logic [31:0] i_RegData,  // 레지스터에서 들어온 데이터
+    input  logic [31:0] instrCode,  // instrCode[14:12] (S-type funct3)
+    output logic [31:0] ram_w_data  // 메모리에 저장할 데이터
+);
+    wire [2:0] func3 = instrCode[14:12];
+
+    always_comb begin
+        case (func3)
+            3'b000: ram_w_data = {{24{1'b0}}, i_RegData[7:0]};  // SB: store byte
+            3'b001: ram_w_data = {{16{1'b0}}, i_RegData[15:0]};  // SH: store halfword
+            3'b010: ram_w_data = i_RegData;  // SW: store word
+            default: ram_w_data = i_RegData;
+        endcase
+    end
+endmodule
+
+module data_resize_l (
+    input  logic [31:0] ram_r_data,  // 메모리에서 읽은 데이터
+    input  logic [31:0] instrCode,       // instrCode[14:12] (I-type funct3)
+    output logic [31:0] o_RegData    // 레지스터에 쓸 데이터
+);
+    wire [2:0] func3 = instrCode[14:12];
+
+    always_comb begin
+        case (func3)
+            3'b000: o_RegData = $signed({{24{ram_r_data[7]}}, ram_r_data[7:0]});  // LB
+            3'b001: o_RegData = $signed({{16{ram_r_data[15]}}, ram_r_data[15:0]});  // LH
+            3'b010: o_RegData = ram_r_data;  // LW
+            3'b100: o_RegData = {{24{1'b0}}, ram_r_data[7:0]};  // LBU
+            3'b101: o_RegData = {{16{1'b0}}, ram_r_data[15:0]};  // LHU
+            default: o_RegData = ram_r_data;
+        endcase
+    end
+endmodule
+
+////////////////////////////////////////////////////////////////////////////////////
 ```
