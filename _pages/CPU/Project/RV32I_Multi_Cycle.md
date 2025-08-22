@@ -203,16 +203,8 @@ module RAM (
             3'b000: begin  // SB
                 case (addr[1:0])
                     2'b00: w_Data_com = {mem[addr[31:2]][31:8], wData[7:0]};
-                    2'b01:
-                    w_Data_com = {
-                        mem[addr[31:2]][31:16], wData[7:0], mem[addr[31:2]][7:0]
-                    };
-                    2'b10:
-                    w_Data_com = {
-                        mem[addr[31:2]][31:24],
-                        wData[7:0],
-                        mem[addr[31:2]][15:0]
-                    };
+                    2'b01: w_Data_com = {mem[addr[31:2]][31:16], wData[7:0], mem[addr[31:2]][7:0]};
+                    2'b10: w_Data_com = {mem[addr[31:2]][31:24], wData[7:0], mem[addr[31:2]][15:0]};
                     2'b11: w_Data_com = {wData[7:0], mem[addr[31:2]][23:0]};
                     default: w_Data_com = mem[addr[31:2]];
                 endcase
@@ -236,31 +228,17 @@ module RAM (
         case (func3)
             3'b000: begin  // LB
                 case (addr[1:0])
-                    2'b00:
-                    rData = {
-                        {24{mem[addr[31:2]][7]}}, mem[addr[31:2]][7:0]
-                    };  // byte0
-                    2'b01:
-                    rData = {
-                        {24{mem[addr[31:2]][15]}}, mem[addr[31:2]][15:8]
-                    };  // byte1
-                    2'b10:
-                    rData = {
-                        {24{mem[addr[31:2]][23]}}, mem[addr[31:2]][23:16]
-                    };  // byte2
-                    2'b11:
-                    rData = {
-                        {24{mem[addr[31:2]][31]}}, mem[addr[31:2]][31:24]
-                    };  // byte3
+                    2'b00: rData = {{24{mem[addr[31:2]][7]}}, mem[addr[31:2]][7:0]};  // byte0
+                    2'b01: rData = {{24{mem[addr[31:2]][15]}}, mem[addr[31:2]][15:8]};  // byte1
+                    2'b10: rData = {{24{mem[addr[31:2]][23]}}, mem[addr[31:2]][23:16]};  // byte2
+                    2'b11: rData = {{24{mem[addr[31:2]][31]}}, mem[addr[31:2]][31:24]};  // byte3
                     default: rData = 32'bx;
                 endcase
             end
             3'b001: begin  // LH
-                case (addr[1])
-                    1'b0:
-                    rData = {{16{mem[addr[31:2]][15]}}, mem[addr[31:2]][15:0]};
-                    1'b1:
-                    rData = {{16{mem[addr[31:2]][31]}}, mem[addr[31:2]][31:16]};
+                case (addr[1]) 
+                    1'b0: rData = {{16{mem[addr[31:2]][15]}}, mem[addr[31:2]][15:0]};
+                    1'b1: rData = {{16{mem[addr[31:2]][31]}}, mem[addr[31:2]][31:16]};
                     default: rData = 32'bx;
                 endcase
             end
