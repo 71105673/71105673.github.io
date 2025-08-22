@@ -182,15 +182,107 @@ module RAM (
     input  logic        we,
     input  logic [31:0] addr,
     input  logic [31:0] wData,
+    input  logic [ 2:0] func3,
     output logic [31:0] rData
 );
-    logic [31:0] mem[0:2**4-1]; // 0x00 ~ 0x0f => 0x10 * 4 => 0x40
+    logic [31:0] mem[0:2**4-1];  // 0x00 ~ 0x0f => 0x10 * 4 => 0x40
 
-    always_ff @( posedge clk ) begin
-        if (we) mem[addr[31:2]] <= wData;
+    logic [31:0] w_Data_com;
+
+    always_ff @(posedge clk) begin
+        if (we) mem[addr[31:2]] <= w_Data_com;
     end
 
     assign rData = mem[addr[31:2]];
+
+    // -----------------------
+    // Store (S-type)
+    // -----------------------
+    always_comb begin
+        case (func3)
+            3'b000: begin  // SB
+                case (addr[1:0])
+                    2'b00: w_Data_com = {mem[addr[31:2]][31:8], wData[7:0]};
+                    2'b01:
+                    w_Data_com = {
+                        mem[addr[31:2]][31:16], wData[7:0], mem[addr[31:2]][7:0]
+                    };
+                    2'b10:
+                    w_Data_com = {
+                        mem[addr[31:2]][31:24],
+                        wData[7:0],
+                        mem[addr[31:2]][15:0]
+                    };
+                    2'b11: w_Data_com = {wData[7:0], mem[addr[31:2]][23:0]};
+                    default: w_Data_com = mem[addr[31:2]];
+                endcase
+            end
+            3'b001: begin  // SH
+                case (addr[1])
+                    1'b0: w_Data_com = {mem[addr[31:2]][31:16], wData[15:0]};
+                    1'b1: w_Data_com = {wData[15:0], mem[addr[31:2]][15:0]};
+                    default: w_Data_com = mem[addr[31:2]];
+                endcase
+            end
+            3'b010:  w_Data_com = wData;  // SW
+            default: w_Data_com = mem[addr[31:2]];
+        endcase
+    end
+
+    // -----------------------
+    // Load L(-Type)
+    // -----------------------
+    always_comb begin
+        case (func3)
+            3'b000: begin  // LB
+                case (addr[1:0])
+                    2'b00:
+                    rData = {
+                        {24{mem[addr[31:2]][7]}}, mem[addr[31:2]][7:0]
+                    };  // byte0
+                    2'b01:
+                    rData = {
+                        {24{mem[addr[31:2]][15]}}, mem[addr[31:2]][15:8]
+                    };  // byte1
+                    2'b10:
+                    rData = {
+                        {24{mem[addr[31:2]][23]}}, mem[addr[31:2]][23:16]
+                    };  // byte2
+                    2'b11:
+                    rData = {
+                        {24{mem[addr[31:2]][31]}}, mem[addr[31:2]][31:24]
+                    };  // byte3
+                    default: rData = 32'bx;
+                endcase
+            end
+            3'b001: begin  // LH
+                case (addr[1])
+                    1'b0:
+                    rData = {{16{mem[addr[31:2]][15]}}, mem[addr[31:2]][15:0]};
+                    1'b1:
+                    rData = {{16{mem[addr[31:2]][31]}}, mem[addr[31:2]][31:16]};
+                    default: rData = 32'bx;
+                endcase
+            end
+            3'b010: rData = mem[addr[31:2]];  // LW
+            3'b100:  // LBU
+            case (addr[1:0])
+                2'b00:   rData = {{24{1'b0}}, mem[addr[31:2]][7:0]};  // byte0
+                2'b01:   rData = {{24{1'b0}}, mem[addr[31:2]][15:8]};  // byte1
+                2'b10:   rData = {{24{1'b0}}, mem[addr[31:2]][23:16]};  // byte2
+                2'b11:   rData = {{24{1'b0}}, mem[addr[31:2]][31:24]};  // byte3
+                default: rData = 32'bx;
+            endcase
+            3'b101: begin   // LHU
+                case (addr[1])
+                    1'b0: rData = {{16{1'b0}}, mem[addr[31:2]][15:0]};
+                    1'b1: rData = {{16{1'b0}}, mem[addr[31:2]][31:16]};
+                    default: rData = 32'bx;
+                endcase
+            end  
+            default: rData = 32'bx;
+        endcase
+    end
 endmodule
 ```
 
@@ -388,8 +480,8 @@ module DataPath (
     logic PCSrcMuxSel;
     logic btaken;
 
-    //********** Data ReSizeing **********//
-    logic [31:0] Resize_Out_S, Resize_Out_L;
+    // //********** Data ReSizeing **********//
+    // logic [31:0] Resize_Out_S, Resize_Out_L;
 
     //********** Multi Cycle Signals **********//
     // Decode Level
@@ -433,16 +525,16 @@ module DataPath (
         .q    (DecReg_RFData2)  // -> AluSrcMux
     );
 
-    data_resize_s Data_ReSize_S(
-        .i_RegData(DecReg_RFData2),  // 레지스터에서 들어온 데이터
-        .instrCode(instrCode),  // instrCode[14:12] (S-type funct3)
-        .ram_w_data(Resize_Out_S)  // 메모리에 저장할 데이터
-    );
+    // data_resize_s Data_ReSize_S(
+    //     .i_RegData(DecReg_RFData2),  // 레지스터에서 들어온 데이터
+    //     .instrCode(instrCode),  // instrCode[14:12] (S-type funct3)
+    //     .ram_w_data(Resize_Out_S)  // 메모리에 저장할 데이터
+    // );
 
     register U_ExeReg_RFRD2 (
         .clk  (clk),
         .reset(reset),
-        .d    (Resize_Out_S),
+        .d    (DecReg_RFData2),
         .q    (ExeReg_RFData2)   // -> busWData
     );
 
@@ -479,7 +571,7 @@ module DataPath (
     mux_5x1 U_RFWDSrcMux (
         .sel(RFWDSrcMuxSel),
         .x0 (aluResult),
-        .x1 (Resize_Out_L),
+        .x1 (MemAccReg_busRData),
         .x2 (DecReg_immExt),
         .x3 (PC_Imm_AdderResult),
         .x4 (PC_4_AdderResult),
@@ -493,11 +585,11 @@ module DataPath (
         .q    (MemAccReg_busRData)  // -> 
     );
 
-    data_resize_l Data_ReSize_L(
-        .ram_r_data(MemAccReg_busRData),  // 메모리에서 읽은 데이터
-        .instrCode(instrCode),       // instrCode[14:12] (I-type funct3)
-        .o_RegData(Resize_Out_L)   // 레지스터에 쓸 데이터
-    );
+    // data_resize_l Data_ReSize_L(
+    //     .ram_r_data(MemAccReg_busRData),  // 메모리에서 읽은 데이터
+    //     .instrCode(instrCode),       // instrCode[14:12] (I-type funct3)
+    //     .o_RegData(Resize_Out_L)   // 레지스터에 쓸 데이터
+    // );
 
     // FF //////////////////////////////////
 
@@ -804,8 +896,6 @@ module data_resize_l (
         endcase
     end
 endmodule
-
-////////////////////////////////////////////////////////////////////////////////////
 ```
 
 
