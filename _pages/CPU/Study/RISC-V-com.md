@@ -1,7 +1,7 @@
 ---
 title: "RISC-V RV32I R Type"
 date: "2025-08-14"
-thumbnail: "../../../assets/img/SystemVerilog/image.png"
+thumbnail: "../../../assets/img/CPU/Single_Cycle/image.png"
 ---
 
 # **RISC-V 명령어 분석 및 실행 결과 정리**

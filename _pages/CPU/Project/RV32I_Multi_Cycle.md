@@ -1,7 +1,7 @@
 ---
 title: "RISC-V RV32I Multi Cycle"
 date: "2025-08-19"
-thumbnail: "../../../assets/img/SystemVerilog/image.png"
+thumbnail: "../../../assets/img/CPU/Single_Cycle/image.png"
 ---
 
 # 자세한 사항은 해당 GIT 참조

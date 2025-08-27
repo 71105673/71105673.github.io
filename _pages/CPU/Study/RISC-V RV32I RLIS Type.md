@@ -1,7 +1,7 @@
 ---
 title: "RISC-V RV32I R,L,I,S Type"
 date: "2025-08-18"
-thumbnail: "../../../assets/img/SystemVerilog/image.png"
+thumbnail: "../../../assets/img/CPU/Single_Cycle/image.png"
 ---
 
 # S, L ,I Type

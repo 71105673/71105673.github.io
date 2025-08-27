@@ -1,7 +1,7 @@
 ---
 title: "code_compile"
 date: "2025-08-20"
-thumbnail: "../../../assets/img/SystemVerilog/image.png"
+thumbnail: "../../../assets/img/CPU/Single_Cycle/image.png"
 ---
 
 # Link

@@ -1,7 +1,7 @@
 ---
 title: "RISC-V RV32I Single Cycle"
 date: "2025-08-19"
-thumbnail: "../../../assets/img/SystemVerilog/image.png"
+thumbnail: "../../../assets/img/CPU/Single_Cycle/image.png"
 ---
 
 # Block Diagram
